@@ -10,7 +10,7 @@ export default function Hero() {
         <div className={styles.heroContent}>
           <div className={styles.badge}>
             <span className={styles.badgeDot}></span>
-            AI-Powered SaaS Platform for SMEs
+            Freemium AI Powered Business Growth
           </div>
           
           <h1 className={styles.heroTitle}>
