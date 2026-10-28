@@ -1,17 +1,15 @@
+import type { Metadata } from 'next';
 
-export const metadata = {
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
   title: {
-    default: 'Auth',
-    template: '%s | Auth — One + One',
+    default: 'Account',
+    template: '%s | Freemium AI',
   },
 };
 
 export default function AuthLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  return (
-    <>
-      {children}
-    </>
-  );
+  return <>{children}</>;
 }

@@ -1,17 +1,15 @@
+import type { Metadata } from 'next';
 
-export const metadata = {
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
   title: {
     default: 'Admin',
-    template: '%s | Admin — One + One',
+    template: '%s | Admin - Freemium AI',
   },
 };
 
 export default function AdminLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  return (
-    <>
-      {children}
-    </>
-  );
+  return <>{children}</>;
 }

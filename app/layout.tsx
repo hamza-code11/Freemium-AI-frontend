@@ -1,39 +1,42 @@
 import type { Metadata } from "next";
-import Script from 'next/script';
 import { ThemeProvider } from './providers/ThemeProvider';
 import "./globals.css";
 
-
 export const metadata: Metadata = {
-  metadataBase: new URL("https://freemium-ai.vercel.app"),
-  title: "Freemium AI | AI-Powered Business Growth",
+  metadataBase: new URL('https://freemium-ai.vercel.app'),
+  title: {
+    default: 'Freemium AI | AI-Powered Business Growth',
+    template: '%s | Freemium AI',
+  },
   description:
-    "Empowering startups, freelancers, and small businesses with affordable AI-powered tools.",
+    'Empowering startups, freelancers, and small businesses with affordable AI-powered tools.',
+  applicationName: 'Freemium AI',
+  keywords: ['AI marketing', 'AI content generator', 'SME growth tools', 'Freemium AI'],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
+  },
+  // verification: { google: 'ASLI_CODE_AANE_PAR_UNCOMMENT_KARO' },
   openGraph: {
-    title: "Freemium AI | AI-Powered Business Growth",
+    title: 'Freemium AI | AI-Powered Business Growth',
     description:
-      "Empowering startups, freelancers, and small businesses with affordable AI-powered tools.",
-    url: "https://freemium-ai.vercel.app",
-    siteName: "Freemium AI",
-    type: "website",
+      'Empowering startups, freelancers, and small businesses with affordable AI-powered tools.',
+    siteName: 'Freemium AI',
+    type: 'website',
+    locale: 'en_US',
     images: [
-      {
-        url: "/opengraph-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Freemium AI",
-      },
+      { url: '/opengraph-image.png', width: 1200, height: 630, alt: 'Freemium AI' },
     ],
   },
   twitter: {
-    card: "summary_large_image",
-    title: "Freemium AI | AI-Powered Business Growth",
+    card: 'summary_large_image',
+    title: 'Freemium AI | AI-Powered Business Growth',
     description:
-      "Empowering startups, freelancers, and small businesses with affordable AI-powered tools.",
-    images: ["/opengraph-image.png"],
+      'Empowering startups, freelancers, and small businesses with affordable AI-powered tools.',
+    images: ['/opengraph-image.png'],
   },
 };
-
 
 export default function RootLayout({
   children,
@@ -43,7 +46,7 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="light" suppressHydrationWarning>
       <head>
-        {/* Yeh script F5 par theme flash rokegi */}
+        {/* F5 par theme flash rokne ke liye */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -57,10 +60,8 @@ export default function RootLayout({
           }}
         />
       </head>
-        <body>
-        <ThemeProvider>
-          {children}
-        </ThemeProvider>
+      <body>
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );
