@@ -11,7 +11,7 @@ const FOOTER_LINKS = {
     { label: 'Pricing', href: '#pricing' },
   ],
   company: [
-    { label: 'About Us', href: '#' },
+    { label: 'About Us', href: '/about' },
     { label: 'Careers', href: '#' },
     { label: 'Blog', href: '#' },
     { label: 'Contact Us', href: '#' },
