@@ -1,0 +1,208 @@
+/* =========================================
+   SECTION & HEADER
+========================================= */
+.section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-16) var(--space-6);
+  width: 100%;
+}
+
+.sectionHeader {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto var(--space-12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.badge {
+  display: inline-block;
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-accent-primary);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  border: 1px solid var(--color-accent-primary);
+  margin-bottom: var(--space-2);
+}
+
+.sectionTitle {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+}
+
+.sectionSubtitle {
+  font-size: var(--text-lg);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* =========================================
+   BENTO GRID LAYOUT
+========================================= */
+.bentoGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-6);
+}
+
+/* Default card width (span 2 out of 4) */
+.featureCard {
+  grid-column: span 2;
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-6);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Bento sizing */
+.featureCard.large {
+  grid-column: span 2;
+}
+
+.featureCard.small {
+  grid-column: span 1;
+}
+
+/* Hover Effect */
+.featureCard:hover {
+  border-color: var(--color-accent-primary);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Subtle gradient glow on hover */
+.featureCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at top right, var(--color-accent-secondary), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.featureCard:hover::before {
+  opacity: 0.4;
+}
+
+/* =========================================
+   CARD INNER ELEMENTS
+========================================= */
+.cardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-6);
+  z-index: 1;
+}
+
+.featureIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-primary);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  transition: all 0.3s ease;
+}
+
+.featureCard:hover .featureIcon {
+  background-color: var(--color-accent-primary);
+  color: #fff;
+  border-color: var(--color-accent-primary);
+}
+
+.cardArrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: transparent;
+  color: var(--color-text-tertiary);
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+}
+
+.featureCard:hover .cardArrow {
+  opacity: 1;
+  transform: translateX(0);
+  color: var(--color-accent-primary);
+  background-color: var(--color-accent-secondary);
+}
+
+.featureTitle {
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-2);
+  z-index: 1;
+}
+
+.featureDesc {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  z-index: 1;
+}
+
+/* Wide cards mein text thoda bada */
+.featureCard.large .featureTitle {
+  font-size: var(--text-xl);
+}
+
+.featureCard.large .featureDesc {
+  font-size: var(--text-base);
+  max-width: 90%;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+@media (max-width: 1024px) {
+  .bentoGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .featureCard, 
+  .featureCard.large, 
+  .featureCard.small {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .bentoGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .featureCard, 
+  .featureCard.large, 
+  .featureCard.small {
+    grid-column: span 1;
+  }
+  
+  .sectionHeader {
+    margin-bottom: var(--space-8);
+  }
+}

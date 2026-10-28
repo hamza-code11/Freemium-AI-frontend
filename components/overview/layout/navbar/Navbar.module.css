@@ -1,0 +1,318 @@
+/* =========================================
+   NAVBAR MAIN
+========================================= */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  background-color: rgba(var(--color-bg-primary), 0.85);
+  background-color: color-mix(in srgb, var(--color-bg-primary) 85%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* GRID LAYOUT FOR PERFECT CENTERING */
+.navContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  height: 80px; /* Height barhai taake bada logo fit ho sake */
+}
+
+/* =========================================
+   LOGO (LEFT) - No Box
+========================================= */
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  justify-self: start;
+  transition: transform 0.2s ease;
+}
+
+.logo:hover {
+  transform: scale(1.02); /* Halka sa zoom effect on hover */
+}
+
+.logoImg {
+  object-fit: contain;
+  width: auto;
+  height: auto;
+  max-height: 48px; /* Logo ki height barha di (pehle 32px thi) */
+  transition: filter 0.2s ease;
+}
+
+/* Dark mode mein logo thoda bright ho (agar transparent PNG na ho) */
+[data-theme="dark"] .logoImg {
+  filter: brightness(1.1) drop-shadow(0 0 8px rgba(255, 255, 255, 0.1));
+}
+
+/* =========================================
+   CENTER NAVIGATION
+========================================= */
+.desktopNavCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  justify-self: center;
+}
+
+.navLink {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.navLink:hover {
+  color: var(--color-text-primary);
+}
+
+/* Hover underline effect */
+.navLink::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: var(--color-accent-primary);
+  transition: width 0.3s ease;
+}
+
+.navLink:hover::after {
+  width: 100%;
+}
+
+/* =========================================
+   RIGHT ACTIONS
+========================================= */
+.desktopNavRight {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-4);
+  justify-self: end;
+}
+
+.navActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.btnLogin {
+  background: transparent;
+  border: none;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  transition: background-color 0.2s ease;
+}
+
+.btnLogin:hover {
+  background-color: var(--color-bg-tertiary);
+}
+
+.btnSignup {
+  background-color: var(--color-text-primary);
+  color: var(--color-bg-primary);
+  border: none;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.btnSignup:hover {
+  background-color: var(--color-accent-primary);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+/* =========================================
+   MOBILE ACTIONS & TOGGLE
+========================================= */
+.mobileRightActions {
+  display: none;
+  align-items: center;
+  gap: var(--space-2);
+  justify-self: end;
+}
+
+.mobileToggle {
+  background: transparent;
+  border: none;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+}
+
+.mobileToggle:hover {
+  background-color: var(--color-bg-tertiary);
+}
+
+/* =========================================
+   OVERLAY & SIDEBAR
+========================================= */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 105;
+}
+
+.overlayActive {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 100vh;
+  background-color: var(--color-bg-primary);
+  border-left: 1px solid var(--color-border);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 110;
+  box-shadow: var(--shadow-lg);
+}
+
+.sidebarOpen {
+  transform: translateX(0);
+}
+
+.sidebarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-8);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.closeBtn {
+  background: transparent;
+  border: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  padding: var(--space-1);
+  border-radius: var(--radius-md);
+  transition: color 0.2s ease;
+}
+
+.closeBtn:hover {
+  color: var(--color-text-primary);
+}
+
+.sidebarLinks {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  flex: 1;
+}
+
+.sidebarLink {
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border);
+  transition: color 0.2s ease;
+}
+
+.sidebarLink:hover {
+  color: var(--color-accent-primary);
+}
+
+.sidebarActions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.btnLoginMobile {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  color: var(--color-text-primary);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btnLoginMobile:hover {
+  background-color: var(--color-bg-tertiary);
+}
+
+.btnSignupMobile {
+  width: 100%;
+  background-color: var(--color-accent-primary);
+  color: #fff;
+  border: none;
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.btnSignupMobile:hover {
+  opacity: 0.9;
+}
+
+/* =========================================
+   RESPONSIVE BREAKPOINTS
+========================================= */
+@media (max-width: 900px) {
+  .navContainer {
+    display: flex;
+    justify-content: space-between; 
+    height: 72px; /* Mobile par height normal */
+  }
+
+  .desktopNavCenter,
+  .desktopNavRight {
+    display: none;
+  }
+
+  .mobileRightActions {
+    display: flex;
+  }
+
+  .logoImg {
+    max-height: 38px; /* Mobile par thoda chota */
+  }
+}

@@ -1,0 +1,181 @@
+/* =========================================
+   SECTION & HEADER
+========================================= */
+.section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-16) var(--space-6);
+  width: 100%;
+}
+
+.sectionHeader {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto var(--space-16);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.badge {
+  display: inline-block;
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-accent-primary);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  border: 1px solid var(--color-accent-primary);
+}
+
+.sectionTitle {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+}
+
+.sectionSubtitle {
+  font-size: var(--text-lg);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* =========================================
+   HORIZONTAL STEPS LAYOUT
+========================================= */
+.stepsContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4);
+  position: relative;
+}
+
+.stepItem {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 0 var(--space-4);
+}
+
+/* =========================================
+   ICON & NUMBER
+========================================= */
+.stepTop {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+  position: relative;
+  z-index: 2;
+}
+
+.iconBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  background-color: var(--color-bg-primary);
+  color: var(--color-accent-primary);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+}
+
+.stepItem:hover .iconBox {
+  border-color: var(--color-accent-primary);
+  background-color: var(--color-accent-secondary);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.stepNum {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--color-text-tertiary);
+  background-color: var(--color-bg-tertiary);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+}
+
+/* =========================================
+   CONNECTOR LINE
+========================================= */
+.stepConnector {
+  position: absolute;
+  top: 28px; /* Center of the icon (56px/2) */
+  left: calc(50% + 50px); /* Start after the icon */
+  width: calc(100% - 20px); /* Stretch to the next item */
+  height: 1px;
+  border-top: 2px dashed var(--color-border);
+  z-index: 1;
+  transition: border-color 0.3s ease;
+}
+
+.stepItem:hover .stepConnector {
+  border-color: var(--color-accent-primary);
+}
+
+/* =========================================
+   CONTENT
+========================================= */
+.stepContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.stepTitle {
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+}
+
+.stepDesc {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* =========================================
+   RESPONSIVE (MOBILE & TABLET)
+========================================= */
+@media (max-width: 1024px) {
+  .stepsContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-10) var(--space-6);
+  }
+  
+  .stepConnector {
+    display: none; /* Grid par line ki zaroorat nahi */
+  }
+}
+
+@media (max-width: 640px) {
+  .stepsContainer {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+
+  .stepItem {
+    padding: 0;
+  }
+  
+  /* Mobile par steps ke beech ek vertical dashed line */
+  .stepItem:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    bottom: -32px;
+    left: 28px; /* Icon ke center mein */
+    height: 32px;
+    width: 2px;
+    border-left: 2px dashed var(--color-border);
+  }
+}
