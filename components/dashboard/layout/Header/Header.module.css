@@ -1,0 +1,185 @@
+.header {
+  height: 64px;
+  background-color: var(--color-bg-primary);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-6);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+
+.leftArea {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.menuBtn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.pageTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.rightArea {
+  display: flex;
+  align-items: center;
+  gap: 4px; /* 🔥 Spacing kam ki (space-1) */
+}
+
+/* --- ICON BUTTONS --- */
+.iconBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background-color: transparent;
+  border: 1px solid transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.iconBtn:hover {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+}
+
+/* --- USER PROFILE DROPDOWN --- */
+.userProfileWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-left: 4px; /* Thoda gap */
+}
+
+.avatarBtn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 50%;
+  overflow: hidden;
+  width: 40px; /* 🔥 Avatar Bara kiya */
+  height: 40px; /* 🔥 Avatar Bara kiya */
+  border: 2px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.avatarBtn:hover {
+  border-color: var(--color-border);
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Dropdown Menu */
+.dropdownMenu {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 250px;
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.15);
+  padding: var(--space-2);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdownHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+}
+
+.dropdownAvatar {
+  width: 44px; /* Dropdown mein bhi avatar thoda bara */
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.dropdownUserInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdownName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.dropdownEmail {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.dropdownDivider {
+  height: 1px;
+  background-color: var(--color-border);
+  margin: var(--space-1) 0;
+}
+
+.dropdownList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.dropdownItem:hover {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+}
+
+.dropdownIconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropdownText {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .menuBtn { display: block; }
+  .pageTitle { display: none; }
+  .iconBtn { display: none; }
+}

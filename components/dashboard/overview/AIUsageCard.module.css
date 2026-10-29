@@ -1,0 +1,126 @@
+/* =========================================
+   CARD BASE
+========================================= */
+.card {
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-6);
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.cardHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.cardTitle {
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  line-height: 1.3;
+}
+
+/* =========================================
+   STATS GRID
+========================================= */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  flex: 1;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 var(--space-4);
+  border-left: 1px solid var(--color-border);
+  min-width: 0;
+}
+
+.stat:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.statIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-2);
+}
+
+.value {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-medium);
+  color: var(--color-text-primary);
+  line-height: 1;
+}
+
+.label {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.trend {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+}
+
+.up {
+  color: #10b981;
+}
+
+/* =========================================
+   TILE & TONES
+========================================= */
+.tile {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: color-mix(in srgb, var(--tone) 14%, transparent);
+  color: var(--tone);
+}
+
+.toneBlue { --tone: #3b82f6; }
+.tonePurple { --tone: #8b5cf6; }
+.toneGreen { --tone: #10b981; }
+.toneOrange { --tone: #f97316; }
+.toneRed { --tone: #ef4444; }
+.toneCyan { --tone: #06b6d4; }
+.tonePink { --tone: #ec4899; }
+.toneAmber { --tone: #f59e0b; }
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+@media (max-width: 480px) {
+  .card { padding: var(--space-4); }
+  
+  .stats {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .stat {
+    padding: var(--space-4) 0 0;
+    border-left: 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .stat:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
+}

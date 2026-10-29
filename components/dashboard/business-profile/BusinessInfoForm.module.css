@@ -1,0 +1,380 @@
+.formContainer {
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg-secondary);
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex: 1;
+  padding: 16px 24px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tab:hover {
+  color: var(--color-text-primary);
+}
+
+.activeTab {
+  color: var(--color-accent-primary);
+  border-bottom-color: var(--color-accent-primary);
+  background: var(--color-bg-primary);
+}
+
+/* Form Body */
+.formBody {
+  padding: var(--space-6);
+}
+
+.formTitle {
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-1);
+}
+
+.formSubtitle {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-6);
+}
+
+.sectionTitle {
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-4);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+}
+
+.divider {
+  height: 1px;
+  background: var(--color-border);
+  margin: var(--space-2) 0;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.group label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-primary);
+}
+
+/* 🔥 Required Asterisk - Use Red (Hardcoded for error state) */
+.group label span {
+  color: #ef4444; 
+}
+
+/* Avatar Upload Area */
+.avatarUploadArea {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  padding: var(--space-4);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-secondary);
+}
+
+.avatarPreview {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--color-bg-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.avatarPlaceholderIcon {
+  color: var(--color-text-tertiary);
+}
+
+.avatarInfo h4 {
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-1);
+}
+
+.avatarInfo p {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-2);
+}
+
+.uploadBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  padding: 6px 12px;
+  border-radius: var(--radius-md);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.uploadBtn:hover {
+  background: var(--color-bg-tertiary);
+}
+
+/* Inputs */
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 12px;
+  color: var(--color-icon-default);
+}
+
+.inputWrapper input,
+.inputWrapper select {
+  width: 100%;
+  padding: 10px 12px 10px 38px;
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  outline: none;
+  appearance: none;
+}
+
+.inputWrapper input:focus,
+.inputWrapper select:focus {
+  border-color: var(--color-border-focus);
+}
+
+/* Textarea */
+.textareaWrapper {
+  position: relative;
+}
+
+.textareaIcon {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  color: var(--color-icon-default);
+}
+
+.textareaWrapper textarea {
+  width: 100%;
+  padding: 10px 12px 10px 38px;
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  outline: none;
+  resize: none;
+}
+
+.textareaWrapper textarea:focus {
+  border-color: var(--color-border-focus);
+}
+
+/* Tag Input for Goals */
+.tagInputContainer {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-2);
+  background: var(--color-bg-primary);
+  transition: border-color 0.2s ease;
+}
+
+.tagInputContainer:focus-within {
+  border-color: var(--color-border-focus);
+}
+
+.tagsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-accent-secondary);
+  color: var(--color-accent-primary);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+}
+
+.removeTag {
+  background: transparent;
+  border: none;
+  color: var(--color-accent-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  border-radius: 50%;
+  transition: opacity 0.2s;
+}
+
+.removeTag:hover {
+  opacity: 0.6;
+}
+
+.tagInput {
+  flex: 1;
+  min-width: 150px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+  padding: 4px;
+}
+
+.helpText {
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  margin-top: var(--space-1);
+}
+
+/* Multiple Business Box */
+.multiBusinessBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--color-accent-secondary);
+  border: 1px dashed var(--color-accent-primary);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  margin-top: var(--space-2);
+}
+
+.multiBusinessBox h4 {
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: 2px;
+}
+
+.multiBusinessBox p {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.addBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-accent-primary);
+  color: var(--color-bg-primary); /* Dark mode mein text dark ho jaye */
+  border: none;
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.addBtn:hover {
+  opacity: 0.9;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--space-3);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border);
+}
+
+.cancelBtn {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.saveBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-accent-primary);
+  color: var(--color-bg-primary);
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+  .tabs {
+    flex-direction: column;
+  }
+  .multiBusinessBox {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+  .avatarUploadArea {
+    flex-direction: column;
+    text-align: center;
+  }
+}

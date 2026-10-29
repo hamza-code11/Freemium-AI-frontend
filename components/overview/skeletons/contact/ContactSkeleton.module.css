@@ -1,0 +1,277 @@
+/* =========================================
+   PAGE WRAPPER
+========================================= */
+.pageWrapper {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg-primary);
+}
+
+/* =========================================
+   SHIMMER EFFECT
+========================================= */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-bg-tertiary) 25%,
+    var(--color-bg-secondary) 50%,
+    var(--color-bg-tertiary) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: var(--radius-md);
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* =========================================
+   HERO SKELETON
+========================================= */
+.heroSection {
+  background: radial-gradient(circle at top left, var(--color-bg-secondary) 0%, var(--color-bg-primary) 100%);
+  padding: var(--space-16) var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+  width: 100%;
+}
+
+.heroContainer {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-16);
+  align-items: center;
+}
+
+.heroText {
+  display: flex;
+  flex-direction: column;
+}
+
+.badge {
+  width: 120px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  margin-bottom: var(--space-6);
+}
+
+.title {
+  width: 90%;
+  height: 48px;
+  margin-bottom: var(--space-3);
+}
+
+.titleShort {
+  width: 65%;
+  height: 48px;
+  margin-bottom: var(--space-4);
+}
+
+.subtitle {
+  width: 100%;
+  height: 20px;
+  margin-bottom: var(--space-2);
+}
+
+.subtitleShort {
+  width: 70%;
+  height: 20px;
+  margin-bottom: var(--space-10);
+}
+
+.contactDetails {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.detailItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.detailIcon {
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+
+.detailTextGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.detailLabel {
+  width: 60px;
+  height: 12px;
+}
+
+.detailLink {
+  width: 180px;
+  height: 20px;
+}
+
+/* =========================================
+   FORM SKELETON
+========================================= */
+.formWrapper {
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.formTitle {
+  width: 60%;
+  height: 32px;
+  margin-bottom: var(--space-2);
+}
+
+.input {
+  width: 100%;
+  height: 48px;
+}
+
+.textarea {
+  width: 100%;
+  height: 100px;
+}
+
+.button {
+  width: 100%;
+  height: 48px;
+  margin-top: var(--space-2);
+}
+
+/* =========================================
+   INFO ROW SKELETON
+========================================= */
+.infoRow {
+  width: 100%;
+  background-color: var(--color-bg-secondary);
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-10) var(--space-6);
+}
+
+.infoRowContainer {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-8);
+}
+
+.infoBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.infoTitle {
+  width: 50%;
+  height: 16px;
+}
+
+.infoText {
+  width: 90%;
+  height: 16px;
+}
+
+.infoTextShort {
+  width: 60%;
+  height: 16px;
+}
+
+/* =========================================
+   FAQ SKELETON
+========================================= */
+.faqSection {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--space-16) var(--space-6);
+  width: 100%;
+}
+
+.faqHeader {
+  text-align: center;
+  margin-bottom: var(--space-10);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.faqTitle {
+  width: 50%;
+  height: 32px;
+}
+
+.faqSubtitle {
+  width: 40%;
+  height: 20px;
+}
+
+.accordion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.accordionItem {
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-6);
+}
+
+.accordionHeader {
+  width: 100%;
+  height: 20px;
+  border-radius: var(--radius-sm);
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+@media (max-width: 900px) {
+  .heroContainer {
+    grid-template-columns: 1fr;
+    gap: var(--space-10);
+  }
+
+  .infoRowContainer {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+}
+
+@media (max-width: 600px) {
+  .heroSection {
+    padding: var(--space-12) var(--space-4);
+  }
+
+  .formWrapper {
+    padding: var(--space-6);
+  }
+
+  .infoRow {
+    padding: var(--space-8) var(--space-4);
+  }
+
+  .faqSection {
+    padding: var(--space-12) var(--space-4);
+  }
+
+  .accordionItem {
+    padding: var(--space-4);
+  }
+}

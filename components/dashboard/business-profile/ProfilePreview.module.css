@@ -1,0 +1,266 @@
+.previewContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+/* =========================================
+   CARD CONTAINER
+========================================= */
+.previewCard {
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-5);
+}
+
+.previewTitle {
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+}
+
+.previewSubtitle {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  margin-top: var(--space-1);
+  line-height: 1.4;
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: var(--color-border);
+  margin: var(--space-5) 0;
+}
+
+/* =========================================
+   USER IDENTITY (Avatar Image)
+========================================= */
+.userHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.userAvatar {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  border: 2px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.userName {
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+}
+
+.userEmail {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+/* =========================================
+   HORIZONTAL TABS
+========================================= */
+.tabsContainer {
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto;
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+  /* Hide scrollbar */
+  scrollbar-width: none; 
+  -ms-overflow-style: none;
+}
+.tabsContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.tab:hover {
+  background: var(--color-bg-tertiary);
+}
+
+/* 🔥 Active Tab using Global Variables */
+.activeTab {
+  background: var(--color-accent-primary);
+  border-color: var(--color-accent-primary);
+  color: var(--color-bg-primary); /* Text inverse ho jayega */
+}
+
+.activeTab:hover {
+  opacity: 0.9;
+}
+
+/* =========================================
+   ACTIVE BUSINESS CONTENT
+========================================= */
+.activeContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  margin-top: var(--space-5);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Identity Row */
+.identityRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* 🔥 Logo Circle using Dark Theme Variable */
+.logoCircle {
+  width: 44px;
+  height: 44px;
+  background: var(--color-text-primary); /* Dark mode me light ho jayega */
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.logoIcon {
+  color: var(--color-bg-primary);
+}
+
+.bizName {
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+}
+
+.bizNiche {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  margin-top: 2px;
+}
+
+/* Section */
+.sectionTitle {
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.aboutText {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* Details Grid */
+.detailsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  background: var(--color-bg-secondary);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+}
+
+.detailItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.detailIcon {
+  color: var(--color-text-tertiary);
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.dLabel {
+  display: block;
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  margin-bottom: 2px;
+}
+
+.dValue {
+  display: block;
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+}
+
+/* Goals */
+.goalsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* 🔥 Goal Badge using Global Variables */
+.goalBadge {
+  background: var(--color-accent-secondary);
+  color: var(--color-accent-primary);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+@media (max-width: 600px) {
+  .detailsGrid {
+    grid-template-columns: 1fr;
+  }
+  .cardHeader {
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .previewCard {
+    padding: var(--space-4);
+  }
+}

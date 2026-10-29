@@ -2,8 +2,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 32px; /* Aur chota size */
+  height: 32px; 
   border-radius: var(--radius-full);
   background-color: transparent;
   border: 1px solid var(--color-border);
@@ -20,8 +20,8 @@
 
 /* Placeholder to prevent layout shift during hydration */
 .togglePlaceholder {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border-radius: var(--radius-full);
   background-color: var(--color-bg-tertiary);
   opacity: 0.5;

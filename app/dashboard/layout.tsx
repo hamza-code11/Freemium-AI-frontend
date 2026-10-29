@@ -1,15 +1,15 @@
 import type { Metadata } from 'next';
+import DashboardLayout from '@/components/dashboard/layout/DashboardLayout/DashboardLayout';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
-  title: {
-    default: 'Dashboard',
-    template: '%s | Dashboard - Freemium AI',
-  },
+  title: 'Dashboard | Freemium AI',
+  description: 'Manage your AI-powered business growth from one central dashboard.',
 };
 
-export default function DashboardLayout({
+export default function DashboardRootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
-  return <>{children}</>;
+}: {
+  children: React.ReactNode;
+}) {
+  return <DashboardLayout>{children}</DashboardLayout>;
 }

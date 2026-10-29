@@ -1,0 +1,46 @@
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-6);
+  flex-wrap: wrap;
+}
+
+.titleArea {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  max-width: 800px;
+}
+
+.iconBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+/* 🔥 Use global accent color */
+.mainIcon {
+  color: var(--color-accent-primary); 
+}
+
+.title {
+  font-size: var(--text-3xl); /* Global typography scale */
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-1);
+  letter-spacing: -0.02em; /* Professional heading look */
+}
+
+.subtitle {
+  font-size: var(--text-sm); /* Global typography scale */
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}

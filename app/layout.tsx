@@ -17,7 +17,6 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
   },
-  // verification: { google: 'ASLI_CODE_AANE_PAR_UNCOMMENT_KARO' },
   openGraph: {
     title: 'Freemium AI | AI-Powered Business Growth',
     description:
