@@ -1,0 +1,80 @@
+.pageWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
+  padding-bottom: var(--space-8);
+}
+
+.headerArea {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.breadcrumb {
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  margin-bottom: var(--space-2);
+}
+
+.title {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-1);
+}
+
+.subtitle {
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+}
+
+.editPlansBtn {
+  background: var(--color-accent-primary);
+  color: var(--color-bg-primary);
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+}
+
+.middleRow {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--space-5);
+}
+
+.mainLayout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: var(--space-5);
+  align-items: start;
+}
+
+.tableArea { min-width: 0; }
+
+@media (max-width: 1200px) {
+  .middleRow, .mainLayout {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+.tableArea {
+  min-width: 0;
+  height: 100%; /* 🔥 Full height */
+  display: flex;
+  flex-direction: column;
+}
+
+.tableArea > * {
+  height: 100%;
+}

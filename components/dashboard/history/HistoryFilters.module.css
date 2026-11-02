@@ -1,0 +1,130 @@
+.container {
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.topRow {
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-end;
+}
+
+.searchBox {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 10px 16px;
+}
+
+.searchIcon { color: var(--color-text-tertiary); }
+
+.searchBox input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+}
+
+.dropdownRow {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.selectWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 140px;
+}
+
+.selectLabel {
+  font-size: 10px;
+  font-weight: var(--font-medium);
+  color: var(--color-text-secondary);
+  margin-left: 4px;
+}
+
+.selectWrapper select {
+  appearance: none;
+  width: 100%;
+  padding: 10px 32px 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-primary);
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+  outline: none;
+  cursor: pointer;
+}
+
+.selectIcon {
+  position: absolute;
+  right: 10px;
+  bottom: 12px;
+  color: var(--color-text-tertiary);
+  pointer-events: none;
+}
+
+.bottomRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-4);
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.tabs {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.tab {
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.activeTab {
+  background: var(--color-accent-primary);
+  color: var(--color-bg-primary);
+  border-color: var(--color-accent-primary);
+}
+
+.clearBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-accent-primary);
+  cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+  .topRow { flex-direction: column; align-items: stretch; }
+  .dropdownRow { flex-wrap: wrap; }
+  .selectWrapper { flex: 1; }
+}

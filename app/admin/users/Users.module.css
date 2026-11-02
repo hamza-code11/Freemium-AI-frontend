@@ -1,0 +1,34 @@
+.pageWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
+  padding-bottom: var(--space-8); /* Thoda bottom space */
+}
+
+.mainLayout {
+  display: grid;
+  grid-template-columns: 1fr 340px; /* Table bada, panel chota */
+  gap: var(--space-5);
+  align-items: start;
+}
+
+.tableArea {
+  min-width: 0;
+}
+
+.sidePanelArea {
+  position: sticky;
+  top: 80px; /* Header height ke hisaab se adjust */
+}
+
+@media (max-width: 1200px) {
+  .mainLayout {
+    grid-template-columns: 1fr;
+  }
+  .sidePanelArea {
+    position: static; /* Mobile par sticky hata dein */
+  }
+}

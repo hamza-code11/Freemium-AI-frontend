@@ -1,0 +1,10 @@
+.breadcrumb { height: 12px; width: 100px; margin-bottom: 8px; }
+.title { height: 32px; width: 250px; margin-bottom: 8px; }
+.subtitle { height: 16px; width: 400px; }
+.statsGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4); }
+.icon { width: 44px; height: 44px; border-radius: 50%; margin-bottom: 12px; }
+.sTitle { height: 14px; width: 60%; margin-bottom: 8px; }
+.sVal { height: 24px; width: 40%; }
+.filterBar { height: 60px; width: 100%; }
+.mainLayout { display: grid; grid-template-columns: 1fr 340px; gap: var(--space-5); }
+@media (max-width: 1024px) { .statsGrid { grid-template-columns: 1fr 1fr; } .mainLayout { grid-template-columns: 1fr; } }

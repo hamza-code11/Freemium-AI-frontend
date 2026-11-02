@@ -1,0 +1,34 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* 🔥 Charts Row (Ab 2 columns) */
+.chartsRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Dono charts barabar */
+  gap: var(--space-4);
+}
+
+/* Bottom Row */
+.bottomRow {
+  display: grid;
+  grid-template-columns: 1fr 1.8fr 1fr;
+  gap: var(--space-4);
+  align-items: stretch;
+}
+
+.bottomRow > * {
+  height: 100%;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .chartsRow {
+    grid-template-columns: 1fr; /* Mobile/Tablet par ek ke neeche ek */
+  }
+  .bottomRow {
+    grid-template-columns: 1fr;
+  }
+}

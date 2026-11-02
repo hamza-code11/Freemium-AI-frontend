@@ -1,0 +1,153 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: var(--space-6);
+  min-height: 100%;
+  justify-content: center;
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--space-8);
+  width: 100%;
+}
+
+.backBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease;
+  background: transparent;
+}
+.backBtn:hover { background: var(--color-bg-secondary); color: var(--color-text-primary); }
+
+.formWrap { width: 100%; }
+
+.heading h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-2);
+}
+.heading p {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  margin-bottom: var(--space-6);
+}
+
+.form { display: flex; flex-direction: column; gap: var(--space-5); }
+
+.field { display: flex; flex-direction: column; gap: var(--space-2); }
+.label { font-size: 13px; font-weight: 500; color: var(--color-text-primary); }
+.error { font-size: 12px; color: #ef4444; }
+
+.input {
+  width: 100%;
+  height: 46px;
+  padding: 0 var(--space-4);
+  font-size: 14px;
+  color: var(--color-text-primary);
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  transition: all 0.2s ease;
+}
+.input[aria-invalid="true"] { border-color: #ef4444; }
+.input:focus-visible {
+  outline: none;
+  border-color: var(--color-border-focus);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-border-focus) 20%, transparent);
+}
+
+.passwordWrap { position: relative; }
+.passwordInput { padding-right: 44px; }
+
+.toggle {
+  position: absolute;
+  top: 50%;
+  right: var(--space-2);
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: 0;
+  color: var(--color-icon-default);
+  cursor: pointer;
+  border-radius: var(--radius-md);
+}
+.toggle:hover { color: var(--color-text-primary); background: var(--color-bg-tertiary); }
+
+.optionsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-top: var(--space-1);
+}
+.checkbox { display: inline-flex; align-items: center; gap: var(--space-2); color: var(--color-text-secondary); cursor: pointer; }
+.checkbox input { width: 16px; height: 16px; accent-color: var(--color-accent-primary); }
+
+.textLink { color: var(--color-accent-primary); font-weight: 600; }
+.textLink:hover { text-decoration: underline; }
+
+.formMessage {
+  padding: var(--space-3) var(--space-4);
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  background: var(--color-accent-secondary);
+  border-radius: var(--radius-md);
+}
+
+.submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  height: 48px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--color-accent-primary);
+  border: 0;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  margin-top: var(--space-2);
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+}
+.submit:hover:not(:disabled) { opacity: 0.95; transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.submit:disabled { opacity: 0.7; cursor: not-allowed; }
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.bottomText {
+  margin-top: var(--space-5);
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+.bottomText a { color: var(--color-accent-primary); font-weight: var(--font-medium); }
+.bottomText a:hover { text-decoration: underline; }

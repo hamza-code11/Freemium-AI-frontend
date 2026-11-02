@@ -1,0 +1,137 @@
+.tableCard {
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.tableWrapper { overflow-x: auto; }
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.table th {
+  padding: var(--space-4) var(--space-3);
+  font-size: 11px;
+  font-weight: var(--font-medium);
+  color: var(--color-text-tertiary);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg-primary);
+}
+
+.table td {
+  padding: var(--space-3);
+  font-size: var(--text-sm);
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+.table tr:last-child td { border-bottom: none; }
+.table tr:hover { background: var(--color-bg-secondary); }
+
+.userCell { display: flex; align-items: center; gap: var(--space-3); }
+.avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+.name { font-weight: var(--font-medium); color: var(--color-text-primary); }
+.email { font-size: 11px; color: var(--color-text-tertiary); }
+
+.roleBadge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: 10px;
+  font-weight: 600;
+  background: #EFF6FF;
+  color: #3B82F6;
+}
+
+.roleBadge.admin { background: #F5F3FF; color: #8B5CF6; }
+
+.planBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.premium { background: #F5F3FF; color: #8B5CF6; }
+.free { background: #EFF6FF; color: #3B82F6; }
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.dot { width: 6px; height: 6px; border-radius: 50%; }
+.dotActive { background: #10b981; }
+.dotSuspended { background: #ef4444; }
+
+.muted { color: var(--color-text-secondary); font-size: var(--text-xs); }
+
+.actionBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-tertiary);
+  padding: 4px;
+  border-radius: var(--radius-sm);
+}
+
+.actionBtn:hover { background: var(--color-bg-tertiary); color: var(--color-text-primary); }
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-4);
+  border-top: 1px solid var(--color-border);
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.pageInfo { font-size: var(--text-xs); color: var(--color-text-secondary); }
+.pageControls { display: flex; align-items: center; gap: var(--space-2); }
+
+.rowsPerPage {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.rowsPerPage select { border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 2px 4px; }
+
+.pageArrow, .pageNum {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-xs);
+  cursor: pointer;
+}
+
+.pageArrow:disabled { opacity: 0.5; cursor: not-allowed; }
+.pageNum.active { background: var(--color-accent-primary); color: var(--color-bg-primary); border-color: var(--color-accent-primary); }
+
+[data-theme="dark"] .roleBadge, 
+[data-theme="dark"] .free { background: rgba(59, 130, 246, 0.1); }
+
+[data-theme="dark"] .roleBadge.admin, 
+[data-theme="dark"] .premium { background: rgba(139, 92, 246, 0.1); }

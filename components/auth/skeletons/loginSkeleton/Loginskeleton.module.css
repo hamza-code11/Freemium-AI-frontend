@@ -1,0 +1,68 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: var(--space-6);
+  min-height: 100%;
+  justify-content: center;
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--space-8);
+  width: 100%;
+}
+
+.formWrap { width: 100%; }
+
+.form { 
+  display: flex; 
+  flex-direction: column; 
+  gap: var(--space-5); 
+  margin-top: var(--space-6);
+}
+
+.field { 
+  display: flex; 
+  flex-direction: column; 
+  gap: var(--space-2); 
+}
+
+.optionsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--space-1);
+}
+
+/* Skeleton Base */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-bg-tertiary) 25%,
+    var(--color-bg-secondary) 50%,
+    var(--color-bg-tertiary) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: var(--radius-md);
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Specific Sizes */
+.backBtn { width: 80px; height: 36px; }
+.title { width: 60%; height: 32px; margin-bottom: var(--space-2); }
+.subtitle { width: 90%; height: 16px; margin-bottom: var(--space-6); }
+.label { width: 30%; height: 14px; }
+.input { width: 100%; height: 46px; border-radius: var(--radius-lg); }
+.checkbox { width: 100px; height: 20px; }
+.textLink { width: 100px; height: 16px; }
+.submit { width: 100%; height: 48px; margin-top: var(--space-2); border-radius: var(--radius-lg); }
+.bottomText { width: 60%; height: 16px; margin: var(--space-5) auto 0; }

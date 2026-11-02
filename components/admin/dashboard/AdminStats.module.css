@@ -1,0 +1,80 @@
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+
+.statCard {
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4); /* Padding thodi barhai kyunki text kam hai */
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center; /* Icon aur text vertically center */
+  gap: var(--space-3);
+  transition: border-color 0.2s ease;
+}
+
+.statCard:hover {
+  border-color: var(--color-accent-primary);
+}
+
+.iconWrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.statTitle {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.statValue {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: 1.1;
+}
+
+/* --- Theme Colors --- */
+.toneBlue { background: #EFF6FF; color: #3B82F6; }
+.tonePurple { background: #F5F3FF; color: #8B5CF6; }
+.toneIndigo { background: #EEF2FF; color: #6366F1; }
+.toneCyan { background: #ECFEFF; color: #06B6D4; }
+
+/* Dark Mode Adjustments */
+[data-theme="dark"] .toneBlue { background: rgba(59, 130, 246, 0.1); }
+[data-theme="dark"] .tonePurple { background: rgba(139, 92, 246, 0.1); }
+[data-theme="dark"] .toneIndigo { background: rgba(99, 102, 241, 0.1); }
+[data-theme="dark"] .toneCyan { background: rgba(6, 182, 212, 0.1); }
+
+/* --- Responsive --- */
+@media (max-width: 1300px) {
+  .statsGrid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .statsGrid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 500px) {
+  .statsGrid { grid-template-columns: 1fr; }
+}

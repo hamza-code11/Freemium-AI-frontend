@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image'; 
-import ThemeToggle from '@/components/ui/ThemeToggle'; 
+import Image from 'next/image';
+import Link from "next/link";
+import ThemeToggle from '@/components/ui/ThemeToggle';
 import styles from './Navbar.module.css';
 
 const NAV_LINKS = [
@@ -20,12 +21,12 @@ export default function Navbar() {
   return (
     <nav className={styles.navbar}>
       <div className={styles.navContainer}>
-        
+
         {/* LEFT: LOGO IMAGE (No Box) */}
         <a href="/" className={styles.logo} onClick={closeMenu}>
-          <Image 
-            src="/logo/logo.png" 
-            alt="Freemium AI Logo" 
+          <Image
+            src="/logo/logo.png"
+            alt="Freemium AI Logo"
             width={180}  // Size barha diya
             height={50}  // Size barha diya
             className={styles.logoImg}
@@ -46,17 +47,22 @@ export default function Navbar() {
         <div className={styles.desktopNavRight}>
           <ThemeToggle />
           <div className={styles.navActions}>
-            <button className={styles.btnLogin}>Log in</button>
-            <button className={styles.btnSignup}>Get Started</button>
+            <Link href="/login" className={styles.btnLogin}>
+              Log in
+            </Link>
+
+            <Link href="/register" className={styles.btnSignup}>
+              Get Started
+            </Link>
           </div>
         </div>
 
         {/* MOBILE TOGGLE (Right Side) */}
         <div className={styles.mobileRightActions}>
           <ThemeToggle />
-          <button 
-            className={styles.mobileToggle} 
-            onClick={toggleMenu} 
+          <button
+            className={styles.mobileToggle}
+            onClick={toggleMenu}
             aria-label="Toggle menu"
             aria-expanded={isMenuOpen}
           >
@@ -70,8 +76,8 @@ export default function Navbar() {
       </div>
 
       {/* OVERLAY */}
-      <div 
-        className={`${styles.overlay} ${isMenuOpen ? styles.overlayActive : ''}`} 
+      <div
+        className={`${styles.overlay} ${isMenuOpen ? styles.overlayActive : ''}`}
         onClick={closeMenu}
         aria-hidden="true"
       />
@@ -80,11 +86,11 @@ export default function Navbar() {
       <aside className={`${styles.sidebar} ${isMenuOpen ? styles.sidebarOpen : ''}`}>
         <div className={styles.sidebarHeader}>
           {/* Mobile menu mein bhi bada logo */}
-          <Image 
-            src="/logo/logo.png" 
-            alt="Freemium AI Logo" 
-            width={140} 
-            height={40} 
+          <Image
+            src="/logo/logo.png"
+            alt="Freemium AI Logo"
+            width={140}
+            height={40}
             className={styles.logoImg}
           />
           <button className={styles.closeBtn} onClick={closeMenu} aria-label="Close menu">
@@ -97,9 +103,9 @@ export default function Navbar() {
 
         <div className={styles.sidebarLinks}>
           {NAV_LINKS.map((link) => (
-            <a 
-              key={link.label} 
-              href={link.href} 
+            <a
+              key={link.label}
+              href={link.href}
               className={styles.sidebarLink}
               onClick={closeMenu}
             >
@@ -109,8 +115,13 @@ export default function Navbar() {
         </div>
 
         <div className={styles.sidebarActions}>
-          <button className={styles.btnLoginMobile} onClick={closeMenu}>Log in</button>
-          <button className={styles.btnSignupMobile} onClick={closeMenu}>Get Started</button>
+          <Link href="/login" className={styles.btnLoginMobile} onClick={closeMenu}>
+            Log in
+          </Link>
+
+          <Link href="/register" className={styles.btnSignupMobile} onClick={closeMenu}>
+            Get Started
+          </Link>
         </div>
       </aside>
     </nav>

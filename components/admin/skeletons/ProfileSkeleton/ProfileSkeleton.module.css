@@ -1,0 +1,3 @@
+.title { height: 32px; width: 200px; margin-bottom: 8px; }
+.subtitle { height: 16px; width: 350px; }
+.formContainer { display: flex; flex-direction: column; gap: var(--space-5); max-width: 900px; }

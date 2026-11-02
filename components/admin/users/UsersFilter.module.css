@@ -1,0 +1,92 @@
+.filterBar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  padding: var(--space-3);
+  border-radius: var(--radius-xl);
+  flex-wrap: wrap;
+}
+
+.searchBox {
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+}
+
+.icon { color: var(--color-text-tertiary); }
+
+.searchBox input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+}
+
+.selects {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.selectWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.selectWrap select {
+  appearance: none;
+  padding: 8px 32px 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-primary);
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  outline: none;
+}
+
+.calIcon {
+  position: absolute;
+  left: 10px;
+  color: var(--color-text-tertiary);
+}
+
+.selectWrap:has(.calIcon) select {
+  padding-left: 32px;
+}
+
+.chevron {
+  position: absolute;
+  right: 10px;
+  color: var(--color-text-tertiary);
+  pointer-events: none;
+}
+
+.clearBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  color: var(--color-accent-primary);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  margin-left: auto;
+}
+
+@media (max-width: 768px) {
+  .filterBar { flex-direction: column; align-items: stretch; }
+  .clearBtn { margin-left: 0; justify-content: center; }
+}

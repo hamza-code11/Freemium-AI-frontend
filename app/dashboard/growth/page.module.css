@@ -1,0 +1,48 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
+  padding-bottom: var(--space-10);
+  position: relative; /* For premium card positioning if needed */
+}
+
+/* Top Grid */
+.mainGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px; /* Fixed right panel */
+  gap: var(--space-5);
+  align-items: start;
+}
+
+/* Bottom Grid */
+.bottomGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: var(--space-5);
+  align-items: stretch;
+}
+
+/* Premium Card Position (Absolute bottom left in content area) */
+.premiumWrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 260px;
+  z-index: 10;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .mainGrid, .bottomGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .rightCol {
+    display: none; /* Hide detail panel on small screens or make it a drawer */
+  }
+  .premiumWrapper {
+    display: none;
+  }
+}

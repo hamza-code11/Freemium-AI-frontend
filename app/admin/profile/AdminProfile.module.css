@@ -1,0 +1,32 @@
+.pageWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  max-width: 900px; /* Content ko center aur readable rakhne ke liye */
+  margin: 0 auto;
+  width: 100%;
+  padding: var(--space-6) var(--space-4);
+  padding-bottom: var(--space-12);
+  background-color: var(--color-bg-primary); /* Main background */
+}
+
+.header {
+  margin-bottom: var(--space-2);
+}
+
+.title {
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-1);
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+}
+
+.contentWrapper {
+  width: 100%;
+}

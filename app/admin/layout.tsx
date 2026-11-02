@@ -1,15 +1,15 @@
 import type { Metadata } from 'next';
+import AdminLayout from '@/components/admin/layout/AdminLayout';
 
 export const metadata: Metadata = {
-  robots: { index: false, follow: false },
-  title: {
-    default: 'Admin',
-    template: '%s | Admin - Freemium AI',
-  },
+  title: 'Admin Panel | Freemium AI',
+  description: 'Manage users, subscriptions, and monitor platform activity.',
 };
 
-export default function AdminLayout({
+export default function AdminRootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
-  return <>{children}</>;
+}: {
+  children: React.ReactNode;
+}) {
+  return <AdminLayout>{children}</AdminLayout>;
 }

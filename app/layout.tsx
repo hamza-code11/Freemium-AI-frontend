@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from './providers/ThemeProvider';
+import Script from 'next/script';
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -46,7 +47,7 @@ export default function RootLayout({
     <html lang="en" data-theme="light" suppressHydrationWarning>
       <head>
         {/* F5 par theme flash rokne ke liye */}
-        <script
+        <Script
           dangerouslySetInnerHTML={{
             __html: `
               try {

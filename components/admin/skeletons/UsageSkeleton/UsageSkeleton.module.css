@@ -1,0 +1,7 @@
+.breadcrumb { height: 12px; width: 100px; margin-bottom: 8px; }
+.title { height: 32px; width: 250px; margin-bottom: 8px; }
+.subtitle { height: 16px; width: 400px; }
+.statsGrid { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--space-3); }
+.chartsRow { display: grid; grid-template-columns: 1.5fr 1fr; gap: var(--space-4); }
+.mainLayout { display: grid; grid-template-columns: 1fr 340px; gap: var(--space-5); }
+@media (max-width: 1024px) { .statsGrid { grid-template-columns: 1fr 1fr; } .chartsRow, .mainLayout { grid-template-columns: 1fr; } }
