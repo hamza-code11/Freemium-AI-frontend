@@ -1,0 +1,169 @@
+/* skeletons/Skeletons.module.css */
+
+.skeletonPulse {
+  background-color: var(--color-bg-tertiary);
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+.skeletonText {
+  border-radius: 4px;
+  background-color: var(--color-bg-tertiary);
+}
+
+/* HEADER SKELETON */
+.headerRow {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: var(--space-4);
+}
+.titleArea {
+  display: flex;
+  gap: var(--space-4);
+  width: 100%;
+}
+.iconBox {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-lg);
+  flex-shrink: 0;
+}
+.textArea {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+  max-width: 800px;
+}
+.titleSkeleton { height: 28px; width: 200px; margin-bottom: 4px; }
+.subtitleSkeleton { height: 16px; width: 100%; }
+
+/* FORM SKELETON */
+.formContainer {
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg-secondary);
+}
+.tabSkeleton {
+  flex: 1;
+  height: 52px;
+}
+.formBody {
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+.sectionTitle { height: 20px; width: 150px; }
+.sectionSubtitle { height: 14px; width: 250px; margin-top: -10px; }
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+}
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+}
+.labelSkeleton { height: 14px; width: 100px; }
+.inputSkeleton { height: 42px; width: 100%; border-radius: var(--radius-md); }
+.textareaSkeleton { height: 80px; width: 100%; border-radius: var(--radius-md); }
+.actionRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--space-4);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border);
+}
+.buttonSkeleton {
+  height: 40px;
+  width: 140px;
+  border-radius: var(--radius-md);
+}
+
+/* PREVIEW SKELETON */
+.previewCard {
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+.previewHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.divider {
+  height: 1px;
+  background: var(--color-border);
+  width: 100%;
+}
+.userIdentity {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+.avatarSkeleton {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+}
+.identityText {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.nameSkeleton { height: 18px; width: 120px; }
+.emailSkeleton { height: 14px; width: 180px; }
+
+.businessBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+.bizTitleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.logoSkeleton {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+.bizNameSkeleton { height: 18px; width: 150px; margin-bottom: 6px; }
+.bizTypeSkeleton { height: 12px; width: 100px; }
+
+.paragraphBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.paragraphLine { height: 14px; width: 100%; }
+
+.detailsGridSkeleton {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+.detailBoxSkeleton {
+  height: 60px;
+  width: 100%;
+  border-radius: var(--radius-md);
+}

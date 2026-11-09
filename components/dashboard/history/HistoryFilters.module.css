@@ -1,3 +1,6 @@
+/* components/dashboard/history/HistoryFilters.module.css */
+
+/* ===== Container ===== */
 .container {
   background: var(--color-bg-primary);
   border: 1px solid var(--color-border);
@@ -6,27 +9,33 @@
   box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
-  gap: var(--space-5);
+  gap: var(--space-4);
 }
 
+/* ===== Top Row (Search + Dropdowns) ===== */
 .topRow {
   display: flex;
-  gap: var(--space-4);
-  align-items: flex-end;
+  gap: var(--space-3);
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .searchBox {
-  flex: 1;
+  flex: 1 1 250px; /* 🔥 Flexible width */
+  min-width: 0;
   display: flex;
   align-items: center;
   gap: var(--space-2);
   background: var(--color-bg-secondary);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  padding: 10px 16px;
+  padding: 10px 14px;
 }
 
-.searchIcon { color: var(--color-text-tertiary); }
+.searchIcon {
+  color: var(--color-text-tertiary);
+  flex-shrink: 0;
+}
 
 .searchBox input {
   width: 100%;
@@ -37,24 +46,20 @@
   color: var(--color-text-primary);
 }
 
+.searchBox input::placeholder {
+  color: var(--color-text-tertiary);
+}
+
 .dropdownRow {
   display: flex;
-  gap: var(--space-3);
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  flex-shrink: 0;
 }
 
 .selectWrapper {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-width: 140px;
-}
-
-.selectLabel {
-  font-size: 10px;
-  font-weight: var(--font-medium);
-  color: var(--color-text-secondary);
-  margin-left: 4px;
+  min-width: 160px;
 }
 
 .selectWrapper select {
@@ -68,16 +73,67 @@
   color: var(--color-text-primary);
   outline: none;
   cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.selectWrapper select:focus {
+  border-color: var(--color-accent-primary);
+  box-shadow: 0 0 0 3px var(--color-accent-secondary);
 }
 
 .selectIcon {
   position: absolute;
   right: 10px;
-  bottom: 12px;
+  top: 50%;
+  transform: translateY(-50%);
   color: var(--color-text-tertiary);
   pointer-events: none;
 }
 
+/* ===== Custom Date Range ===== */
+.customRangeRow {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  flex-wrap: wrap;
+}
+
+.dateField {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1 1 150px;
+  min-width: 0;
+}
+
+.dateField label {
+  font-size: 11px;
+  font-weight: var(--font-semibold);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.dateField input {
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-primary);
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+  outline: none;
+  width: 100%;
+}
+
+.dateField input:focus {
+  border-color: var(--color-accent-primary);
+  box-shadow: 0 0 0 3px var(--color-accent-secondary);
+}
+
+/* ===== Bottom Row (Tabs + Clear) ===== */
 .bottomRow {
   display: flex;
   justify-content: space-between;
@@ -85,13 +141,14 @@
   border-top: 1px solid var(--color-border);
   padding-top: var(--space-4);
   flex-wrap: wrap;
-  gap: var(--space-4);
+  gap: var(--space-3);
 }
 
 .tabs {
   display: flex;
   gap: var(--space-2);
   flex-wrap: wrap;
+  flex: 1;
 }
 
 .tab {
@@ -103,12 +160,23 @@
   font-weight: var(--font-medium);
   color: var(--color-text-secondary);
   cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+
+.tab:hover {
+  background: var(--color-bg-secondary);
 }
 
 .activeTab {
   background: var(--color-accent-primary);
   color: var(--color-bg-primary);
   border-color: var(--color-accent-primary);
+}
+
+.activeTab:hover {
+  background: var(--color-accent-primary);
+  opacity: 0.9;
 }
 
 .clearBtn {
@@ -121,10 +189,114 @@
   font-weight: var(--font-medium);
   color: var(--color-accent-primary);
   cursor: pointer;
+  white-space: nowrap;
+  padding: 6px 10px;
+  border-radius: var(--radius-md);
+  transition: background 0.15s;
 }
 
-@media (max-width: 1024px) {
-  .topRow { flex-direction: column; align-items: stretch; }
-  .dropdownRow { flex-wrap: wrap; }
-  .selectWrapper { flex: 1; }
+.clearBtn:hover {
+  background: var(--color-accent-secondary);
+}
+
+/* ===== RESPONSIVE: Tablet (max-width: 900px) ===== */
+@media (max-width: 900px) {
+  .topRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .searchBox {
+    width: 100%;
+  }
+  
+  .dropdownRow {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2);
+  }
+  
+  .selectWrapper {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+/* ===== RESPONSIVE: Mobile (max-width: 640px) ===== */
+@media (max-width: 640px) {
+  .container {
+    padding: var(--space-4);
+    gap: var(--space-3);
+  }
+  
+  /* Search full width */
+  .searchBox {
+    padding: 10px 12px;
+  }
+  
+  /* Dropdowns stack */
+  .dropdownRow {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Tabs wrap + scroll if needed */
+  .tabs {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 4px;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE */
+  }
+  
+  .tabs::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+  
+  .tab {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  
+  /* Custom Range stack */
+  .customRangeRow {
+    flex-direction: column;
+    padding: var(--space-3);
+  }
+  
+  .dateField {
+    flex: 1 1 auto;
+  }
+  
+  /* Bottom row stack */
+  .bottomRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .clearBtn {
+    justify-content: center;
+    width: 100%;
+    border: 1px solid var(--color-border);
+  }
+}
+
+/* ===== RESPONSIVE: Small Mobile (max-width: 480px) ===== */
+@media (max-width: 480px) {
+  .container {
+    padding: var(--space-3);
+  }
+  
+  .searchBox {
+    padding: 8px 10px;
+  }
+  
+  .searchBox input {
+    font-size: 13px;
+  }
+  
+  .selectWrapper select {
+    padding: 8px 28px 8px 10px;
+    font-size: 13px;
+  }
 }

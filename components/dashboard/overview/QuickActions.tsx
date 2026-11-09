@@ -3,9 +3,9 @@ import { ArrowRight, Lightbulb, Megaphone, PenSquare, Store } from 'lucide-react
 import styles from './QuickActions.module.css';
 
 const actions = [
-  { icon: PenSquare, tone: 'tonePurple', title: 'Generate Content', desc: 'Create social posts, captions, and more.', href: '/dashboard/content' },
-  { icon: Megaphone, tone: 'toneBlue', title: 'Plan Campaign', desc: 'Get marketing campaign ideas and strategies.', href: '/dashboard/campaigns' },
-  { icon: Lightbulb, tone: 'toneGreen', title: 'Get Growth Tips', desc: 'Receive AI-powered business recommendations.', href: '/dashboard/growth' },
+  { icon: PenSquare, tone: 'tonePurple', title: 'Generate Content', desc: 'Create social posts, captions, and more.', href: '/dashboard/content-generator' },
+  { icon: Megaphone, tone: 'toneBlue', title: 'Plan Campaign', desc: 'Get marketing campaign ideas and strategies.', href: '/dashboard/campaign-planner' },
+  { icon: Lightbulb, tone: 'toneGreen', title: 'Get Growth Tips', desc: 'Receive AI-powered business recommendations.', href: '/dashboard/growth-recommendations' },
   { icon: Store, tone: 'toneOrange', title: 'Edit Business Profile', desc: 'Update your business information and goals.', href: '/dashboard/profile' },
 ];
 

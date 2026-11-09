@@ -1,36 +1,45 @@
+// ContentGeneratorContent.tsx
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
 import ContentGeneratorHeader from './ContentGeneratorHeader';
 import ContentGeneratorForm, { CONTENT_TYPES, INITIAL_VALUES, PLATFORMS, type FormValues } from './ContentGeneratorForm';
 import ContentGeneratorOutput from './ContentGeneratorOutput';
+import { useAIGenerator } from '@/hooks/useAIGenerator';
 import styles from './ContentGeneratorContent.module.css';
-
-const LIMIT = 12;
-
-// TODO: yahan apni real API call lagao (Laravel / AI endpoint). Abhi sirf demo text hai.
-const buildMock = (v: FormValues) =>
-  `${v.topic} is here! ☀️\n\nStay cool, stay stylish with our latest collection. From lightweight picks to everyday comfort, we've got everything you need for the perfect look.\n\n✨ Fresh styles. Brighter days. ✨\n\nShop now and upgrade your wardrobe!\n\n#SummerCollection #WomensFashion #StayStylish #FashionForHer`;
 
 export default function ContentGeneratorContent() {
   const [values, setValues] = useState<FormValues>(INITIAL_VALUES);
-  const [content, setContent] = useState<string | null>(buildMock(INITIAL_VALUES));
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [used, setUsed] = useState(1);
-  const [saved, setSaved] = useState(false);
-  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const [content, setContent] = useState<string | null>(null);
+  const [used, setUsed] = useState(0); // Statistics ke liye (optional)
+  const { isGenerating, generateContent } = useAIGenerator();
 
-  useEffect(() => () => clearTimeout(timer.current), []);
+  const generate = async () => {
+    if (isGenerating) return;
 
-  const generate = () => {
-    if (isGenerating || used >= LIMIT) return;
-    setIsGenerating(true);
-    setSaved(false);
-    timer.current = setTimeout(() => {
-      setContent(buildMock(values));
+    if (!values.topic.trim() || values.targetAudience.length === 0) {
+      toast.error("Please fill Topic and Target Audience first.");
+      return;
+    }
+
+    const payload = {
+      platform: values.platform,
+      content_type: values.type,
+      topic: values.topic,
+      target_audience: values.targetAudience,
+      tone: values.tone,
+      language: values.language,
+      notes: values.notes || null,
+    };
+
+    const result = await generateContent(payload);
+    
+    if (result) {
+      setContent(result);
       setUsed((u) => u + 1);
-      setIsGenerating(false);
-    }, 1800);
+      toast.success("Content generated successfully!");
+    }
   };
 
   const platform = PLATFORMS.find((p) => p.id === values.platform) ?? PLATFORMS[0];
@@ -46,18 +55,15 @@ export default function ContentGeneratorContent() {
           onChange={(patch) => setValues((v) => ({ ...v, ...patch }))}
           onSubmit={generate}
           isGenerating={isGenerating}
-          disabled={used >= LIMIT}
+          disabled={false}
         />
+        {/* 🔥 Purane props (saved, onSave) hata dein */}
         <ContentGeneratorOutput
           content={content}
           isGenerating={isGenerating}
           title={`${platform.short} ${type.short}`}
           platformIcon={platform.icon}
           platformBrand={platform.brand}
-          used={used}
-          limit={LIMIT}
-          saved={saved}
-          onSave={() => setSaved((s) => !s)}
           onRegenerate={generate}
         />
       </div>

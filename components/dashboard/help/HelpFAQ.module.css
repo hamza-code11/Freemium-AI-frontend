@@ -1,0 +1,117 @@
+/* components/dashboard/help/HelpFAQ.module.css */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-6);
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  height: 100%;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.iconWrapper {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, #10b981 14%, transparent);
+  color: #10b981;
+}
+
+.cardTitle {
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: 4px;
+}
+
+.cardSubtitle {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
+/* 🔥 FAQ List */
+.faqList {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 🔥 FAQ Item with bottom border */
+.faqItem {
+  background: transparent;
+  border-bottom: 1px solid var(--color-border);
+  transition: background-color 0.15s;
+}
+
+.faqItem:last-child {
+  border-bottom: none;
+}
+
+.faqItem:hover {
+  background: var(--color-bg-secondary);
+}
+
+.faqOpen {
+  background: var(--color-bg-secondary);
+}
+
+.faqQuestion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-3) var(--space-2);
+  background: transparent;
+  border: none;
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-primary);
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  line-height: 1.4;
+}
+
+.faqChevron {
+  flex-shrink: 0;
+  color: var(--color-text-tertiary);
+  transition: transform 0.2s;
+}
+
+.faqChevronOpen {
+  transform: rotate(180deg);
+  color: var(--color-accent-primary);
+}
+
+.faqAnswer {
+  padding: 0 var(--space-2) var(--space-3);
+  padding-top: 0;
+}
+
+.faqAnswer p {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+  .card {
+    padding: var(--space-4);
+  }
+}

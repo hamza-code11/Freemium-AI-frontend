@@ -1,0 +1,360 @@
+/* components/dashboard/history/skeletons/HistorySkeletons.module.css */
+
+/* ===== Page Wrapper (same as History.module.css) ===== */
+.pageWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--space-6);
+  background-color: var(--color-bg-secondary);
+  min-height: 100vh;
+}
+
+/* ===== Common Skeleton Shimmer ===== */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-bg-tertiary) 25%,
+    var(--color-bg-secondary) 50%,
+    var(--color-bg-tertiary) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: var(--radius-md);
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ============================================
+   HEADER SKELETON (Exact Match)
+============================================ */
+.headerSkeleton {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.headerTop {
+  margin-bottom: var(--space-2);
+}
+
+.headerTitle {
+  width: 320px;
+  height: 32px;
+  margin-bottom: var(--space-2);
+}
+
+.headerSubtitle {
+  width: 480px;
+  height: 16px;
+}
+
+/* Stats Grid (same as real) */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+}
+
+.statCard {
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+  height: 130px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.statHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.statIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+}
+
+.statTitle {
+  width: 100px;
+  height: 14px;
+}
+
+.statValue {
+  width: 60px;
+  height: 24px;
+  margin-top: var(--space-1);
+}
+
+.statSub {
+  width: 80px;
+  height: 11px;
+}
+
+/* ============================================
+   FILTERS SKELETON (Exact Match)
+============================================ */
+.filtersSkeleton {
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.filtersTopRow {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.searchSkeleton {
+  flex: 1;
+  height: 42px;
+  border-radius: var(--radius-md);
+}
+
+.dropdownSkeleton {
+  width: 160px;
+  height: 42px;
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+}
+
+.dropdownSkeletonShort {
+  width: 140px;
+  height: 42px;
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+}
+
+.filtersBottomRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-4);
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.tabsSkeleton {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.tabPill {
+  width: 90px;
+  height: 30px;
+  border-radius: var(--radius-full);
+}
+
+.tabPillShort {
+  width: 70px;
+  height: 30px;
+  border-radius: var(--radius-full);
+}
+
+.clearBtnSkeleton {
+  width: 110px;
+  height: 28px;
+  border-radius: var(--radius-md);
+}
+
+/* ============================================
+   TABLE SKELETON (Exact Match)
+============================================ */
+.tableCard {
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.table th {
+  padding: var(--space-4) var(--space-5);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-secondary);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg-secondary);
+  text-align: left;
+}
+
+.table th:last-child {
+  text-align: center;
+}
+
+.table td {
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+.row:last-child td {
+  border-bottom: none;
+}
+
+/* Title Cell */
+.titleCell {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.titleCellContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.skeletonIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+}
+
+.skeletonTitle {
+  width: 70%;
+  height: 14px;
+}
+
+.skeletonBadge {
+  width: 70px;
+  height: 16px;
+  border-radius: var(--radius-sm);
+}
+
+/* Preview Cell */
+.skeletonPreview {
+  width: 100%;
+  max-width: 320px;
+  height: 14px;
+}
+
+/* Date Cell */
+.skeletonDateCell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.skeletonDate {
+  width: 90px;
+  height: 14px;
+}
+
+.skeletonTime {
+  width: 60px;
+  height: 10px;
+}
+
+/* View Button */
+.centerText {
+  text-align: center;
+}
+
+.skeletonViewBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  margin: 0 auto;
+  display: block;
+}
+
+/* Pagination Skeleton */
+.paginationSkeleton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-4) var(--space-5);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg-primary);
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.paginationInfoSkeleton {
+  width: 150px;
+  height: 14px;
+}
+
+.paginationControlsSkeleton {
+  display: flex;
+  gap: 4px;
+}
+
+.pageBtnSkeleton {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+}
+
+/* ============================================
+   RESPONSIVE
+============================================ */
+@media (max-width: 1024px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .filtersTopRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .dropdownSkeleton,
+  .dropdownSkeletonShort {
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+  .headerTitle,
+  .headerSubtitle {
+    width: 100%;
+  }
+  .filtersBottomRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .clearBtnSkeleton {
+    width: 100%;
+  }
+  .paginationSkeleton {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

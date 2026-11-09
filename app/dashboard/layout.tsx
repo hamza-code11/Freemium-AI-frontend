@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import DashboardLayout from '@/components/dashboard/layout/DashboardLayout/DashboardLayout';
+import { ProfileProvider } from '@/context/ProfileContext';
 
 export const metadata: Metadata = {
   title: 'Dashboard | Freemium AI',
@@ -11,5 +12,7 @@ export default function DashboardRootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <DashboardLayout>{children}</DashboardLayout>;
+  return (
+      <DashboardLayout>{children}</DashboardLayout>
+  );
 }

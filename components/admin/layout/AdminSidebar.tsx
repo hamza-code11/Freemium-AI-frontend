@@ -3,8 +3,9 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { LayoutDashboard, Users, CreditCard, Settings, FileText, LogOut } from 'lucide-react';
+import { useAdmin } from '@/context/AdminContext'; // 🔥 Import
 import styles from './AdminSidebar.module.css';
 
 const NAV_ITEMS = [
@@ -27,6 +28,14 @@ interface SidebarProps {
 
 export default function AdminSidebar({ isMobileOpen, closeMobile, isCollapsed, toggleCollapse }: SidebarProps) {
   const pathname = usePathname();
+  const router = useRouter();
+  const { logout } = useAdmin(); // 🔥 Hook
+
+  // 🔥 Logout Handler
+  const handleLogout = async () => {
+    closeMobile();
+    await logout(); // Ye localStorage clear karega aur redirect karega
+  };
 
   return (
     <aside className={`${styles.sidebar} ${isMobileOpen ? styles.mobileOpen : ''} ${isCollapsed ? styles.collapsed : ''}`}>
@@ -78,8 +87,8 @@ export default function AdminSidebar({ isMobileOpen, closeMobile, isCollapsed, t
           </Link>
         ))}
         
-        {/* Logout */}
-        <button className={styles.logoutBtn} onClick={closeMobile}>
+        {/* Logout Button (Dynamic) */}
+        <button className={styles.logoutBtn} onClick={handleLogout}>
           <LogOut size={20} />
           <span className={`${styles.navText} ${isCollapsed ? styles.hideOnCollapse : ''}`}>Logout</span>
         </button>

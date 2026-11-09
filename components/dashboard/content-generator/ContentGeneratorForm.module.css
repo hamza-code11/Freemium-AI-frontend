@@ -29,7 +29,6 @@
 .optionalBtn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px var(--space-4);background:transparent;border:0;border-radius:inherit;font-size:var(--text-sm);font-weight:var(--font-semibold);color:var(--color-text-primary);cursor:pointer}
 .optionalLeft{display:flex;align-items:center;gap:var(--space-2)}
 .optionalLeft svg{color:var(--color-icon-default)}
-.rotated{transform:rotate(180deg)}
 .optionalBody{padding:0 var(--space-4) var(--space-4)}
 .hint{display:block;margin-bottom:var(--space-2);font-size:var(--text-xs);color:var(--color-text-secondary)}
 .textarea{resize:vertical;min-height:72px;font-family:inherit}
@@ -40,3 +39,109 @@
 .typeCard:focus-visible,.platformBtn:focus-visible,.optionalBtn:focus-visible,.generateBtn:focus-visible{outline:2px solid var(--color-border-focus);outline-offset:2px}
 @media (max-width:640px){.typeGrid,.platformGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:480px){.panel{padding:var(--space-4)}.twoCol{grid-template-columns:1fr}}
+
+
+
+
+
+/* 🔥 Target Audience Dropdown Styles */
+.dropdownWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.dropdownTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding-right: 36px;
+  min-height: 44px;
+  height: auto;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 12px;
+}
+
+.dropdownPlaceholder {
+  color: var(--color-text-tertiary);
+  font-size: 14px;
+}
+
+.selectedTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tag {
+  background: var(--color-accent-secondary);
+  color: var(--color-accent-primary);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: var(--font-medium);
+}
+
+.dropdownIcon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-tertiary);
+  pointer-events: none;
+  transition: transform 0.2s ease;
+}
+
+.rotate {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  width: 100%;
+  max-height: 220px;
+  overflow-y: auto;
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.15);
+  z-index: 50;
+  padding: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  transition: background 0.2s ease;
+}
+
+.dropdownItem:hover {
+  background: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+}
+
+.dropdownItem input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--color-accent-primary);
+  cursor: pointer;
+}
+
+/* Type Card: Font Adjust (3 cards ke liye) */
+.typeGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr)); /* 🔥 3 columns */
+}

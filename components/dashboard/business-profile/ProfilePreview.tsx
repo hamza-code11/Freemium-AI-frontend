@@ -3,60 +3,36 @@
 import React, { useState } from 'react';
 import { Briefcase, Users, Building2 } from 'lucide-react';
 import styles from './ProfilePreview.module.css';
+import { useProfile } from '@/context/ProfileContext';
+import { getUploadsBaseUrl } from '@/lib/imageUrl';
+import ProfilePreviewSkeleton from '@/components/dashboard/skeletons/ProfileHeaderSkeleton/ProfilePreviewSkeleton';
 
-// Mock Data: User ka data (backend se aayega)
-const mockProfileData = {
-  name: 'Hamza Khan',
-  email: 'hamza@example.com',
-  // 🔥 Yahan user ki real image ka path hoga, filhal placeholder
-  avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80',
-  businesses: [
-    {
-      id: 1,
-      name: 'Trendify',
-      type: 'E-commerce',
-      niche: 'Fashion & Lifestyle',
-      description: 'Trendy clothing and accessories for modern and confident individuals. We bring you the latest styles, seasonal collections and custom designs for men and women through our online store.',
-      audience: 'Young Adults (18-35)',
-      services: 'Clothing, Accessories, Seasonal Collections',
-      goals: ['Increase Brand Awareness', 'Get More Customers', 'Boost Sales'],
-    },
-    {
-      id: 2,
-      name: 'TechNova',
-      type: 'SaaS / Software',
-      niche: 'Technology',
-      description: 'A modern SaaS platform providing AI-driven productivity tools for freelancers and small teams.',
-      audience: 'Professionals (25-45)',
-      services: 'AI Tools, Productivity Apps, Cloud Storage',
-      goals: ['Launch New Products', 'Expand to New Markets'],
-    },
-    {
-      id: 3,
-      name: 'CafeBrew',
-      type: 'Restaurant / Food',
-      niche: 'Food & Beverage',
-      description: 'A cozy coffee shop serving specialty brews and artisan pastries in the heart of the city.',
-      audience: 'Everyone',
-      services: 'Coffee, Pastries, Snacks',
-      goals: ['Get More Customers', 'Increase Brand Awareness'],
-    }
-  ]
+const AUDIENCE_LABELS: Record<string, string> = {
+  kids_men: 'Kids (Men)', kids_women: 'Kids (Women)',
+  teenagers_men: 'Teenagers (Men)', teenagers_women: 'Teenagers (Women)',
+  young_adults_men: 'Young Adults (Men)', young_adults_women: 'Young Adults (Women)',
+  young_men: 'Young Men', young_women: 'Young Women',
+  middle_age_men: 'Middle Age (Men)', middle_age_women: 'Middle Age (Women)',
+  seniors_men: 'Seniors (Men)', seniors_women: 'Seniors (Women)',
 };
 
 export default function ProfilePreview() {
-  // 🔥 State for active tab
-  const [activeTabId, setActiveTabId] = useState(mockProfileData.businesses[0].id);
+  const { user, loading } = useProfile();
+  const [activeTabId, setActiveTabId] = useState<number | null>(null);
 
-  // Get active business data
-  const activeBusiness = mockProfileData.businesses.find(b => b.id === activeTabId);
+  if (loading || !user) {
+    return <ProfilePreviewSkeleton />;
+  }
+
+  const businesses = user.business_profiles || [];
+  const activeBusiness = businesses.find(b => b.id === activeTabId) || businesses[0];
+
+  const avatarSrc = user.image ? `${getUploadsBaseUrl()}/users/${user.image}` : `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random&color=fff`;
 
   return (
     <div className={styles.previewContainer}>
-      
       <div className={styles.previewCard}>
         
-        {/* Header */}
         <div className={styles.cardHeader}>
           <div>
             <h2 className={styles.previewTitle}>Profile Preview</h2>
@@ -66,63 +42,64 @@ export default function ProfilePreview() {
 
         <div className={styles.divider} />
 
-        {/* 🔥 User Identity with Image */}
         <div className={styles.userHeader}>
           <div className={styles.userAvatar}>
-            <img src={mockProfileData.avatarUrl} alt={mockProfileData.name} className={styles.avatarImg} />
+            <img src={avatarSrc} alt={user.name} className={styles.avatarImg} />
           </div>
           <div>
-            <h3 className={styles.userName}>{mockProfileData.name}</h3>
-            <p className={styles.userEmail}>{mockProfileData.email}</p>
+            <h3 className={styles.userName}>{user.name}</h3>
+            <p className={styles.userEmail}>{user.email}</p>
           </div>
         </div>
 
         <div className={styles.divider} />
 
-        {/* 🔥 Horizontal Tabs for Businesses */}
-        <div className={styles.tabsContainer}>
-          {mockProfileData.businesses.map((biz) => (
-            <button
-              key={biz.id}
-              className={`${styles.tab} ${activeTabId === biz.id ? styles.activeTab : ''}`}
-              onClick={() => setActiveTabId(biz.id)}
-            >
-              <Briefcase size={14} />
-              {biz.name}
-            </button>
-          ))}
-        </div>
+        {businesses.length > 1 && (
+          <div className={styles.tabsContainer}>
+            {businesses.map((biz) => (
+              <button
+                key={biz.id}
+                className={`${styles.tab} ${activeBusiness?.id === biz.id ? styles.activeTab : ''}`}
+                onClick={() => setActiveTabId(biz.id)}
+              >
+                <Briefcase size={14} />
+                {biz.business_name}
+              </button>
+            ))}
+          </div>
+        )}
 
-        {/* 🔥 Active Business Content */}
-        {activeBusiness && (
+        {activeBusiness ? (
           <div className={styles.activeContent}>
             
-            {/* Business Header */}
             <div className={styles.identityRow}>
               <div className={styles.logoCircle}>
                 <Briefcase size={20} className={styles.logoIcon} />
               </div>
               <div>
-                <h3 className={styles.bizName}>{activeBusiness.name}</h3>
-                <p className={styles.bizNiche}>{activeBusiness.type} • {activeBusiness.niche}</p>
+                <h3 className={styles.bizName}>{activeBusiness.business_name}</h3>
+                <p className={styles.bizNiche}>{activeBusiness.business_type}</p>
               </div>
             </div>
 
-            {/* About */}
             <div className={styles.section}>
               <h4 className={styles.sectionTitle}>About Business</h4>
-              <p className={styles.aboutText}>{activeBusiness.description}</p>
+              <p className={styles.aboutText}>{activeBusiness.business_description || 'No description provided yet.'}</p>
             </div>
 
-            {/* Details */}
+                        {/* 🔥 Target Audience & Services (Stacked Row) */}
             <div className={styles.detailsGrid}>
               <div className={styles.detailItem}>
                 <Users size={16} className={styles.detailIcon} />
                 <div>
                   <span className={styles.dLabel}>Target Audience</span>
-                  <span className={styles.dValue}>{activeBusiness.audience}</span>
+                  <span className={styles.dValue}>
+                    {activeBusiness.target_audience?.map(a => AUDIENCE_LABELS[a] || a).join(', ') || 'Not specified'}
+                  </span>
                 </div>
               </div>
+
+              {/* Services (Neeche wali row) */}
               <div className={styles.detailItem}>
                 <Building2 size={16} className={styles.detailIcon} />
                 <div>
@@ -132,17 +109,21 @@ export default function ProfilePreview() {
               </div>
             </div>
 
-            {/* Goals */}
+            {/* 🔥 Business Goals (Text Style) */}
             <div className={styles.section}>
               <h4 className={styles.sectionTitle}>Business Goals</h4>
-              <div className={styles.goalsList}>
-                {activeBusiness.goals.map((goal, i) => (
-                  <span key={i} className={styles.goalBadge}>{goal}</span>
-                ))}
-              </div>
+              {activeBusiness.business_goals ? (
+                <p className={styles.aboutText}>{activeBusiness.business_goals}</p>
+              ) : (
+                <p className={styles.aboutText}>No goals added yet.</p>
+              )}
             </div>
 
           </div>
+        ) : (
+          <p style={{ textAlign: 'center', color: 'var(--color-text-secondary)', padding: '20px 0' }}>
+            No business profile found.
+          </p>
         )}
 
       </div>

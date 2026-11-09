@@ -1,0 +1,252 @@
+/* components/dashboard/help/skeletons/HelpSkeletons.module.css */
+
+/* ===== Page Container ===== */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  padding-bottom: var(--space-8);
+}
+
+/* ===== Shimmer ===== */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-bg-tertiary) 25%,
+    var(--color-bg-secondary) 50%,
+    var(--color-bg-tertiary) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: var(--radius-sm);
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ===== 2-Column Grid ===== */
+.twoColumnGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 45fr) minmax(0, 55fr);
+  gap: var(--space-6);
+  align-items: flex-start;
+}
+
+/* ===== Card Base ===== */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-6);
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  min-height: 400px;
+}
+
+/* ===== Banner Skeleton ===== */
+.banner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  padding: var(--space-6) var(--space-8);
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  min-height: 140px;
+}
+
+.bannerLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex: 1;
+}
+
+.iconBadge {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-lg);
+  flex-shrink: 0;
+}
+
+.bannerText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  flex: 1;
+  max-width: 480px;
+}
+
+.bannerTitle { height: 28px; width: 60%; }
+.bannerSubtitle { height: 16px; width: 100%; }
+
+.bannerVisual {
+  width: 220px;
+  height: 110px;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+}
+
+/* ===== Form Skeleton ===== */
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.headerIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+}
+
+.headerText {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.headerTitle { height: 20px; width: 50%; }
+.headerSubtitle { height: 14px; width: 90%; }
+
+.formBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label { height: 12px; width: 100px; }
+.input { height: 42px; width: 100%; border-radius: var(--radius-md); }
+.textarea { height: 110px; width: 100%; border-radius: var(--radius-md); }
+.button { height: 44px; width: 100%; border-radius: var(--radius-md); }
+
+/* ===== FAQ Skeleton ===== */
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.faqItem {
+  height: 52px;
+  width: 100%;
+  border-radius: var(--radius-md);
+}
+
+/* ===== Tickets Skeleton ===== */
+.tableCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+}
+
+.table {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.tableHeader {
+  display: grid;
+  grid-template-columns: 80px 2fr 100px 100px 80px;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-bg-secondary);
+}
+
+.tableRow {
+  display: grid;
+  grid-template-columns: 80px 2fr 100px 100px 80px;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-bg-primary);
+  align-items: center;
+}
+
+.tableCell { height: 14px; width: 100%; }
+.tableCellShort { height: 14px; width: 70%; }
+.tableBadge { height: 22px; width: 80px; border-radius: var(--radius-full); }
+.tableBtn { height: 26px; width: 50px; border-radius: var(--radius-sm); }
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+  .twoColumnGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .banner {
+    padding: var(--space-4) var(--space-5);
+    min-height: auto;
+  }
+  .iconBadge {
+    width: 48px;
+    height: 48px;
+  }
+  .bannerVisual {
+    display: none;
+  }
+  .card, .tableCard {
+    padding: var(--space-4);
+  }
+  .formRow {
+    grid-template-columns: 1fr;
+  }
+  .tableHeader, .tableRow {
+    grid-template-columns: 80px 1fr 80px;
+  }
+  .tableHeader > *:nth-child(3),
+  .tableHeader > *:nth-child(5),
+  .tableRow > *:nth-child(3),
+  .tableRow > *:nth-child(5) {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .banner {
+    padding: var(--space-3) var(--space-4);
+  }
+  .iconBadge {
+    width: 42px;
+    height: 42px;
+  }
+  .bannerTitle {
+    height: 22px;
+  }
+}

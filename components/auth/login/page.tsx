@@ -2,7 +2,11 @@
 
 import Link from 'next/link';
 import { useState, type FormEvent, type ReactNode } from 'react';
+import { useRouter } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
+import toast from 'react-hot-toast';
+import { useAuth } from '@/hooks/useAuth';
+import { useProfile } from '@/context/ProfileContext'; // 🔥 Import add kiya
 import styles from './Loginform.module.css';
 
 function Field({ id, label, error, children }: { id: string; label: string; error?: string; children: ReactNode }) {
@@ -80,11 +84,14 @@ function validate(v: LoginValues): LoginErrors {
   return errors;
 }
 
-export default function LoginForm({ onSubmit }: { onSubmit?: (values: LoginValues) => Promise<void> }) {
+export default function LoginForm() {
+  const router = useRouter();
+  const { handleLogin } = useAuth(); 
+  const { refreshProfile } = useProfile(); // 🔥 Hook
+
   const [values, setValues] = useState<LoginValues>({ email: '', password: '', remember: false });
   const [errors, setErrors] = useState<LoginErrors>({});
   const [loading, setLoading] = useState(false);
-  const [formMessage, setFormMessage] = useState<string | null>(null);
 
   const update = <K extends keyof LoginValues>(key: K, value: LoginValues[K]) => {
     setValues((prev) => ({ ...prev, [key]: value }));
@@ -93,25 +100,29 @@ export default function LoginForm({ onSubmit }: { onSubmit?: (values: LoginValue
     }
   };
 
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (loading) return;
-    setFormMessage(null);
 
+    // 1. Local Validation
     const found = validate(values);
     setErrors(found);
-    if (Object.keys(found).length > 0) return;
-
-    if (!onSubmit) {
-      setFormMessage('Sign in is not connected to a backend yet.');
+    if (Object.keys(found).length > 0) {
+      const firstError = Object.values(found)[0];
+      if (firstError) toast.error(firstError);
       return;
     }
 
     setLoading(true);
     try {
-      await onSubmit({ ...values, email: values.email.trim() });
+      // 2. Login API call
+      await handleLogin(values.email.trim(), values.password);
+      
+      // 3. 🔥 Login ke BAAD naya user data fetch karein
+      await refreshProfile();
+      
     } catch {
-      setFormMessage("We couldn't sign you in. Check your details and try again.");
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -131,7 +142,7 @@ export default function LoginForm({ onSubmit }: { onSubmit?: (values: LoginValue
           <p>Sign in to continue growing your business with AI.</p>
         </div>
 
-        <form onSubmit={handleSubmit} noValidate className={styles.form}>
+        <form onSubmit={onSubmit} noValidate className={styles.form}>
           <Field id="login-email" label="Email Address" error={errors.email}>
             <input
               id="login-email"
@@ -167,8 +178,6 @@ export default function LoginForm({ onSubmit }: { onSubmit?: (values: LoginValue
             </label>
             <Link href="/forgot-password" className={styles.textLink}>Forgot Password?</Link>
           </div>
-
-          {formMessage && <p className={styles.formMessage} role="status">{formMessage}</p>}
 
           <button type="submit" className={styles.submit} disabled={loading} aria-busy={loading}>
             {loading && <span className={styles.spinner} aria-hidden="true" />}

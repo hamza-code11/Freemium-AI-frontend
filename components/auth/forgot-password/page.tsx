@@ -2,36 +2,38 @@
 
 import Link from 'next/link';
 import { useState, type FormEvent, useRef } from 'react';
-import { ArrowLeft, Mail, Lock, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, Mail, Lock } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/hooks/useAuth'; // 🔥 Hook Import
+import toast from 'react-hot-toast'; // 🔥 Extra validation ke liye
 import styles from './ForgotPassword.module.css';
 
 export default function ForgotPasswordPage() {
   const router = useRouter();
+  const { loading, handleForgotPassword, handleVerifyOtp, handleResetPassword } = useAuth();
+
   const [step, setStep] = useState(1); // 1: Email, 2: OTP, 3: New Password
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState<string[]>(['', '', '', '', '', '']);
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [resetToken, setResetToken] = useState<string | null>(null); // Step 3 ke liye token
   
   const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   // Step 1: Email Submit
-  const handleEmailSubmit = (e: FormEvent) => {
+  const handleEmailSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!email.trim()) {
-      setError('Please enter your email address.');
+      toast.error('Please enter your email address.');
       return;
     }
-    setError(null);
-    setLoading(true);
-    // Mock API Call
-    setTimeout(() => {
-      setLoading(false);
-      setStep(2);
-    }, 1000);
+    
+    // Hook call (Ye khud toast success/error handle karega)
+    const success = await handleForgotPassword(email);
+    if (success) {
+      setStep(2); // Agle step par jayein
+    }
   };
 
   // Step 2: OTP Handling
@@ -53,40 +55,45 @@ export default function ForgotPasswordPage() {
     }
   };
 
-  const handleOtpSubmit = (e: FormEvent) => {
+  const handleOtpSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const otpString = otp.join('');
     if (otpString.length !== 6) {
-      setError('Please enter a valid 6-digit OTP.');
+      toast.error('Please enter a valid 6-digit OTP.');
       return;
     }
-    setError(null);
-    setLoading(true);
-    // Mock API Call
-    setTimeout(() => {
-      setLoading(false);
-      setStep(3);
-    }, 1000);
+
+    // Hook call -> Ye backend se verify karke reset_token return karega
+    const token = await handleVerifyOtp(email, otpString);
+    if (token) {
+      setResetToken(token); // Token save karein
+      setStep(3);           // Agle step par jayein
+    }
   };
 
   // Step 3: Reset Password Submit
-  const handlePasswordSubmit = (e: FormEvent) => {
+  const handlePasswordSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    
     if (newPassword.length < 8) {
-      setError('Password must be at least 8 characters.');
+      toast.error('Password must be at least 8 characters.');
       return;
     }
     if (newPassword !== confirmPassword) {
-      setError('Passwords do not match.');
+      toast.error('Passwords do not match.');
       return;
     }
-    setError(null);
-    setLoading(true);
-    // Mock API Call
-    setTimeout(() => {
-      setLoading(false);
-      router.push('/login'); // Redirect to login
-    }, 1000);
+    if (!resetToken) {
+      toast.error('Session expired. Please start over.');
+      setStep(1);
+      return;
+    }
+
+    // Hook call -> Password reset karega
+    const success = await handleResetPassword(resetToken, newPassword, confirmPassword);
+    if (success) {
+      router.push('/login'); // Login page par redirect
+    }
   };
 
   return (
@@ -119,10 +126,10 @@ export default function ForgotPasswordPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className={`${styles.input} ${styles.inputWithIcon}`}
+                    disabled={loading}
                   />
                 </div>
               </div>
-              {error && <p className={styles.error}>{error}</p>}
               <button type="submit" className={styles.submit} disabled={loading}>
                 {loading ? 'Sending OTP...' : 'Send OTP'}
               </button>
@@ -149,10 +156,10 @@ export default function ForgotPasswordPage() {
                     onChange={(e) => handleOtpChange(index, e.target.value)}
                     onKeyDown={(e) => handleOtpKeyDown(index, e)}
                     className={styles.otpInput}
+                    disabled={loading}
                   />
                 ))}
               </div>
-              {error && <p className={styles.error}>{error}</p>}
               <button type="submit" className={styles.submit} disabled={loading}>
                 {loading ? 'Verifying...' : 'Verify OTP'}
               </button>
@@ -179,6 +186,7 @@ export default function ForgotPasswordPage() {
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                     className={`${styles.input} ${styles.inputWithIcon}`}
+                    disabled={loading}
                   />
                 </div>
               </div>
@@ -193,11 +201,10 @@ export default function ForgotPasswordPage() {
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     className={`${styles.input} ${styles.inputWithIcon}`}
+                    disabled={loading}
                   />
                 </div>
               </div>
-
-              {error && <p className={styles.error}>{error}</p>}
 
               <button type="submit" className={styles.submit} disabled={loading}>
                 {loading ? 'Updating...' : 'Reset Password'}

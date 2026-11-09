@@ -1,3 +1,5 @@
+/* components/dashboard/home/AIUsageCard.module.css */
+
 /* =========================================
    CARD BASE
 ========================================= */
@@ -70,18 +72,6 @@
   color: var(--color-text-secondary);
 }
 
-.trend {
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
-  font-size: 11px;
-  color: var(--color-text-tertiary);
-}
-
-.up {
-  color: #10b981;
-}
-
 /* =========================================
    TILE & TONES
 ========================================= */
@@ -96,11 +86,45 @@
 .toneBlue { --tone: #3b82f6; }
 .tonePurple { --tone: #8b5cf6; }
 .toneGreen { --tone: #10b981; }
-.toneOrange { --tone: #f97316; }
-.toneRed { --tone: #ef4444; }
 .toneCyan { --tone: #06b6d4; }
-.tonePink { --tone: #ec4899; }
 .toneAmber { --tone: #f59e0b; }
+
+/* =========================================
+   LOADING SKELETON
+========================================= */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-bg-tertiary) 25%,
+    var(--color-bg-secondary) 50%,
+    var(--color-bg-tertiary) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: var(--radius-sm);
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeletonIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-2);
+}
+
+.skeletonValue {
+  width: 60px;
+  height: 32px;
+}
+
+.skeletonLabel {
+  width: 100px;
+  height: 12px;
+}
 
 /* =========================================
    RESPONSIVE

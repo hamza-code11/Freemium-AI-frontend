@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
-import StatsCards from '@/components/dashboard/analytics/StatsCards';
-import UsageChart from '@/components/dashboard/analytics/UsageChart';
-import BreakdownChart from '@/components/dashboard/analytics/BreakdownChart';
-import PlanUsage from '@/components/dashboard/analytics/PlanUsage';
-import RecentActivity from '@/components/dashboard/analytics/RecentActivity';
-import Insights from '@/components/dashboard/analytics/Insights';
+// import StatsCards from '@/components/dashboard/analytics/StatsCards';
+// import UsageChart from '@/components/dashboard/analytics/UsageChart';
+// import BreakdownChart from '@/components/dashboard/analytics/BreakdownChart';
+// import PlanUsage from '@/components/dashboard/analytics/PlanUsage';
+// import RecentActivity from '@/components/dashboard/analytics/RecentActivity';
+// import Insights from '@/components/dashboard/analytics/Insights';
 import styles from './Analytics.module.css';
 
 export const metadata: Metadata = {
@@ -23,31 +23,31 @@ export default function AnalyticsPage() {
           <p className={styles.subtitle}>Track your AI activity, understand your usage patterns, and discover which tools you use most.</p>
         </div>
         
-        <div className={styles.headerActions}>
+        {/* <div className={styles.headerActions}>
           <div className={styles.dateFilter}>
             <button className={styles.activeFilter}>Last 7 Days</button>
             <button className={styles.filterBtn}>Last 30 Days</button>
             <button className={styles.filterBtn}>Last 90 Days</button>
           </div>
           <button className={styles.exportBtn}>Export Report</button>
-        </div>
+        </div> */}
       </div>
 
       {/* 1. Top Stats Cards */}
-      <StatsCards />
+      {/* <StatsCards /> */}
 
       {/* 2. Charts Row (Line Chart + Donut Chart) */}
-      <div className={styles.chartsRow}>
+      {/* <div className={styles.chartsRow}>
         <UsageChart />
         <BreakdownChart />
-      </div>
+      </div> */}
 
       {/* 3. Bottom Row (Plan Usage, Recent Activity, Insights) */}
-      <div className={styles.bottomRow}>
+      {/* <div className={styles.bottomRow}>
         <PlanUsage />
         <RecentActivity />
         <Insights />
-      </div>
+      </div> */}
 
     </div>
   );

@@ -1,8 +1,7 @@
+// app/dashboard/history/page.tsx
 import type { Metadata } from 'next';
-import HistoryHeader from '@/components/dashboard/history/HistoryHeader';
-import HistoryFilters from '@/components/dashboard/history/HistoryFilters';
-import HistoryTable from '@/components/dashboard/history/HistoryTable';
-import styles from './History.module.css';
+import { Suspense } from 'react';
+import HistoryPageContent from '@/components/dashboard/history/HistoryPageContent';
 
 export const metadata: Metadata = {
   title: 'Generation History | Freemium AI',
@@ -11,17 +10,8 @@ export const metadata: Metadata = {
 
 export default function HistoryPage() {
   return (
-    <div className={styles.pageWrapper}>
-      
-      {/* 1. Top Stats & Header */}
-      <HistoryHeader />
-
-      {/* 2. Filters & Search Area */}
-      <HistoryFilters />
-
-      {/* 3. Data Table */}
-      <HistoryTable />
-
-    </div>
+    <Suspense fallback={<div>Loading...</div>}>
+      <HistoryPageContent />
+    </Suspense>
   );
 }

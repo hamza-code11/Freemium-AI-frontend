@@ -1,7 +1,9 @@
+// ContentGeneratorOutput.tsx
 'use client';
 
 import { useState, type ReactNode } from 'react';
-import { Bookmark, BookmarkCheck, Check, CheckCircle2, Copy, Lightbulb, RefreshCw, Sparkles } from 'lucide-react';
+import { Check, Copy, RefreshCw, Sparkles, CheckCircle2 } from 'lucide-react';
+import WaveLoader from '@/components/ui/WaveLoader'; // 🔥 Import karein
 import styles from './ContentGeneratorOutput.module.css';
 
 interface Props {
@@ -10,18 +12,13 @@ interface Props {
   title: string;
   platformIcon: ReactNode;
   platformBrand: string;
-  used: number;
-  limit: number;
-  saved: boolean;
-  onSave: () => void;
   onRegenerate: () => void;
 }
 
 export default function ContentGeneratorOutput({
-  content, isGenerating, title, platformIcon, platformBrand, used, limit, saved, onSave, onRegenerate,
+  content, isGenerating, title, platformIcon, platformBrand, onRegenerate,
 }: Props) {
   const [copied, setCopied] = useState(false);
-  const remaining = Math.max(limit - used, 0);
 
   const handleCopy = async () => {
     if (!content) return;
@@ -32,7 +29,6 @@ export default function ContentGeneratorOutput({
     } catch {}
   };
 
-  const SaveIcon = saved ? BookmarkCheck : Bookmark;
   const hasContent = !!content && !isGenerating;
 
   return (
@@ -40,9 +36,6 @@ export default function ContentGeneratorOutput({
       <div className={styles.head}>
         <h2 className={styles.title}><Sparkles size={18} className={styles.titleIcon} /> Generated Content</h2>
         <div className={styles.headActions}>
-          <button type="button" className={styles.outlineBtn} onClick={onSave} disabled={!hasContent}>
-            <SaveIcon size={14} /> {saved ? 'Saved' : 'Save'}
-          </button>
           <button type="button" className={styles.outlineBtn} onClick={onRegenerate} disabled={isGenerating}>
             <RefreshCw size={14} /> Regenerate
           </button>
@@ -53,8 +46,8 @@ export default function ContentGeneratorOutput({
         <div className={styles.success} role="status">
           <CheckCircle2 size={22} className={styles.successIcon} />
           <div>
-            <strong>Your content has been generated!</strong>
-            <p>You&apos;ve used {used} generation{used === 1 ? '' : 's'}. {remaining} remaining.</p>
+            <strong>Your content has been generated & saved!</strong>
+            <p>You can find this in your history.</p>
           </div>
         </div>
       )}
@@ -66,8 +59,13 @@ export default function ContentGeneratorOutput({
         </div>
 
         {isGenerating ? (
-          <div className={styles.skeleton} aria-hidden="true">
-            <i style={{ width: '70%' }} /><i /><i /><i style={{ width: '55%' }} /><i style={{ width: '80%' }} />
+          // 🔥 Naya Loading UI
+          <div className={styles.loadingWrap}>
+            <WaveLoader />
+            <p className={styles.loadingText}>AI is writing your content...</p>
+            <div className={styles.skeleton} aria-hidden="true">
+              <i style={{ width: '90%' }} /><i /><i /><i style={{ width: '60%' }} />
+            </div>
           </div>
         ) : content ? (
           <>
@@ -76,21 +74,18 @@ export default function ContentGeneratorOutput({
               <button type="button" className={styles.copyBtn} onClick={handleCopy}>
                 {copied ? <><Check size={14} /> Copied!</> : <><Copy size={14} /> Copy</>}
               </button>
-              <button type="button" className={styles.outlineBtn} onClick={onSave}><SaveIcon size={14} /> {saved ? 'Saved' : 'Save'}</button>
-              <button type="button" className={styles.outlineBtn} onClick={onRegenerate}><RefreshCw size={14} /> Regenerate</button>
+              <button type="button" className={styles.outlineBtn} onClick={onRegenerate}>
+                <RefreshCw size={14} /> Regenerate
+              </button>
             </div>
           </>
         ) : (
-          <p className={styles.empty}>Fill in the details on the left and click <strong>Generate Content</strong>. Your content will appear here.</p>
+          <div className={styles.emptyState}>
+            <Sparkles size={32} className={styles.emptyIcon} />
+            <p className={styles.empty}>Fill in the details on the left and click <strong>Generate Content</strong>.</p>
+            <p className={styles.emptySub}>Your AI content will appear here.</p>
+          </div>
         )}
-      </div>
-
-      <div className={styles.tip}>
-        <Lightbulb size={18} className={styles.tipIcon} />
-        <div>
-          <strong>Pro Tip</strong>
-          <p>Use platform-specific features and trending hashtags to get better engagement on social media.</p>
-        </div>
       </div>
     </section>
   );

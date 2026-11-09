@@ -1,0 +1,60 @@
+/* components/dashboard/common/Pagination.module.css */
+
+.paginationRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-4) var(--space-5);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg-primary);
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.pageInfo {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.pageControls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pageArrow, .pageNum {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.pageArrow:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pageArrow:hover:not(:disabled),
+.pageNum:hover {
+  background: var(--color-bg-secondary);
+  border-color: var(--color-text-tertiary);
+}
+
+.activePage {
+  background: var(--color-accent-primary);
+  color: var(--color-bg-primary);
+  border-color: var(--color-accent-primary);
+}
+
+.activePage:hover {
+  background: var(--color-accent-primary);
+  opacity: 0.9;
+}

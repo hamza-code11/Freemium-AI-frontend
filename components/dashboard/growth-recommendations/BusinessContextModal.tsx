@@ -1,140 +1,160 @@
+// components/dashboard/growth-recommendations/BusinessContextModal.tsx
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
 import {
-  AlertTriangle, ChevronDown, Megaphone, Plus, Sparkles, Target, Users, X,
+  AlertTriangle, ChevronDown, Plus, Sparkles, Target, Users, X,
 } from 'lucide-react';
-import { FacebookIcon, InstagramIcon } from './Icons';
+import toast from 'react-hot-toast'; // 🔥 Toast import
 import styles from './BusinessContextModal.module.css';
+import { useProfile } from '@/context/ProfileContext';
+
+
+interface ContextData {
+  businessGoals: string;
+  challenges: string;
+  audience: string[];
+  instruction: string;
+}
+
 
 interface Props {
   open: boolean;
   onClose: () => void;
+  selectedBusinessId?: number | null;
+  onSaveContext?: (data: ContextData) => void;
 }
 
-const CHANNEL_OPTIONS = [
-  'Instagram', 'Facebook', 'LinkedIn', 'TikTok', 'YouTube',
-  'Twitter / X', 'Pinterest', 'Website', 'Email', 'Google Ads', 'WhatsApp',
+// Backend Enum ke mutabiq
+const TARGET_AUDIENCE_OPTIONS = [
+  { value: 'kids_men', label: 'Kids (Men)' },
+  { value: 'kids_women', label: 'Kids (Women)' },
+  { value: 'teenagers_men', label: 'Teenagers (Men)' },
+  { value: 'teenagers_women', label: 'Teenagers (Women)' },
+  { value: 'young_adults_men', label: 'Young Adults (Men)' },
+  { value: 'young_adults_women', label: 'Young Adults (Women)' },
+  { value: 'young_men', label: 'Young Men' },
+  { value: 'young_women', label: 'Young Women' },
+  { value: 'middle_age_men', label: 'Middle Age (Men)' },
+  { value: 'middle_age_women', label: 'Middle Age (Women)' },
+  { value: 'seniors_men', label: 'Seniors (Men)' },
+  { value: 'seniors_women', label: 'Seniors (Women)' },
 ];
-
-const AUDIENCE_OPTIONS = [
-  'Women aged 18-35, fashion conscious, urban',
-  'Women aged 18-35, budget-conscious, urban',
-  'Women aged 25-45, working professionals',
-  'Men aged 18-35, fashion & lifestyle',
-  'Men aged 25-45, working professionals',
-  'College students (18-24)',
-  'Young parents (25-40)',
-  'Small business owners',
-  'General audience (18-45)',
-];
-
-const CHANNEL_ICONS: Record<string, React.ReactNode> = {
-  Instagram: <InstagramIcon size={14} />,
-  Facebook: <FacebookIcon size={14} />,
-};
 
 type FormState = {
   goals: string;
   challenges: string;
-  audience: string;
-  channels: string[];
+  audience: string[];
   instruction: string;
 };
 
 const EMPTY_FORM: FormState = {
   goals: '',
   challenges: '',
-  audience: '',
-  channels: [],
+  audience: [],
   instruction: '',
 };
 
-export default function BusinessContextModal({ open, onClose }: Props) {
+export default function BusinessContextModal({ open, onClose, selectedBusinessId, onSaveContext }: Props) {
+  const { user } = useProfile();
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
-  const [channelsOpen, setChannelsOpen] = useState(false);
   const [audienceOpen, setAudienceOpen] = useState(false);
-
-  const channelsRef = useRef<HTMLDivElement>(null);
+  const [errors, setErrors] = useState<Record<string, boolean>>({});
   const audienceRef = useRef<HTMLDivElement>(null);
 
-  // Reset form + dropdowns when modal closes
+  // Find selected business
+  const business = user?.business_profiles?.find(b => b.id === selectedBusinessId);
+
+  // Load dynamic business data when modal opens
+  useEffect(() => {
+    if (open && business) {
+      setForm({
+        goals: business.business_goals || '',
+        challenges: '',
+        audience: business.target_audience || [],
+        instruction: '',
+      });
+      setErrors({});
+    }
+  }, [open, business]);
+
+  // Reset form on close
   useEffect(() => {
     if (!open) {
       setForm(EMPTY_FORM);
-      setChannelsOpen(false);
       setAudienceOpen(false);
+      setErrors({});
     }
   }, [open]);
 
-  // Outside click + Escape handling
+  // Close dropdowns on outside click
   useEffect(() => {
     if (!open) return;
-
     const onClick = (e: MouseEvent) => {
-      const t = e.target as Node;
-      if (channelsRef.current && !channelsRef.current.contains(t)) setChannelsOpen(false);
-      if (audienceRef.current && !audienceRef.current.contains(t)) setAudienceOpen(false);
+      if (audienceRef.current && !audienceRef.current.contains(e.target as Node)) setAudienceOpen(false);
     };
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        if (channelsOpen || audienceOpen) {
-          setChannelsOpen(false);
-          setAudienceOpen(false);
-        } else {
-          onClose();
-        }
-      }
-    };
-
     document.addEventListener('mousedown', onClick);
-    document.addEventListener('keydown', onKey);
-    return () => {
-      document.removeEventListener('mousedown', onClick);
-      document.removeEventListener('keydown', onKey);
-    };
-  }, [open, channelsOpen, audienceOpen, onClose]);
+    return () => document.removeEventListener('mousedown', onClick);
+  }, [open]);
 
   if (!open) return null;
 
-  const handleChange =
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-      setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setForm((p) => ({ ...p, [name]: value }));
+    //  Typing par error clear karein
+    if (errors[name]) setErrors(prev => ({ ...prev, [name]: false }));
+  };
 
-  const toggleChannel = (ch: string) =>
+
+  const toggleAudience = (value: string) => {
     setForm((p) => ({
       ...p,
-      channels: p.channels.includes(ch)
-        ? p.channels.filter((x) => x !== ch)
-        : [...p.channels, ch],
+      audience: p.audience.includes(value)
+        ? p.audience.filter((a) => a !== value)
+        : [...p.audience, value],
     }));
-
-  const pickAudience = (aud: string) => {
-    setForm((p) => ({ ...p, audience: aud }));
-    setAudienceOpen(false);
+    //  Audience select karne par error clear karein
+    if (errors.audience) setErrors(prev => ({ ...prev, audience: false }));
   };
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Business context submitted:', form);
-    // TODO: API call
+    
+    const newErrors: Record<string, boolean> = {};
+    if (form.audience.length === 0) newErrors.audience = true;
+    if (!form.goals.trim()) newErrors.goals = true;
+    if (!form.challenges.trim()) newErrors.challenges = true;
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      toast.error("Please fill all required fields.");
+      return;
+    }
+
+    // Poora data parent ko bhejein
+    if (onSaveContext) {
+      onSaveContext({
+        businessGoals: form.goals,
+        challenges: form.challenges,
+        audience: form.audience,
+        instruction: form.instruction,
+      });
+    }
+
+    toast.success("Context saved successfully!");
     onClose();
   };
 
   return (
-    <div
-      className={styles.overlay}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="ctx-modal-title"
-      onClick={onClose}
-    >
+    <div className={styles.overlay} role="dialog" aria-modal="true" onClick={onClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <div className={styles.modalHeader}>
           <div>
-            <h3 id="ctx-modal-title" className={styles.modalTitle}>Add Business Context</h3>
+            <h3 className={styles.modalTitle}>Add Business Context</h3>
             <p className={styles.modalSub}>
-              Help AI generate more relevant recommendations for your business.
+              {business ? `Context for: ${business.business_name}` : 'Help AI generate more relevant recommendations.'}
             </p>
           </div>
           <button type="button" className={styles.closeBtn} onClick={onClose} aria-label="Close">
@@ -143,98 +163,58 @@ export default function BusinessContextModal({ open, onClose }: Props) {
         </div>
 
         <form className={styles.form} onSubmit={handleSubmit}>
-          {/* 1. Marketing Channels (multi-select) */}
-          <div className={styles.field} ref={channelsRef}>
-            <span className={styles.label}><Megaphone size={13} /> Marketing Channels</span>
-            <div
-              className={styles.multiSelect}
-              onClick={() => setChannelsOpen((o) => !o)}
-              role="button"
-              tabIndex={0}
-              aria-expanded={channelsOpen}
-              onKeyDown={(e) => e.key === 'Enter' && setChannelsOpen((o) => !o)}
-            >
-              {form.channels.length === 0 ? (
-                <span className={styles.placeholder}>Select marketing channels…</span>
-              ) : (
-                <div className={styles.tags}>
-                  {form.channels.map((ch) => (
-                    <span key={ch} className={styles.tag}>
-                      {ch}
-                      <button
-                        type="button"
-                        className={styles.tagRemove}
-                        onClick={(e) => { e.stopPropagation(); toggleChannel(ch); }}
-                        aria-label={`Remove ${ch}`}
-                      >
-                        <X size={10} />
-                      </button>
-                    </span>
-                  ))}
-                </div>
-              )}
-              <span className={`${styles.caret} ${channelsOpen ? styles.caretUp : ''}`}>▾</span>
-            </div>
-
-            {channelsOpen && (
-              <div className={styles.dropdown}>
-                {CHANNEL_OPTIONS.map((ch) => {
-                  const selected = form.channels.includes(ch);
-                  return (
-                    <button
-                      key={ch}
-                      type="button"
-                      className={`${styles.option} ${selected ? styles.optionSelected : ''}`}
-                      onClick={() => toggleChannel(ch)}
-                    >
-                      <span className={styles.checkbox}>{selected ? '✓' : ''}</span>
-                      <span className={styles.optionIcon}>{CHANNEL_ICONS[ch] ?? null}</span>
-                      {ch}
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-
-          {/* 2. Target Audience (single-select dropdown) */}
+          
+          {/* 🔥 Target Audience (Required) */}
           <div className={styles.field} ref={audienceRef}>
-            <span className={styles.label}><Users size={13} /> Target Audience</span>
+            <span className={styles.label}>
+              <Users size={13} /> Target Audience <span className={styles.req}>*</span>
+            </span>
             <div
-              className={styles.singleSelect}
+              className={`${styles.multiSelect} ${errors.audience ? styles.errorField : ''}`}
               onClick={() => setAudienceOpen((o) => !o)}
               role="button"
               tabIndex={0}
-              aria-haspopup="listbox"
               aria-expanded={audienceOpen}
-              onKeyDown={(e) => e.key === 'Enter' && setAudienceOpen((o) => !o)}
             >
-              {form.audience ? (
-                <span className={styles.selectedText}>{form.audience}</span>
-              ) : (
+              {form.audience.length === 0 ? (
                 <span className={styles.placeholder}>Select target audience…</span>
+              ) : (
+                <div className={styles.tags}>
+                  {form.audience.map((val) => {
+                    const opt = TARGET_AUDIENCE_OPTIONS.find((o) => o.value === val);
+                    return (
+                      <span key={val} className={styles.tag}>
+                        {opt?.label || val}
+                        <button
+                          type="button"
+                          className={styles.tagRemove}
+                          onClick={(e) => { e.stopPropagation(); toggleAudience(val); }}
+                        >
+                          <X size={10} />
+                        </button>
+                      </span>
+                    );
+                  })}
+                </div>
               )}
-              <ChevronDown
-                size={14}
-                className={`${styles.chev} ${audienceOpen ? styles.chevUp : ''}`}
-              />
+              <ChevronDown size={14} className={`${styles.chev} ${audienceOpen ? styles.chevUp : ''}`} />
             </div>
 
             {audienceOpen && (
               <div className={styles.dropdown} role="listbox">
-                {AUDIENCE_OPTIONS.map((aud) => {
-                  const selected = form.audience === aud;
+                {TARGET_AUDIENCE_OPTIONS.map((opt) => {
+                  const selected = form.audience.includes(opt.value);
                   return (
                     <button
-                      key={aud}
+                      key={opt.value}
                       type="button"
                       role="option"
                       aria-selected={selected}
                       className={`${styles.option} ${selected ? styles.optionSelected : ''}`}
-                      onClick={() => pickAudience(aud)}
+                      onClick={() => toggleAudience(opt.value)}
                     >
                       <span className={styles.checkbox}>{selected ? '✓' : ''}</span>
-                      {aud}
+                      {opt.label}
                     </button>
                   );
                 })}
@@ -242,48 +222,51 @@ export default function BusinessContextModal({ open, onClose }: Props) {
             )}
           </div>
 
-          {/* 3. Goals + Challenges */}
-          <div className={styles.twoCol}>
-            <label className={styles.field}>
-              <span className={styles.label}><Target size={13} /> Business Goals</span>
-              <input
-                name="goals"
-                className={styles.input}
-                value={form.goals}
-                onChange={handleChange}
-                placeholder="e.g. Increase Sales"
-              />
-            </label>
-
-            <label className={styles.field}>
-              <span className={styles.label}><AlertTriangle size={13} /> Challenges</span>
-              <input
-                name="challenges"
-                className={styles.input}
-                value={form.challenges}
-                onChange={handleChange}
-                placeholder="e.g. Low Engagement"
-              />
-            </label>
-          </div>
-
-          {/* 4. AI Instruction */}
+          {/* 🔥 Business Goals (Required) */}
           <label className={styles.field}>
-            <span className={styles.label}><Sparkles size={13} /> AI Instruction</span>
+            <span className={styles.label}>
+              <Target size={13} /> Business Goals <span className={styles.req}>*</span>
+            </span>
+            <input
+              name="goals"
+              className={`${styles.input} ${errors.goals ? styles.errorField : ''}`}
+              value={form.goals}
+              onChange={handleChange}
+              placeholder="e.g. Increase Sales"
+            />
+          </label>
+
+          {/* 🔥 Challenges (Required) */}
+          <label className={styles.field}>
+            <span className={styles.label}>
+              <AlertTriangle size={13} /> Challenges <span className={styles.req}>*</span>
+            </span>
+            <input
+              name="challenges"
+              className={`${styles.input} ${errors.challenges ? styles.errorField : ''}`}
+              value={form.challenges}
+              onChange={handleChange}
+              placeholder="e.g. Low Engagement"
+            />
+          </label>
+
+          {/* 🔥 AI Instruction (Optional) */}
+          <label className={styles.field}>
+            <span className={styles.label}>
+              <Sparkles size={13} /> AI Instruction <span className={styles.optional}>(Optional)</span>
+            </span>
             <textarea
               name="instruction"
               className={styles.textarea}
               value={form.instruction}
               onChange={handleChange}
-              placeholder="e.g. Focus on low-cost strategies for Instagram, prioritize retention over acquisition…"
+              placeholder="e.g. Focus on low-cost strategies for Instagram…"
               rows={3}
             />
           </label>
 
           <div className={styles.modalActions}>
-            <button type="button" className={styles.cancelBtn} onClick={onClose}>
-              Cancel
-            </button>
+            <button type="button" className={styles.cancelBtn} onClick={onClose}>Cancel</button>
             <button type="submit" className={styles.submitBtn}>
               <Plus size={13} /> Save Context
             </button>

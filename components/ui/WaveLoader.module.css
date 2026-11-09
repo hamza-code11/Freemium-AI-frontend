@@ -1,0 +1,42 @@
+/* components/ui/WaveLoader.module.css */
+
+.waveContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px; /* Thoda gap badhaya taaki dots alag dikhein */
+  height: 48px;
+}
+
+.wave {
+  display: block;
+  width: 8px;
+  height: 32px;
+  
+  /* 🔥 Global Variable use karein: Light mode me Dark, Dark mode me Light */
+  background-color: var(--color-accent-primary); 
+  
+  /* Agar aapko theme ke hisaab se Dark/Light color chahiye to ye use karein: */
+  /* background-color: var(--color-text-primary); */
+  
+  border-radius: var(--radius-full); /* Pill shape */
+  animation: wave 1.2s ease-in-out infinite;
+}
+
+/* Har wave ko alag delay dein taaki wave jaisa lage */
+.wave:nth-child(1) { animation-delay: -0.8s; }
+.wave:nth-child(2) { animation-delay: -0.6s; }
+.wave:nth-child(3) { animation-delay: -0.4s; }
+.wave:nth-child(4) { animation-delay: -0.2s; }
+.wave:nth-child(5) { animation-delay: 0s; }
+
+@keyframes wave {
+  0%, 100% {
+    transform: scaleY(0.5); /* Chota */
+    opacity: 0.5;
+  }
+  50% {
+    transform: scaleY(1.2); /* Bada */
+    opacity: 1;
+  }
+}

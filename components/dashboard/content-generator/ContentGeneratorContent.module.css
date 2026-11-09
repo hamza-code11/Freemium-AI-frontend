@@ -27,8 +27,14 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
   gap: var(--space-5);
-  align-items: start;
+  align-items: stretch;
 }
+
+
+.grid > * {
+  min-height: 500px; 
+}
+
 
 @media (max-width: 1024px) {
   .grid {

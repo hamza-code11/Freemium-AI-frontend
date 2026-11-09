@@ -25,8 +25,86 @@
 .skeleton i{height:10px;border-radius:var(--radius-full);background:var(--color-bg-tertiary);animation:pulse 1.2s ease-in-out infinite}
 @keyframes pulse{50%{opacity:.45}}
 @media (prefers-reduced-motion:reduce){.skeleton i{animation:none}}
-.tip{display:flex;gap:var(--space-3);padding:var(--space-4);border:1px solid color-mix(in srgb,var(--warning) 25%,var(--color-border));border-radius:var(--radius-lg);background:color-mix(in srgb,var(--warning) 8%,var(--color-bg-primary))}
-.tipIcon{flex-shrink:0;margin-top:1px;color:var(--warning)}
-.tip strong{display:block;margin-bottom:2px;font-size:var(--text-sm);color:var(--color-text-primary)}
-.tip p{font-size:var(--text-xs);line-height:1.5;color:var(--color-text-secondary)}
 @media (max-width:480px){.panel{padding:var(--space-4)}.box{padding:var(--space-4)}}
+
+
+
+
+
+
+/* ContentGeneratorOutput.module.css me add karein */
+
+/* 🔥 Panel ki minimum height */
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-6);
+  min-width: 0;
+  min-height: 500px; /* 🔥 Height set ki taaki left panel se match kare */
+}
+
+/* 🔥 Box ko full height do */
+.box {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  background: var(--color-bg-primary);
+  flex: 1; /* 🔥 box bhi full height le */
+  display: flex;
+  flex-direction: column;
+}
+
+/* 🔥 Loading Animation */
+.loadingWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  flex: 1;
+  min-height: 250px;
+}
+
+.loadingText {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-secondary);
+}
+
+/* 🔥 Empty State */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  flex: 1;
+  min-height: 250px;
+  text-align: center;
+}
+
+.emptyIcon {
+  color: var(--color-text-tertiary);
+  opacity: 0.5;
+}
+
+.emptySub {
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+}
+
+/* 🔥 Text ko expand karein */
+.text {
+  margin-bottom: var(--space-5);
+  font-size: var(--text-sm);
+  line-height: 1.75;
+  color: var(--color-text-primary);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  flex: 1;
+}

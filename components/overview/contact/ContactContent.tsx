@@ -79,7 +79,7 @@ export default function ContactContent() {
               <div className={styles.successState}>
                 <div className={styles.successIcon}>✓</div>
                 <h3>Message Sent!</h3>
-                <p>We'll get back to you within 24 hours.</p>
+                <p>We'll get back to you within 3 Days.</p>
                 <button className={styles.resetBtn} onClick={() => setFormStatus('idle')}>
                   Send Another
                 </button>

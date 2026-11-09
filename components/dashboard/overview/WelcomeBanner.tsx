@@ -2,20 +2,35 @@
 
 import { useEffect, useState } from 'react';
 import { Megaphone, FileText, BarChart3, Sparkles } from 'lucide-react';
+import { useProfile } from '@/context/ProfileContext';
 import styles from './WelcomeBanner.module.css';
 
-const getGreeting = (h: number) => (h < 12 ? 'Good morning' : h < 18 ? 'Good afternoon' : 'Good evening');
+// 🔥 Updated Logic (Sahi time brackets)
+const getGreeting = (h: number) => {
+  if (h >= 5 && h < 12) return 'Good morning';
+  if (h >= 12 && h < 17) return 'Good afternoon';
+  if (h >= 17 && h < 21) return 'Good evening';
+  return 'Good night'; // 9 PM se 5 AM tak
+};
 
-export default function WelcomeBanner({ userName = 'Hamza' }: { userName?: string }) {
-  const [greeting, setGreeting] = useState('Good morning');
-  useEffect(() => setGreeting(getGreeting(new Date().getHours())), []);
+export default function WelcomeBanner() {
+  const { user } = useProfile();
+  const [greeting, setGreeting] = useState<string>('');
+
+  useEffect(() => {
+    const hour = new Date().getHours();
+    setGreeting(getGreeting(hour));
+  }, []);
+
+  const userName = user?.name ? user.name.split(' ')[0] : 'User';
 
   return (
     <section className={styles.banner} aria-label="Welcome">
       <div className={styles.text}>
         <h1 className={styles.title}>
           <span className={styles.wave} aria-hidden="true">👋</span>
-          {greeting}, {userName}!
+          {/* Agar greeting load nahi hui, to fallback text dikhayein */}
+          {greeting ? `${greeting}, ${userName}!` : `Welcome, ${userName}!`}
         </h1>
         <p className={styles.desc}>
           Let&apos;s grow your business with the power of AI. Create amazing content, plan effective

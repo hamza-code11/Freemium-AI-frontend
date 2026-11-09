@@ -1,49 +1,101 @@
+// components/dashboard/campaign-planner/RecentCampaigns.tsx
+'use client';
+
 import Link from 'next/link';
-import { ArrowRight, Clock, Gift, Shirt, Tag, UserRound } from 'lucide-react';
+import { ArrowRight, Clock, Megaphone } from 'lucide-react';
+import { useState } from 'react'; //  Import
+import { useHistory } from '@/hooks/useHistory';
+import { HistoryItem as HistoryItemType } from '@/services/history.service';
+import HistoryViewModal from '@/components/dashboard/history/HistoryViewModal'; //  Import
 import styles from './RecentCampaigns.module.css';
 
-const CAMPAIGNS = [
-  { title: 'Spring Collection Launch', date: 'Apr 12, 2025', type: 'Brand Awareness', status: 'Active', icon: Shirt, image: '' },
-  { title: 'Summer Sale Campaign', date: 'Apr 5, 2025', type: 'Increase Sales', status: 'Completed', icon: Tag, image: '' },
-  { title: 'New Collection - Women', date: 'Mar 28, 2025', type: 'Generate Leads', status: 'Draft', icon: UserRound, image: '' },
-  { title: 'Holiday Special Campaign', date: 'Mar 20, 2025', type: 'Customer Engagement', status: 'Active', icon: Gift, image: '' },
-];
-
-const statusClass: Record<string, string> = {
-  Active: styles.active,
-  Completed: styles.completed,
-  Draft: styles.draft,
-};
-
 export default function RecentCampaigns() {
-  return (
-    <section className={styles.card} aria-labelledby="cp-recent-title">
-      <div className={styles.head}>
-        <h2 id="cp-recent-title" className={styles.title}>
-          <Clock size={18} className={styles.titleIcon} /> Recent Campaigns
-        </h2>
-        <Link href="/dashboard/campaigns" className={styles.link}>
-          View All <ArrowRight size={12} />
-        </Link>
-      </div>
+  const [selectedItem, setSelectedItem] = useState<HistoryItemType | null>(null); //  State
 
-      <div className={styles.grid}>
-        {CAMPAIGNS.map(({ title, date, type, status, icon: Icon, image }) => (
-          <article key={title} className={styles.item}>
-            <div className={styles.thumb}>
-              {image ? <img src={image} alt="" className={styles.img} /> : <Icon size={24} aria-hidden="true" />}
-            </div>
-            <div className={styles.info}>
-              <h3 className={styles.itemTitle}>{title}</h3>
-              <p className={styles.meta}>{date}</p>
-              <p className={styles.metaDark}>{type}</p>
-              <span className={`${styles.status} ${statusClass[status]}`}>
-                <span className={styles.dot} /> {status}
-              </span>
-            </div>
-          </article>
-        ))}
-      </div>
-    </section>
+  const { items, loading } = useHistory({
+    type_filter: 'campaign',
+    date_range: 'all',
+    custom_from: '',
+    custom_to: '',
+    sort: 'latest',
+    search: '',
+    page: 1,
+  });
+
+  const recentCampaigns = items.slice(0, 4);
+
+  return (
+    <>
+      <section className={styles.card} aria-labelledby="cp-recent-title">
+        
+        <div className={styles.head}>
+          <h2 id="cp-recent-title" className={styles.title}>
+            <Clock size={18} className={styles.titleIcon} /> Recent Campaigns
+          </h2>
+          <Link 
+            href="/dashboard/history?type=campaign" 
+            className={styles.link}
+          >
+            View All <ArrowRight size={12} />
+          </Link>
+        </div>
+
+        {loading ? (
+          <div className={styles.grid}>
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className={styles.itemSkeleton}>
+                <div className={styles.skeletonThumb} />
+                <div className={styles.skeletonInfo}>
+                  <div className={styles.skeletonLine} />
+                  <div className={styles.skeletonLineShort} />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : recentCampaigns.length === 0 ? (
+          <div className={styles.emptyState}>
+            <Megaphone size={32} />
+            <p>No campaigns yet. Generate your first one!</p>
+          </div>
+        ) : (
+          <div className={styles.grid}>
+            {recentCampaigns.map((c) => {
+              const date = new Date(c.created_at).toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+              });
+              const objective = c.metadata?.objective || 'Campaign';
+
+              return (
+                <button
+                  key={`${c.type}-${c.id}`}
+                  type="button"
+                  onClick={() => setSelectedItem(c)} //  Modal open
+                  className={styles.item}
+                >
+                  <div className={styles.thumb}>
+                    <Megaphone size={16} />
+                  </div>
+                  
+                  <div className={styles.info}>
+                    <h3 className={styles.itemTitle}>{c.title}</h3>
+                    <p className={styles.meta}>{date}</p>
+                    <p className={styles.metaDark}>{objective}</p>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        )}
+
+      </section>
+
+      {/*  Modal */}
+      <HistoryViewModal
+        item={selectedItem}
+        onClose={() => setSelectedItem(null)}
+      />
+    </>
   );
 }

@@ -20,7 +20,7 @@ const XLogo = () => (
   </svg>
 );
 
-const FORMATS = ['Social Posts', 'Captions', 'Ad Copy', 'Product Descriptions'];
+const FORMATS = ['Social Posts', 'Ad Copy', 'Product Descriptions'];
 
 export default function ContentGeneratorHeader() {
   return (

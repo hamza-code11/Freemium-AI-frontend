@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from './providers/ThemeProvider';
 import Script from 'next/script';
+import { Toaster } from 'react-hot-toast';
+import { ProfileProvider } from '@/context/ProfileContext'; 
+import { AdminProvider } from '@/context/AdminContext';
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -61,7 +64,26 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <ProfileProvider>
+            <AdminProvider>
+
+          <Toaster
+            position="bottom-right"
+            toastOptions={{
+              style: {
+                background: '#333',
+                color: '#fff',
+                fontSize: '14px',
+              },
+              success: { duration: 3000 },
+              error: { duration: 4000 },
+            }}
+          />
+          {children}
+          </AdminProvider>
+          </ProfileProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

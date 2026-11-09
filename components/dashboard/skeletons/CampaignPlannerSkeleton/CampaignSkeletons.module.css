@@ -1,0 +1,108 @@
+/* components/dashboard/skeletons/CampaignPlannerSkeleton/CampaignSkeletons.module.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  max-width: 1320px;
+  margin: 0 auto;
+  width: 100%;
+  padding-bottom: var(--space-6);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.28fr);
+  gap: var(--space-5);
+  align-items: stretch;
+}
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* 🔥 Common Shimmer */
+.skeleton {
+  background: linear-gradient(90deg, var(--color-bg-tertiary) 25%, var(--color-bg-secondary) 50%, var(--color-bg-tertiary) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: var(--radius-md);
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* 🔥 Header Skeleton */
+.header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  padding: var(--space-6) var(--space-8);
+  border-radius: var(--radius-xl);
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  min-height: 140px;
+}
+.headerContent { display: flex; flex-direction: column; gap: var(--space-2); width: 100%; max-width: 600px; }
+.headerTitle { width: 250px; height: 32px; }
+.headerSubtitle { width: 100%; height: 16px; }
+.headerVisual { width: 300px; height: 100px; flex-shrink: 0; }
+
+/* 🔥 Form Skeleton */
+.card {
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  min-height: 500px;
+}
+.formHead { display: flex; justify-content: space-between; align-items: center; }
+.formTitle { width: 180px; height: 24px; }
+.formBtn { width: 120px; height: 36px; }
+.formLabel { width: 100px; height: 14px; }
+.formInput { width: 100%; height: 44px; }
+.objectives { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--space-2); }
+.objectiveCard { height: 60px; }
+.channels { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+.channelPill { width: 120px; height: 36px; }
+.formRow { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+.textarea { width: 100%; height: 100px; }
+.submitBtn { width: 100%; height: 48px; margin-top: var(--space-4); }
+
+/* 🔥 Plan Skeleton */
+.planOverview { display: flex; gap: var(--space-4); align-items: center; padding: var(--space-4); border: 1px solid var(--color-border); border-radius: var(--radius-lg); }
+.planThumb { width: 72px; height: 64px; }
+.planInfo { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.planTitle { width: 200px; height: 20px; }
+.planDesc { width: 100%; height: 14px; }
+.block { padding: var(--space-4); border: 1px solid var(--color-border); border-radius: var(--radius-lg); display: flex; flex-direction: column; gap: var(--space-3); }
+.blockTitle { width: 150px; height: 18px; }
+.blockText { width: 100%; height: 14px; }
+.blockTextShort { width: 60%; height: 14px; }
+.triple { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); }
+.weeks { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-3); }
+.weekCard { height: 80px; }
+
+/* 🔥 Recent Skeleton */
+.recentItem { display: flex; gap: var(--space-3); padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md); }
+.recentThumb { width: 64px; height: 80px; }
+.recentInfo { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.recentTitle { width: 80%; height: 14px; }
+.recentMeta { width: 50%; height: 12px; }
+
+@media (max-width: 480px) {
+  .headerVisual { display: none; }
+  .objectives { grid-template-columns: repeat(2, 1fr); }
+  .formRow { grid-template-columns: 1fr; }
+  .triple { grid-template-columns: 1fr; }
+  .weeks { grid-template-columns: repeat(2, 1fr); }
+}

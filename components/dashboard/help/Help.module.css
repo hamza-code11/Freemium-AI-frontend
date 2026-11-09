@@ -1,0 +1,39 @@
+/* components/dashboard/help/Help.module.css */
+
+/* ============================================
+   CONTAINER
+============================================ */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  padding-bottom: var(--space-8);
+}
+
+/* ============================================
+   2-COLUMN GRID (FAQ 45% + Form 55%)
+============================================ */
+.twoColumnGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 45fr) minmax(0, 55fr);
+  gap: var(--space-6);
+  align-items: flex-start;
+}
+
+/* ============================================
+   RESPONSIVE
+============================================ */
+@media (max-width: 1024px) {
+  .twoColumnGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    gap: var(--space-4);
+  }
+}

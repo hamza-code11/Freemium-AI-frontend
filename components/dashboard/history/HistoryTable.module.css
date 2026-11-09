@@ -1,3 +1,5 @@
+/* components/dashboard/history/HistoryTable.module.css */
+
 .tableCard {
   background: var(--color-bg-primary);
   border: 1px solid var(--color-border);
@@ -59,12 +61,6 @@
   flex-shrink: 0;
 }
 
-.txtIcon {
-  font-size: 14px;
-  font-weight: 700;
-  color: #3B82F6;
-}
-
 .rowTitle {
   font-size: var(--text-sm);
   font-weight: var(--font-semibold);
@@ -85,7 +81,7 @@
 .previewCell {
   font-size: var(--text-sm);
   color: var(--color-text-secondary);
-  max-width: 250px;
+  max-width: 400px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -104,39 +100,27 @@
   margin-top: 2px;
 }
 
-.platformBadge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background: var(--color-bg-secondary);
-  border: 1px solid var(--color-border);
-  padding: 4px 8px;
-  border-radius: var(--radius-md);
-  font-size: 11px;
-  color: var(--color-text-secondary);
-}
-
-.mutedText {
-  color: var(--color-text-tertiary);
-}
-
 .centerText {
   text-align: center;
 }
 
-.iconBtn {
-  background: transparent;
-  border: none;
+.viewBtn {
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
   cursor: pointer;
-  padding: 4px;
-  border-radius: var(--radius-sm);
+  padding: 8px;
+  border-radius: var(--radius-md);
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  color: var(--color-text-secondary);
+  transition: all 0.15s;
 }
 
-.iconBtn:hover {
-  background: var(--color-bg-tertiary);
+.viewBtn:hover {
+  background: var(--color-accent-secondary);
+  color: var(--color-accent-primary);
+  border-color: var(--color-accent-primary);
 }
 
 /* Pagination */
@@ -185,16 +169,4 @@
   background: var(--color-accent-primary);
   color: var(--color-bg-primary);
   border-color: var(--color-accent-primary);
-}
-
-.loadMoreBtn {
-  background: transparent;
-  border: 1px solid var(--color-accent-primary);
-  color: var(--color-accent-primary);
-  padding: 6px 12px;
-  border-radius: var(--radius-md);
-  font-size: var(--text-xs);
-  font-weight: var(--font-medium);
-  margin-left: var(--space-2);
-  cursor: pointer;
 }

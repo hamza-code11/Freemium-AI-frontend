@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from "next/link";
 import ThemeToggle from '@/components/ui/ThemeToggle';
+import { useProfile } from '@/context/ProfileContext';
 import styles from './Navbar.module.css';
 
 const NAV_LINKS = [
@@ -14,6 +15,8 @@ const NAV_LINKS = [
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // 🔥 Context se user nikaalein
+  const { user } = useProfile(); 
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
   const closeMenu = () => setIsMenuOpen(false);
@@ -22,13 +25,13 @@ export default function Navbar() {
     <nav className={styles.navbar}>
       <div className={styles.navContainer}>
 
-        {/* LEFT: LOGO IMAGE (No Box) */}
+        {/* LEFT: LOGO IMAGE */}
         <a href="/" className={styles.logo} onClick={closeMenu}>
           <Image
             src="/logo/logo.png"
             alt="Freemium AI Logo"
-            width={180}  // Size barha diya
-            height={50}  // Size barha diya
+            width={180}
+            height={50}
             className={styles.logoImg}
             priority
           />
@@ -47,13 +50,21 @@ export default function Navbar() {
         <div className={styles.desktopNavRight}>
           <ThemeToggle />
           <div className={styles.navActions}>
-            <Link href="/login" className={styles.btnLogin}>
-              Log in
-            </Link>
-
-            <Link href="/register" className={styles.btnSignup}>
-              Get Started
-            </Link>
+            {/* 🔥 CONDITION: Agar user login hai to Dashboard dikhao, warna Login/Register */}
+            {user ? (
+              <Link href="/dashboard" className={styles.btnSignup}>
+                Dashboard
+              </Link>
+            ) : (
+              <>
+                <Link href="/login" className={styles.btnLogin}>
+                  Log in
+                </Link>
+                <Link href="/register" className={styles.btnSignup}>
+                  Get Started
+                </Link>
+              </>
+            )}
           </div>
         </div>
 
@@ -85,7 +96,6 @@ export default function Navbar() {
       {/* MOBILE SIDEBAR */}
       <aside className={`${styles.sidebar} ${isMenuOpen ? styles.sidebarOpen : ''}`}>
         <div className={styles.sidebarHeader}>
-          {/* Mobile menu mein bhi bada logo */}
           <Image
             src="/logo/logo.png"
             alt="Freemium AI Logo"
@@ -115,13 +125,21 @@ export default function Navbar() {
         </div>
 
         <div className={styles.sidebarActions}>
-          <Link href="/login" className={styles.btnLoginMobile} onClick={closeMenu}>
-            Log in
-          </Link>
-
-          <Link href="/register" className={styles.btnSignupMobile} onClick={closeMenu}>
-            Get Started
-          </Link>
+          {/* 🔥 CONDITION: Mobile me bhi Dashboard show hoga agar user login hai */}
+          {user ? (
+            <Link href="/dashboard" className={styles.btnSignupMobile} onClick={closeMenu}>
+              Go to Dashboard
+            </Link>
+          ) : (
+            <>
+              <Link href="/login" className={styles.btnLoginMobile} onClick={closeMenu}>
+                Log in
+              </Link>
+              <Link href="/register" className={styles.btnSignupMobile} onClick={closeMenu}>
+                Get Started
+              </Link>
+            </>
+          )}
         </div>
       </aside>
     </nav>

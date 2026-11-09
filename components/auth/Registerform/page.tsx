@@ -2,8 +2,10 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, type FormEvent, type ReactNode } from 'react';
-import { ArrowLeft } from 'lucide-react';
+import { useState, useRef, useEffect, type FormEvent, type ReactNode } from 'react';
+import { ArrowLeft, ChevronDown } from 'lucide-react';
+import toast from 'react-hot-toast';
+import { useAuth } from '@/hooks/useAuth';
 import styles from './Registerform.module.css';
 
 /* ---------- Local components (register only) ---------- */
@@ -94,6 +96,22 @@ const BUSINESS_TYPES = [
   'Education', 'Healthcare', 'Food & Restaurant', 'Consulting', 'Freelancing', 'Other',
 ];
 
+// 🔥 Backend Enum ke mutabiq Target Audience Options
+const TARGET_AUDIENCE_OPTIONS = [
+  { value: 'kids_men', label: 'Kids (Men)' },
+  { value: 'kids_women', label: 'Kids (Women)' },
+  { value: 'teenagers_men', label: 'Teenagers (Men)' },
+  { value: 'teenagers_women', label: 'Teenagers (Women)' },
+  { value: 'young_adults_men', label: 'Young Adults (Men)' },
+  { value: 'young_adults_women', label: 'Young Adults (Women)' },
+  { value: 'young_men', label: 'Young Men' },
+  { value: 'young_women', label: 'Young Women' },
+  { value: 'middle_age_men', label: 'Middle Age (Men)' },
+  { value: 'middle_age_women', label: 'Middle Age (Women)' },
+  { value: 'seniors_men', label: 'Seniors (Men)' },
+  { value: 'seniors_women', label: 'Seniors (Women)' },
+];
+
 export type RegisterValues = {
   userName: string;
   email: string;
@@ -102,7 +120,7 @@ export type RegisterValues = {
   businessName: string;
   businessType: string;
   services: string;
-  targetAudience: string;
+  targetAudience: string[]; // 🔥 Ab string array hai
   businessGoals: string;
   businessDescription: string;
 };
@@ -111,7 +129,7 @@ type RegisterErrors = Partial<Record<keyof RegisterValues, string>>;
 
 const INITIAL: RegisterValues = {
   userName: '', email: '', password: '', confirmPassword: '',
-  businessName: '', businessType: '', services: '', targetAudience: '',
+  businessName: '', businessType: '', services: '', targetAudience: [],
   businessGoals: '', businessDescription: '',
 };
 
@@ -130,7 +148,7 @@ function validate(v: RegisterValues): RegisterErrors {
   if (!v.businessName.trim()) e.businessName = 'Enter your business name.';
   if (!v.businessType) e.businessType = 'Select a business type.';
   if (!v.services.trim()) e.services = 'List at least one service or product.';
-  if (!v.targetAudience.trim()) e.targetAudience = 'Describe who you serve.';
+  if (v.targetAudience.length === 0) e.targetAudience = 'Select at least one target audience.';
   return e;
 }
 
@@ -145,17 +163,38 @@ function passwordStrength(pw: string): { score: number; label: string } {
 }
 
 /* ---------- Form ---------- */
-export default function RegisterForm({ onSubmit }: { onSubmit?: (values: RegisterValues) => Promise<void> }) {
+export default function RegisterForm() {
+  const { handleRegister, loading } = useAuth();
+  
   const [values, setValues] = useState<RegisterValues>(INITIAL);
   const [errors, setErrors] = useState<RegisterErrors>({});
-  const [loading, setLoading] = useState(false);
-  const [formMessage, setFormMessage] = useState<string | null>(null);
+  const [isAudienceOpen, setIsAudienceOpen] = useState(false);
+  const audienceRef = useRef<HTMLDivElement>(null);
 
   const strength = passwordStrength(values.password);
 
-  const update = (key: keyof RegisterValues, value: string) => {
+  // Click outside to close dropdown
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (audienceRef.current && !audienceRef.current.contains(event.target as Node)) {
+        setIsAudienceOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const update = (key: keyof RegisterValues, value: any) => {
     setValues((prev) => ({ ...prev, [key]: value }));
     if (errors[key]) setErrors((prev) => ({ ...prev, [key]: undefined }));
+  };
+
+  const toggleAudience = (value: string) => {
+    const current = values.targetAudience;
+    const updated = current.includes(value)
+      ? current.filter((v) => v !== value)
+      : [...current, value];
+    update('targetAudience', updated);
   };
 
   const errProps = (key: keyof RegisterValues, id: string) => ({
@@ -166,25 +205,33 @@ export default function RegisterForm({ onSubmit }: { onSubmit?: (values: Registe
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (loading) return;
-    setFormMessage(null);
+
     const found = validate(values);
     setErrors(found);
+    
     if (Object.keys(found).length > 0) {
-      document.getElementById(`reg-${Object.keys(found)[0]}`)?.focus();
+      const firstErrorKey = Object.keys(found)[0] as keyof RegisterValues;
+      toast.error(found[firstErrorKey] as string);
+      document.getElementById(`reg-${firstErrorKey}`)?.focus();
       return;
     }
-    if (!onSubmit) {
-      setFormMessage('Registration is not connected to a backend yet.');
-      return;
-    }
-    setLoading(true);
-    try {
-      await onSubmit({ ...values, email: values.email.trim() });
-    } catch {
-      setFormMessage("We couldn't create your account. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+
+    // 🔥 Backend Schema ke mutabiq Payload tayar karein
+    const payload = {
+      name: values.userName.trim(),
+      email: values.email.trim(),
+      password: values.password,
+      business: {
+        business_name: values.businessName.trim(),
+        business_type: values.businessType,
+        services: values.services.trim(),
+        target_audience: values.targetAudience, // Ab ye ek Array hai
+        business_goals: values.businessGoals.trim() || null,
+        business_description: values.businessDescription.trim() || null,
+      }
+    };
+
+    await handleRegister(payload);
   }
 
   return (
@@ -194,7 +241,6 @@ export default function RegisterForm({ onSubmit }: { onSubmit?: (values: Registe
           <Link href="/login" className={styles.backBtn}>
             <ArrowLeft size={18} /> Back
           </Link>
-          {/* <Logo /> */}
         </div>
         <p className={styles.topSwitch}>
           Already have an account? <Link href="/login">Login</Link>
@@ -208,7 +254,7 @@ export default function RegisterForm({ onSubmit }: { onSubmit?: (values: Registe
         </div>
 
         <form onSubmit={handleSubmit} noValidate className={styles.form}>
-          <fieldset className={styles.group}>
+          <fieldset className={styles.group} disabled={loading}>
             <legend className={styles.legend}>Account Details</legend>
             <div className={styles.grid}>
               <Field id="reg-userName" label="User Name" required error={errors.userName}>
@@ -232,7 +278,7 @@ export default function RegisterForm({ onSubmit }: { onSubmit?: (values: Registe
             </div>
           </fieldset>
 
-          <fieldset className={styles.group}>
+          <fieldset className={styles.group} disabled={loading}>
             <legend className={styles.legend}>Business Profile</legend>
             <div className={styles.grid}>
               <Field id="reg-businessName" label="Business Name" required error={errors.businessName}>
@@ -247,9 +293,47 @@ export default function RegisterForm({ onSubmit }: { onSubmit?: (values: Registe
               <Field id="reg-services" label="Services / Products" required error={errors.services}>
                 <input id="reg-services" type="text" placeholder="e.g. Web Development..." value={values.services} onChange={(e) => update('services', e.target.value)} className={styles.input} {...errProps('services', 'reg-services')} />
               </Field>
+              
+              {/* 🔥 Custom Multi-Select Dropdown for Target Audience */}
               <Field id="reg-targetAudience" label="Target Audience" required error={errors.targetAudience}>
-                <input id="reg-targetAudience" type="text" placeholder="e.g. Small Businesses..." value={values.targetAudience} onChange={(e) => update('targetAudience', e.target.value)} className={styles.input} {...errProps('targetAudience', 'reg-targetAudience')} />
+                <div className={styles.dropdownWrapper} ref={audienceRef}>
+                  <div 
+                    className={`${styles.input} ${styles.dropdownTrigger}`}
+                    onClick={() => setIsAudienceOpen(!isAudienceOpen)}
+                    tabIndex={0}
+                    onKeyDown={(e) => { if(e.key === 'Enter') setIsAudienceOpen(!isAudienceOpen) }}
+                    {...errProps('targetAudience', 'reg-targetAudience')}
+                  >
+                    {values.targetAudience.length === 0 ? (
+                      <span className={styles.dropdownPlaceholder}>Select target audience</span>
+                    ) : (
+                      <div className={styles.selectedTags}>
+                        {values.targetAudience.map(val => {
+                          const opt = TARGET_AUDIENCE_OPTIONS.find(o => o.value === val);
+                          return <span key={val} className={styles.tag}>{opt?.label}</span>
+                        })}
+                      </div>
+                    )}
+                    <ChevronDown size={16} className={`${styles.dropdownIcon} ${isAudienceOpen ? styles.rotate : ''}`} />
+                  </div>
+
+                  {isAudienceOpen && (
+                    <div className={styles.dropdownMenu}>
+                      {TARGET_AUDIENCE_OPTIONS.map(opt => (
+                        <label key={opt.value} className={styles.dropdownItem}>
+                          <input
+                            type="checkbox"
+                            checked={values.targetAudience.includes(opt.value)}
+                            onChange={() => toggleAudience(opt.value)}
+                          />
+                          <span>{opt.label}</span>
+                        </label>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </Field>
+
               <Field id="reg-businessGoals" label="Business Goals" className={styles.full}>
                 <textarea id="reg-businessGoals" rows={3} placeholder="e.g. Increase sales..." value={values.businessGoals} onChange={(e) => update('businessGoals', e.target.value)} className={`${styles.input} ${styles.textarea}`} />
               </Field>
@@ -258,8 +342,6 @@ export default function RegisterForm({ onSubmit }: { onSubmit?: (values: Registe
               </Field>
             </div>
           </fieldset>
-
-          {formMessage && <p className={styles.formMessage} role="status">{formMessage}</p>}
 
           <div className={styles.submitBar}>
             <button type="submit" className={styles.submit} disabled={loading} aria-busy={loading}>

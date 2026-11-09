@@ -67,3 +67,22 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* app/dashboard/DashboardPage.module.css */
+
+/* 🔥 Charts Row (70% / 30%) */
+.chartsRow {
+  display: grid;
+  grid-template-columns: 7fr 3fr; /* 70% : 30% */
+  gap: var(--space-5);
+  align-items: stretch;
+}
+
+/* ... (baaki CSS same) ... */
+
+@media (max-width: 1024px) {
+  .chartsRow {
+    grid-template-columns: 1fr;
+  }
+}
+

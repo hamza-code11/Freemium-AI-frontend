@@ -1,70 +1,122 @@
+// components/dashboard/growth-recommendations/Businesscontextbar.tsx
 'use client';
 
-import { AlertTriangle, Flag, Globe, Heart, Megaphone, Target, UserPlus, Users } from 'lucide-react';
-import { FacebookIcon, InstagramIcon } from './Icons';
+import { AlertTriangle, Sparkles, Target, Users, Pencil } from 'lucide-react';
+import { useProfile } from '@/context/ProfileContext';
+import BusinessContextModal from './BusinessContextModal';
 import styles from './Businesscontextbar.module.css';
 
-const GOALS = [
-  { label: 'Increase Sales', icon: Target, active: true },
-  { label: 'Build Brand Awareness', icon: Flag },
-  { label: 'Acquire New Customers', icon: UserPlus },
-  { label: 'Improve Customer Retention', icon: Heart },
-];
-const CHALLENGES = ['Low Engagement', 'Limited Budget', 'Low Website Traffic', 'Low Conversions'];
-
-const INITIAL_CHANNELS = [
-  { label: 'Instagram', color: '#e1306c' },
-  { label: 'Facebook', color: '#1877f2' },
-  { label: 'Website', color: '#5b4fe6' },
-];
-
-const CHANNEL_ICONS: Record<string, React.ReactNode> = {
-  Instagram: <InstagramIcon size={14} />,
-  Facebook: <FacebookIcon size={14} />,
+const AUDIENCE_LABELS: Record<string, string> = {
+  kids_men: 'Kids (Men)', kids_women: 'Kids (Women)',
+  teenagers_men: 'Teenagers (Men)', teenagers_women: 'Teenagers (Women)',
+  young_adults_men: 'Young Adults (Men)', young_adults_women: 'Young Adults (Women)',
+  young_men: 'Young Men', young_women: 'Young Women',
+  middle_age_men: 'Middle Age (Men)', middle_age_women: 'Middle Age (Women)',
+  seniors_men: 'Seniors (Men)', seniors_women: 'Seniors (Women)',
 };
 
-export default function BusinessContextBar() {
+interface ContextData {
+  businessGoals: string;
+  challenges: string;
+  audience: string[];
+  instruction: string;
+}
+
+interface Props {
+  selectedBusinessId?: number | null;
+  aiInstruction?: string;
+  onOpenModal: () => void;
+  modalOpen: boolean;
+  onCloseModal: () => void;
+  onSaveContext?: (data: ContextData) => void;
+  contextData?: ContextData | null; // 🔥 Naya prop
+}
+
+export default function BusinessContextBar({ 
+  selectedBusinessId, 
+  aiInstruction,
+  onOpenModal,
+  modalOpen,
+  onCloseModal,
+  onSaveContext,
+  contextData, // 🔥 Naya
+}: Props) {
+  const { user } = useProfile();
+  const business = user?.business_profiles?.find(b => b.id === selectedBusinessId);
+
+  // 🔥 Business Goals: Modal ka data pehle, fir Business Profile
+  const businessGoals = contextData?.businessGoals 
+    || business?.business_goals 
+    || 'No goals specified.';
+
+  // 🔥 Challenges: Sirf modal ka data
+  const challenges = contextData?.challenges || '';
+
+  // 🔥 Audience: Modal ka data pehle, fir Business Profile
+  const targetAudience = contextData?.audience && contextData.audience.length > 0
+    ? contextData.audience
+    : business?.target_audience || [];
+
   return (
-    <section className={styles.bar} aria-label="Business context">
-      <div className={styles.col}>
-        <h2 className={styles.head}><Target size={15} /> Business Goals</h2>
-        <div className={`${styles.chips} ${styles.twoCol}`}>
-          {GOALS.map(({ label, icon: Icon, active }) => (
-            <span key={label} className={`${styles.chip} ${active ? styles.goalOn : ''}`}>
-              <Icon size={12} />{label}
-            </span>
-          ))}
+    <section className={styles.wrapper} aria-label="Business context">
+      
+      <div className={styles.bar}>
+        {/* Business Goals */}
+        <div className={styles.col}>
+          <h2 className={styles.head}><Target size={13} /> Business Goals</h2>
+          <p className={styles.textContent}>{businessGoals}</p>
+        </div>
+
+        {/* 🔥 Challenges (Dynamic) */}
+        <div className={styles.col}>
+          <h2 className={styles.head}><AlertTriangle size={13} /> Challenges</h2>
+          {challenges ? (
+            <p className={styles.textContent}>{challenges}</p>
+          ) : (
+            <p className={styles.textContentMuted}>Not specified</p>
+          )}
+        </div>
+
+        {/* Target Audience */}
+        <div className={styles.col}>
+          <h2 className={styles.head}><Users size={13} /> Target Audience</h2>
+          <div className={styles.chips}>
+            {targetAudience.length > 0 ? (
+              targetAudience.map((aud) => (
+                <span key={aud} className={styles.chip}>
+                  {AUDIENCE_LABELS[aud] || aud}
+                </span>
+              ))
+            ) : (
+              <span className={styles.chip}>Not specified</span>
+            )}
+          </div>
         </div>
       </div>
 
-      <div className={styles.col}>
-        <h2 className={styles.head}><AlertTriangle size={15} /> Current Challenges</h2>
-        <div className={`${styles.chips} ${styles.twoCol}`}>
-          {CHALLENGES.map((label) => (
-            <span key={label} className={styles.chip}>{label}</span>
-          ))}
+      {/* AI Instruction */}
+      <div className={styles.instructionRow}>
+        <div className={styles.instructionContent}>
+          <h2 className={styles.head}><Sparkles size={13} /> AI Instruction</h2>
+          <p className={styles.textContent}>
+            {aiInstruction || 'No specific instruction added. Click "Add Prompt" to add one.'}
+          </p>
         </div>
+        <button 
+          type="button" 
+          className={styles.updateBtn} 
+          onClick={onOpenModal}
+        >
+          <Pencil size={13} /> Add Prompt
+        </button>
       </div>
 
-      <div className={styles.col}>
-        <h2 className={styles.head}><Users size={15} /> Target Audience</h2>
-        <p className={styles.audience}>Women aged 18-35, fashion conscious, urban</p>
-      </div>
-
-      <div className={styles.col}>
-        <h2 className={styles.head}><Megaphone size={15} /> Marketing Channels</h2>
-        <div className={styles.chips}>
-          {INITIAL_CHANNELS.map((c) => (
-            <span key={c.label} className={styles.chip}>
-              <span className={styles.channelIcon} style={{ color: c.color }}>
-                {CHANNEL_ICONS[c.label] ?? <Globe size={13} />}
-              </span>
-              {c.label}
-            </span>
-          ))}
-          <span className={styles.chip}>+2 more</span>
-        </div>
-      </div>
+      <BusinessContextModal
+        open={modalOpen}
+        onClose={onCloseModal}
+        selectedBusinessId={selectedBusinessId}
+        onSaveContext={onSaveContext}
+      />
     </section>
   );
 }
