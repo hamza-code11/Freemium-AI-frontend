@@ -1,25 +1,23 @@
-// app/dashboard/campaign-planner/loading.tsx
+// app/admin/users/loading.tsx
 import React from 'react';
-import CampaignHeaderSkeleton from '@/components/dashboard/skeletons/CampaignPlannerSkeleton/CampaignHeaderSkeleton';
-import CampaignFormSkeleton from '@/components/dashboard/skeletons/CampaignPlannerSkeleton/CampaignFormSkeleton';
-import CampaignPlanSkeleton from '@/components/dashboard/skeletons/CampaignPlannerSkeleton/CampaignPlanSkeleton';
-import RecentCampaignsSkeleton from '@/components/dashboard/skeletons/CampaignPlannerSkeleton/RecentCampaignsSkeleton';
-import styles from '@/components/dashboard/skeletons/CampaignPlannerSkeleton/CampaignSkeletons.module.css';
+import UsersHeaderSkeleton from '@/components/admin/skeletons/UsersSkeleton/UsersHeaderSkeleton';
+import UserStatsSkeleton from '@/components/admin/skeletons/UsersSkeleton/UserStatsSkeleton';
+import UsersFilterSkeleton from '@/components/admin/skeletons/UsersSkeleton/UsersFilterSkeleton';
+import UsersTableSkeleton from '@/components/admin/skeletons/UsersSkeleton/UsersTableSkeleton';
+import UserDetailsSkeleton from '@/components/admin/skeletons/UsersSkeleton/UserDetailsSkeleton';
+import styles from '@/components/admin/skeletons/UsersSkeleton/UsersSkeletons.module.css';
 
 export default function Loading() {
   return (
-    <div className={styles.container}>
-      {/* Header Skeleton */}
-      <CampaignHeaderSkeleton />
-
-      {/* Grid: Form + Plan */}
-      <div className={styles.grid}>
-        <CampaignFormSkeleton />
-        <CampaignPlanSkeleton />
+    <div className={styles.pageWrapper}>
+      <UsersHeaderSkeleton />
+      <UserStatsSkeleton />
+      <UsersFilterSkeleton />
+      <div className={styles.mainLayout}>
+        <UsersTableSkeleton />
+        <UserDetailsSkeleton />
       </div>
-
-      {/* Recent Campaigns Skeleton */}
-      <RecentCampaignsSkeleton />
     </div>
   );
 }
+

@@ -1,36 +1,36 @@
+// app/admin/(dashboard)/page.tsx
+'use client';
+
 import React from 'react';
 import AdminWelcomeBanner from '@/components/admin/dashboard/AdminWelcomeBanner';
 import AdminStats from '@/components/admin/dashboard/AdminStats';
 import UserGrowthChart from '@/components/admin/dashboard/charts/UserGrowthChart';
 import AIGenerationChart from '@/components/admin/dashboard/charts/AIGenerationChart';
 import AIToolUsage from '@/components/admin/dashboard/bottom/AIToolUsage';
-import RecentRegistrations from '@/components/admin/dashboard/bottom/RecentRegistrations';
-import RecentActivity from '@/components/admin/dashboard/bottom/RecentActivity';
+import RecentGenerations from '@/components/admin/dashboard/bottom/RecentRegistrations';
+import RecentLogins from '@/components/admin/dashboard/bottom/RecentActivity';
+import { useAdminDashboard } from '@/hooks/useAdminDashboard';
 import styles from './AdminDashboard.module.css';
 
 export default function AdminDashboardPage() {
+  const { stats, toolUsage, recentGenerations, recentLogins, loading } = useAdminDashboard();
+
   return (
     <div className={styles.container}>
-      
-      {/* 1. Welcome Banner */}
-      <AdminWelcomeBanner userName="Hamza" />
+      <AdminWelcomeBanner />
 
-      {/* 2. Stats Cards */}
-      <AdminStats />
+      <AdminStats stats={stats} loading={loading} />
 
-      {/* 3. Charts Row (Ab sirf 2 charts hain) */}
       <div className={styles.chartsRow}>
         <UserGrowthChart />
         <AIGenerationChart />
       </div>
 
-      {/* 4. Bottom Row */}
       <div className={styles.bottomRow}>
-        <AIToolUsage />
-        <RecentRegistrations />
-        <RecentActivity />
+        <AIToolUsage toolUsage={toolUsage} loading={loading} />
+        <RecentGenerations items={recentGenerations} loading={loading} />
+        <RecentLogins items={recentLogins} loading={loading} />
       </div>
-
     </div>
   );
 }

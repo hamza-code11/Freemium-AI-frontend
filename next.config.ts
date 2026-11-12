@@ -113,7 +113,7 @@ const remotePatterns: RemotePattern[] = [
 ];
 
 const nextConfig: NextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   poweredByHeader: false,
   compress: true,
   output: "standalone", // chhota deploy bundle (Node.js hosting / VPS ke liye)

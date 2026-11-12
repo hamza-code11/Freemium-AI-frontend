@@ -5,13 +5,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { LayoutDashboard, Users, CreditCard, Settings, FileText, LogOut } from 'lucide-react';
-import { useAdmin } from '@/context/AdminContext'; // 🔥 Import
+import { useAdmin } from '@/context/AdminContext'; // Import
 import styles from './AdminSidebar.module.css';
 
 const NAV_ITEMS = [
   { label: 'Dashboard', href: '/admin', icon: <LayoutDashboard size={20} /> },
   { label: 'Users', href: '/admin/users', icon: <Users size={20} /> },
-  { label: 'Subscriptions', href: '/admin/plans', icon: <CreditCard size={20} /> },
+  // { label: 'Subscriptions', href: '/admin/plans', icon: <CreditCard size={20} /> },
   { label: 'Content', href: '/admin/usage', icon: <FileText size={20} /> },
 ];
 
@@ -29,9 +29,9 @@ interface SidebarProps {
 export default function AdminSidebar({ isMobileOpen, closeMobile, isCollapsed, toggleCollapse }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
-  const { logout } = useAdmin(); // 🔥 Hook
+  const { logout } = useAdmin(); // Hook
 
-  // 🔥 Logout Handler
+  // Logout Handler
   const handleLogout = async () => {
     closeMobile();
     await logout(); // Ye localStorage clear karega aur redirect karega

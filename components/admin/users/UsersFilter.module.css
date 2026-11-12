@@ -1,3 +1,11 @@
+/* components/admin/users/UsersFilter.module.css */
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
 .filterBar {
   display: flex;
   align-items: center;
@@ -60,6 +68,7 @@
   position: absolute;
   left: 10px;
   color: var(--color-text-tertiary);
+  pointer-events: none;
 }
 
 .selectWrap:has(.calIcon) select {
@@ -86,7 +95,52 @@
   margin-left: auto;
 }
 
+/* 🔥 Custom Range */
+.customRange {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  flex-wrap: wrap;
+}
+
+.dateField {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 150px;
+}
+
+.dateField label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.dateField input {
+  padding: 8px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-primary);
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+  outline: none;
+  font-family: inherit;
+}
+
+.dateField input:focus {
+  border-color: var(--color-accent-primary);
+  box-shadow: 0 0 0 3px var(--color-accent-secondary);
+}
+
 @media (max-width: 768px) {
   .filterBar { flex-direction: column; align-items: stretch; }
   .clearBtn { margin-left: 0; justify-content: center; }
+  .customRange { flex-direction: column; }
+  .dateField { min-width: 100%; }
 }

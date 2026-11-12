@@ -4,7 +4,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import AdminLayout from '@/components/admin/layout/AdminLayout';
-import DashboardSkeleton from '@/components/admin/skeletons/DashboardSkeleton/DashboardSkeleton';
+import DashboardSkeleton from './loading';
 
 export default function AdminDashboardLayout({
   children,

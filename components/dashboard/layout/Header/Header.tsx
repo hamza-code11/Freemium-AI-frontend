@@ -6,16 +6,17 @@ import toast from 'react-hot-toast';
 import styles from './Header.module.css';
 import ThemeToggle from '@/components/ui/ThemeToggle';
 import { useProfile } from '@/context/ProfileContext';
-import { getUploadsBaseUrl } from '@/lib/imageUrl'; 
+import { getUploadsBaseUrl } from '@/lib/imageUrl';
 import { User } from 'lucide-react';
+import Link from "next/link";
 
 export default function Header({ onMenuClick }: { onMenuClick: () => void }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
-  
-  // 🔥 Ek hi baar useProfile call karein
-  const { user, loading, setUser } = useProfile(); 
-  
+
+  //  Ek hi baar useProfile call karein
+  const { user, loading, setUser } = useProfile();
+
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
@@ -42,10 +43,10 @@ export default function Header({ onMenuClick }: { onMenuClick: () => void }) {
     } catch (error) {
       console.log("Logout API error", error);
     } finally {
-      // 🔥 Local cleanup (Chahe API fail ho ya pass)
+      // Local cleanup (Chahe API fail ho ya pass)
       localStorage.removeItem('auth_token');
       localStorage.removeItem('user_data');
-      setUser(null); // 🔥 Context clear karein
+      setUser(null); // Context clear karein
 
       toast.success('Logged out successfully');
       router.push('/login');
@@ -75,13 +76,26 @@ export default function Header({ onMenuClick }: { onMenuClick: () => void }) {
       <div className={styles.rightArea}>
         <ThemeToggle />
 
-        <button className={styles.iconBtn} aria-label="Help">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-        </button>
+        <Link href="/dashboard/help" className={styles.iconBtn} aria-label="Help">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+            <line x1="12" y1="17" x2="12.01" y2="17" />
+          </svg>
+        </Link>
 
         <div className={styles.userProfileWrapper} ref={dropdownRef}>
-          <button 
-            className={styles.avatarBtn} 
+          <button
+            className={styles.avatarBtn}
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
           >
             {loading ? (
@@ -99,7 +113,7 @@ export default function Header({ onMenuClick }: { onMenuClick: () => void }) {
             <div className={styles.dropdownMenu}>
               <div className={styles.dropdownHeader}>
                 {loading ? (
-                   <div className={styles.avatarSkeleton} style={{ width: 44, height: 44 }} />
+                  <div className={styles.avatarSkeleton} style={{ width: 44, height: 44 }} />
                 ) : avatarSrc ? (
                   <img src={avatarSrc} alt={user?.name || "User"} className={styles.dropdownAvatar} />
                 ) : (
@@ -107,7 +121,7 @@ export default function Header({ onMenuClick }: { onMenuClick: () => void }) {
                     {userInitial || <User size={20} />}
                   </div>
                 )}
-                
+
                 <div className={styles.dropdownUserInfo}>
                   {loading ? (
                     <>
@@ -126,18 +140,18 @@ export default function Header({ onMenuClick }: { onMenuClick: () => void }) {
               <div className={styles.dropdownDivider}></div>
 
               <div className={styles.dropdownList}>
-                <button className={styles.dropdownItem}>
+                <Link href="/dashboard/help" className={styles.dropdownItem}>
                   <span className={styles.dropdownIconWrapper}>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg>
                   </span>
                   <span className={styles.dropdownText}>Support</span>
-                </button>
+                </Link>
 
-                <button 
+                <button
                   className={styles.dropdownItem}
                   onClick={() => {
                     setIsDropdownOpen(false);
-                    router.push('/dashboard/profile'); 
+                    router.push('/dashboard/profile');
                   }}
                 >
                   <span className={styles.dropdownIconWrapper}>
@@ -148,11 +162,11 @@ export default function Header({ onMenuClick }: { onMenuClick: () => void }) {
 
                 <div className={styles.dropdownDivider}></div>
 
-                <button 
+                <button
                   className={styles.dropdownItem}
                   onClick={handleLogout}
                   disabled={loggingOut}
-                  style={{ color: '#ef4444' }} 
+                  style={{ color: '#ef4444' }}
                 >
                   <span className={styles.dropdownIconWrapper}>
                     {loggingOut ? (

@@ -2,46 +2,31 @@
   background: var(--color-bg-primary);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
-  padding: var(--space-4); /* Padding kam ki */
+  padding: var(--space-4);
   box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
-  height: 100%; /* Height full */
+  height: 100%;
 }
 
 .header {
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  margin-bottom: var(--space-4); /* Margin kam ki */
+  margin-bottom: var(--space-4);
 }
 
 .icon { color: var(--color-text-secondary); }
 .title { font-size: var(--text-base); font-weight: var(--font-semibold); color: var(--color-text-primary); }
 
-.list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4); /* Gap kam kiya */
-  flex: 1;
-  justify-content: center; /* Center align kiya */
-}
+.list { display: flex; flex-direction: column; gap: var(--space-4); flex: 1; justify-content: center; }
 
-.item {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
+.item { display: flex; flex-direction: column; gap: 4px; }
 
-.topRow {
-  display: flex;
-  align-items: center;
-  font-size: var(--text-xs);
-}
+.topRow { display: flex; align-items: center; font-size: var(--text-xs); }
 
 .label { flex: 1; color: var(--color-text-primary); font-weight: var(--font-medium); }
-.count { font-weight: var(--font-semibold); color: var(--color-text-primary); margin-right: var(--space-3); }
-.percent { color: var(--color-text-secondary); width: 30px; text-align: right; }
+.percent { color: var(--color-text-secondary); font-weight: var(--font-semibold); }
 
 .progressBar {
   height: 6px;
@@ -50,7 +35,31 @@
   overflow: hidden;
 }
 
-.fill {
-  height: 100%;
-  border-radius: var(--radius-full);
+.fill { height: 100%; border-radius: var(--radius-full); transition: width 0.4s ease; }
+
+.metaRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--color-text-secondary);
+  margin-top: 2px;
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-bg-tertiary) 25%,
+    var(--color-bg-secondary) 50%,
+    var(--color-bg-tertiary) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
+  border-radius: var(--radius-sm);
+}
+.skeletonRow { height: 12px; width: 100%; }
+.skeletonBar { height: 6px; width: 100%; }
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }

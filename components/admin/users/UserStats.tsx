@@ -1,29 +1,34 @@
+// components/admin/users/UserStats.tsx
+'use client';
+
 import React from 'react';
-import { Users, User, Crown, XCircle } from 'lucide-react';
+import { Users, UserCheck, UserX, Ban } from 'lucide-react';
+import { useAdminUserStats } from '@/hooks/useAdminUserStats';
 import styles from './UserStats.module.css';
 
-const stats = [
-  { title: 'Total Users', value: '2,450', trend: '+12%', icon: <Users size={20} />, color: 'toneBlue' },
-  { title: 'Free Users', value: '1,920', trend: '+10%', icon: <User size={20} />, color: 'toneBlue' },
-  { title: 'Premium Users', value: '530', trend: '+18%', icon: <Crown size={20} />, color: 'tonePurple' },
-  { title: 'Suspended Accounts', value: '24', trend: '-5%', icon: <XCircle size={20} />, color: 'toneRed', isNegative: true },
-];
+interface Props {
+  refreshKey?: number;
+}
 
-export default function UserStats() {
+export default function UserStats({ refreshKey = 0 }: Props) {
+  const { stats, loading } = useAdminUserStats(refreshKey);
+
+  const statCards = [
+    { title: 'Total Users', value: stats?.total_users ?? 0, icon: <Users size={20} />, color: 'toneBlue' },
+    { title: 'Active Users', value: stats?.active_users ?? 0, subtitle: 'Last 30 days', icon: <UserCheck size={20} />, color: 'toneGreen' },
+    { title: 'Inactive Users', value: stats?.inactive_users ?? 0, subtitle: 'No activity in 30 days', icon: <UserX size={20} />, color: 'toneAmber' },
+    { title: 'Suspended Users', value: stats?.suspended_users ?? 0, icon: <Ban size={20} />, color: 'toneRed' },
+  ];
+
   return (
     <div className={styles.grid}>
-      {stats.map((stat, i) => (
+      {statCards.map((stat, i) => (
         <div key={i} className={styles.card}>
           <div className={`${styles.iconBox} ${styles[stat.color]}`}>{stat.icon}</div>
           <div className={styles.content}>
             <span className={styles.statTitle}>{stat.title}</span>
-            <h2 className={styles.statValue}>{stat.value}</h2>
-            <div className={styles.trend}>
-              <span className={stat.isNegative ? styles.trendDown : styles.trendUp}>
-                {stat.isNegative ? '↓' : '↑'} {stat.trend}
-              </span>
-              <span className={styles.vs}>vs previous period</span>
-            </div>
+            <h2 className={styles.statValue}>{loading ? '...' : stat.value.toLocaleString()}</h2>
+            {stat.subtitle && <span className={styles.subtitle}>{stat.subtitle}</span>}
           </div>
         </div>
       ))}

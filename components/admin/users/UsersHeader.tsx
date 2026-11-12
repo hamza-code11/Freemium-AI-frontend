@@ -10,9 +10,9 @@ export default function UsersHeader() {
         <h1 className={styles.title}>User Management</h1>
         <p className={styles.subtitle}>View and manage registered accounts across your platform.</p>
       </div>
-      <button className={styles.exportBtn}>
+      {/* <button className={styles.exportBtn}>
         <Download size={16} /> Export Users
-      </button>
+      </button> */}
     </div>
   );
 }

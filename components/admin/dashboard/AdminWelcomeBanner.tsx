@@ -1,24 +1,39 @@
+// components/admin/overview/AdminWelcomeBanner.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
 import { Users, CreditCard, BarChart3, Sparkles } from 'lucide-react';
+import { useAdmin } from '@/context/AdminContext';
 import styles from './AdminWelcomeBanner.module.css';
 
-const getGreeting = (h: number) => (h < 12 ? 'Good morning' : h < 18 ? 'Good afternoon' : 'Good evening');
+// 🔥 Updated Greeting Logic (same as user dashboard)
+const getGreeting = (h: number) => {
+  if (h >= 5 && h < 12) return 'Good morning';
+  if (h >= 12 && h < 17) return 'Good afternoon';
+  if (h >= 17 && h < 21) return 'Good evening';
+  return 'Good night'; // 9 PM se 5 AM tak
+};
 
-export default function AdminWelcomeBanner({ userName = 'Admin' }: { userName?: string }) {
-  const [greeting, setGreeting] = useState('Good morning');
-  
+export default function AdminWelcomeBanner() {
+  const { admin } = useAdmin();
+  const [greeting, setGreeting] = useState<string>('');
+
   useEffect(() => {
-    setGreeting(getGreeting(new Date().getHours()));
+    const hour = new Date().getHours();
+    setGreeting(getGreeting(hour));
   }, []);
+
+  // 🔥 Admin ka first name (agar available ho)
+  const displayName = admin?.name
+    ? admin.name.split(' ')[0]
+    : 'Admin';
 
   return (
     <section className={styles.banner} aria-label="Welcome Admin">
       <div className={styles.text}>
         <h1 className={styles.title}>
           <span className={styles.wave} aria-hidden="true">👋</span>
-          {greeting}, {userName}!
+          {greeting ? `${greeting}, ${displayName}!` : `Welcome, ${displayName}!`}
         </h1>
         <p className={styles.desc}>
           Welcome to the Admin Panel. Monitor platform activity, manage users and subscriptions, 
