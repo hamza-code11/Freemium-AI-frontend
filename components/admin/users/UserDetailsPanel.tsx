@@ -57,8 +57,8 @@ export default function UserDetailsPanel({ userId }: Props) {
   const avatarSrc = user.image
     ? `${getUploadsBaseUrl()}/users/${user.image}`
     : `https://ui-avatars.com/api/?name=${encodeURIComponent(
-        user.name,
-      )}&background=random&color=fff`;
+      user.name,
+    )}&background=random&color=fff`;
 
   const formatDate = (iso: string | null) => {
     if (!iso) return 'N/A';
@@ -78,27 +78,29 @@ export default function UserDetailsPanel({ userId }: Props) {
       {/* Profile Info */}
       <div className={styles.profileHeader}>
         <img src={avatarSrc} alt={user.name} className={styles.avatar} />
+
         <div>
           <h4 className={styles.name}>{user.name}</h4>
           <p className={styles.email}>{user.email}</p>
+
+          <span
+            className={styles.activeBadge}
+            style={{
+              background: user.is_suspended
+                ? '#FEF2F2'
+                : user.is_active
+                  ? '#ECFDF5'
+                  : '#FEF3C7',
+              color: user.is_suspended
+                ? '#ef4444'
+                : user.is_active
+                  ? '#10b981'
+                  : '#f59e0b',
+            }}
+          >
+            {user.is_suspended ? 'Suspended' : user.is_active ? 'Active' : 'Inactive'}
+          </span>
         </div>
-        <span
-          className={styles.activeBadge}
-          style={{
-            background: user.is_suspended
-              ? '#FEF2F2'
-              : user.is_active
-              ? '#ECFDF5'
-              : '#FEF3C7',
-            color: user.is_suspended
-              ? '#ef4444'
-              : user.is_active
-              ? '#10b981'
-              : '#f59e0b',
-          }}
-        >
-          {user.is_suspended ? 'Suspended' : user.is_active ? 'Active' : 'Inactive'}
-        </span>
       </div>
 
       <div className={styles.divider} />

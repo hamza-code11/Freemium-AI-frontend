@@ -13,7 +13,7 @@ export default function AdminHeader({ onMenuClick }: { onMenuClick: () => void }
   const { admin, logout } = useAdmin();
   const router = useRouter();
 
-  // 🔥 Fallback avatar agar image na ho
+  // Fallback avatar agar image na ho
   const avatarSrc = admin?.image 
     ? `${getUploadsBaseUrl()}/admins/${admin.image}` 
     : null;
@@ -38,12 +38,12 @@ export default function AdminHeader({ onMenuClick }: { onMenuClick: () => void }
       <div className={styles.rightArea}>
         <ThemeToggle />
         
-        <button className={styles.iconBtn} aria-label="Notifications">
+        {/* <button className={styles.iconBtn} aria-label="Notifications">
           <Bell size={20} />
           <span className={styles.notificationDot}></span>
-        </button>
+        </button> */}
         
-        {/* 🔥 Profile Section (Dynamic) */}
+        {/* Profile Section (Dynamic) */}
         <div className={styles.userProfile}>
           {avatarSrc ? (
             <img 
