@@ -135,3 +135,41 @@
 
 [data-theme="dark"] .roleBadge.admin, 
 [data-theme="dark"] .premium { background: rgba(139, 92, 246, 0.1); }
+
+
+
+
+/* NEW: Business column button */
+.businessBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  background: rgba(59, 130, 246, 0.08);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: var(--radius-md);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.businessBtn:hover {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.4);
+  color: #2563eb;
+}
+
+/* Dark theme */
+[data-theme="dark"] .businessBtn {
+  background: rgba(59, 130, 246, 0.12);
+  color: #60a5fa;
+  border-color: rgba(59, 130, 246, 0.25);
+}
+
+[data-theme="dark"] .businessBtn:hover {
+  background: rgba(59, 130, 246, 0.2);
+  color: #93c5fd;
+}

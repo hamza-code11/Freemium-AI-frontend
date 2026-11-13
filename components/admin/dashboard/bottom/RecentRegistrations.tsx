@@ -4,7 +4,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Activity, Sparkles, Megaphone, TrendingUp } from 'lucide-react';
-import { RecentGeneration } from '@/services/admin-dashboard.service';
+import { RecentGenerationItem  } from '@/services/admin-dashboard.service';
 import styles from './RecentRegistrations.module.css';
 
 const ACTIVITY_TYPES: Record<string, { label: string; icon: React.ElementType; color: string; bg: string }> = {
@@ -14,7 +14,7 @@ const ACTIVITY_TYPES: Record<string, { label: string; icon: React.ElementType; c
 };
 
 interface Props {
-  items: RecentGeneration[];
+  items: RecentGenerationItem [];
   loading?: boolean;
 }
 

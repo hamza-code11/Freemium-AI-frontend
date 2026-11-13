@@ -4,12 +4,12 @@
 import React from 'react';
 import Link from 'next/link';
 import { LogIn } from 'lucide-react';
-import { RecentLogin } from '@/services/admin-dashboard.service';
+import { RecentLoginItem  } from '@/services/admin-dashboard.service';
 import { getUploadsBaseUrl } from '@/lib/imageUrl';
 import styles from './RecentActivity.module.css';
 
 interface Props {
-  items: RecentLogin[];
+  items: RecentLoginItem [];
   loading?: boolean;
 }
 

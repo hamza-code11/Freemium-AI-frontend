@@ -4,6 +4,7 @@ import React, { createContext, useContext, useState, useEffect, useCallback, use
 import axiosInstance from '@/lib/axios';
 import { User } from '@/types/auth';
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 interface ProfileContextType {
   user: User | null;
@@ -22,44 +23,55 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  
-  const isFetched = useRef(false);
+  const router = useRouter();
 
-  // Force Refresh
-  const refreshProfile = useCallback(async () => {
+  // Force Refresh & Heartbeat Check
+  const refreshProfile = useCallback(async (isBackgroundCheck = false) => {
     const token = localStorage.getItem('auth_token');
     if (!token) {
       setUser(null);
       setLoading(false);
-      isFetched.current = true;
       return;
     }
 
-    setLoading(true);
+    if (!isBackgroundCheck) setLoading(true);
+
     try {
       const res = await axiosInstance.get<User>('/auth/me');
       setUser(res.data);
       localStorage.setItem('user_data', JSON.stringify(res.data));
     } catch (error: any) {
       console.log("Profile fetch error", error);
-      if (error.response?.status === 401) {
+      
+      // AGAR SUSPENDED HAI YA TOKEN INVALID HAI TO LOGOUT KARO
+      if (error.response?.status === 401 || error.response?.status === 403) {
         localStorage.removeItem('auth_token');
         localStorage.removeItem('user_data');
         setUser(null);
+        
+        // Agar background check tha, toh sirf tab redirect karo jab user pehle se logged in tha
+        if (isBackgroundCheck) {
+          toast.error("Your account has been suspended or session expired.");
+          router.push('/login'); // Login page par bhej dein
+        }
       }
     } finally {
-      setLoading(false);
-      isFetched.current = true;
+      if (!isBackgroundCheck) setLoading(false);
     }
-  }, []);
+  }, [router]);
 
-  // Initial Load
+  // Initial Load + Heartbeat Polling
   useEffect(() => {
-    if (isFetched.current) return;
     refreshProfile();
+
+    // Har 30 seconds (30000 ms) baad backend check karega
+    const interval = setInterval(() => {
+      refreshProfile(true);
+    }, 30000);
+
+    return () => clearInterval(interval);
   }, [refreshProfile]);
 
-  // Update Profile
   const updateProfile = async (data: { name?: string; image?: File }) => {
     setSaving(true);
     try {
@@ -84,15 +96,11 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  // 🔥 Update Business (Fixed)
   const updateBusiness = async (businessId: number, data: any) => {
     setSaving(true);
     try {
       await axiosInstance.patch(`/business-profiles/${businessId}`, data);
-      
-      // Backend se fresh data fetch karein
-      await refreshProfile();
-      
+      await refreshProfile(); // Background refresh
       toast.success('Business information updated');
       return true;
     } catch (error: any) {
@@ -104,15 +112,11 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  // 🔥 Create Business (Fixed)
   const createBusiness = async (data: any) => {
     setSaving(true);
     try {
       await axiosInstance.post('/business-profiles/', data);
-      
-      // Backend se fresh data fetch karein
-      await refreshProfile();
-      
+      await refreshProfile(); // Background refresh
       toast.success('New business added successfully');
       return true;
     } catch (error: any) {
@@ -140,4 +144,3 @@ export function useProfile() {
   }
   return context;
 }
-

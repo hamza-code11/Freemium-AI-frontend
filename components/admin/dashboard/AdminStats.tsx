@@ -1,9 +1,8 @@
-// components/admin/dashboard/AdminStats.tsx
 'use client';
 
 import React from 'react';
 import { Users, UserCheck, UserX, Sparkles, Megaphone, TrendingUp } from 'lucide-react';
-import { DashboardStats } from '@/services/admin-dashboard.service';
+import type { DashboardStats } from '@/services/admin-dashboard.service';
 import styles from './AdminStats.module.css';
 
 interface Props {
@@ -28,7 +27,9 @@ export default function AdminStats({ stats, loading }: Props) {
           <div className={`${styles.iconWrap} ${styles[stat.color]}`}>{stat.icon}</div>
           <div className={styles.content}>
             <span className={styles.statTitle}>{stat.title}</span>
-            <h2 className={styles.statValue}>{loading ? '...' : stat.value.toLocaleString()}</h2>
+            <h2 className={styles.statValue}>
+              {loading ? '...' : stat.value.toLocaleString()}
+            </h2>
           </div>
         </div>
       ))}

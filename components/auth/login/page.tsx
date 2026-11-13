@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useAuth } from '@/hooks/useAuth';
-import { useProfile } from '@/context/ProfileContext'; // 🔥 Import add kiya
+import { useProfile } from '@/context/ProfileContext'; 
 import styles from './Loginform.module.css';
 
 function Field({ id, label, error, children }: { id: string; label: string; error?: string; children: ReactNode }) {
@@ -100,7 +100,7 @@ export default function LoginForm() {
     }
   };
 
-  async function onSubmit(e: FormEvent<HTMLFormElement>) {
+    async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (loading) return;
 
@@ -118,11 +118,18 @@ export default function LoginForm() {
       // 2. Login API call
       await handleLogin(values.email.trim(), values.password);
       
-      // 3. 🔥 Login ke BAAD naya user data fetch karein
+      // 3. Login ke BAAD naya user data fetch karein
       await refreshProfile();
       
-    } catch {
-      toast.error("Something went wrong. Please try again.");
+    } catch (err: any) {
+      // 🔥 Naya Error Handling: Backend ka exact message dikhayein
+      const errorMessage = err.response?.data?.detail || "Invalid email or password.";
+      
+      if (typeof errorMessage === 'string') {
+        toast.error(errorMessage);
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
     } finally {
       setLoading(false);
     }

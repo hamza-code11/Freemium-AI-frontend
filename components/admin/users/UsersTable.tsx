@@ -3,7 +3,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import {
-  MoreHorizontal, ChevronLeft, ChevronRight, Ban, CheckCircle2, Loader2,
+  MoreHorizontal, ChevronLeft, ChevronRight, Ban, CheckCircle2, Loader2, Briefcase,
 } from 'lucide-react';
 import { useAdminUsers } from '@/hooks/useAdminUsers';
 import { UserFilters } from './UsersFilter';
@@ -17,18 +17,27 @@ interface Props {
   filters: UserFilters;
   onSelectUser: (id: number) => void;
   onUserStatusChange: () => void;
+  onViewBusinessProfile: (user: { id: number; name: string }) => void;
+  onUsersLoaded?: (users: { id: number }[]) => void;
 }
 
-export default function UsersTable({ filters, onSelectUser, onUserStatusChange }: Props) {
+export default function UsersTable({
+  filters,
+  onSelectUser,
+  onUserStatusChange,
+  onViewBusinessProfile,
+  onUsersLoaded,
+}: Props) {
   const {
     users, loading, total, totalPages, currentPage, setCurrentPage,
     toggleSuspension,
-  } = useAdminUsers(filters, onUserStatusChange); // 🔥 Hook me callback pass
+  } = useAdminUsers(filters, onUserStatusChange);
 
   const [openMenuId, setOpenMenuId] = useState<number | null>(null);
   const [togglingId, setTogglingId] = useState<number | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
+  // Close menu on outside click
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -39,21 +48,40 @@ export default function UsersTable({ filters, onSelectUser, onUserStatusChange }
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Reset page when filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [filters.search, filters.status, filters.sort, filters.date_range, filters.custom_from, filters.custom_to, setCurrentPage]);
+  }, [
+    filters.search,
+    filters.status,
+    filters.sort,
+    filters.date_range,
+    filters.custom_from,
+    filters.custom_to,
+    setCurrentPage,
+  ]);
+
+  // Notify parent after each successful fetch (auto-select first user)
+  useEffect(() => {
+    if (!loading && onUsersLoaded) {
+      onUsersLoaded(users);
+    }
+  }, [loading, users, onUsersLoaded]);
 
   const handleToggle = async (userId: number) => {
     setTogglingId(userId);
-    await toggleSuspension(userId); // 🔥 Hook already calls onUserStatusChange
+    await toggleSuspension(userId);
     setTogglingId(null);
     setOpenMenuId(null);
-    // ❌ onUserStatusChange() — Removed (kyunki hook call kar raha hai)
   };
 
   const formatDate = (iso: string | null) => {
     if (!iso) return 'N/A';
-    return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    return new Date(iso).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
   };
 
   const getLastActiveText = (iso: string | null) => {
@@ -77,19 +105,26 @@ export default function UsersTable({ filters, onSelectUser, onUserStatusChange }
         <table className={styles.table}>
           <thead>
             <tr>
-              <th><input type="checkbox" /></th>
               <th>User</th>
               <th>Role</th>
               <th>Status</th>
               <th>Joined Date</th>
               <th>Last Active</th>
+              <th>Business</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {users.length === 0 ? (
               <tr>
-                <td colSpan={7} style={{ textAlign: 'center', padding: '2rem', color: 'var(--color-text-tertiary)' }}>
+                <td
+                  colSpan={7}
+                  style={{
+                    textAlign: 'center',
+                    padding: '2rem',
+                    color: 'var(--color-text-tertiary)',
+                  }}
+                >
                   No users found
                 </td>
               </tr>
@@ -97,7 +132,9 @@ export default function UsersTable({ filters, onSelectUser, onUserStatusChange }
               users.map((user) => {
                 const avatarSrc = user.image
                   ? `${getUploadsBaseUrl()}/users/${user.image}`
-                  : `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=random&color=fff`;
+                  : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                      user.name,
+                    )}&background=random&color=fff`;
 
                 return (
                   <tr
@@ -105,9 +142,6 @@ export default function UsersTable({ filters, onSelectUser, onUserStatusChange }
                     onClick={() => onSelectUser(user.id)}
                     style={{ cursor: 'pointer' }}
                   >
-                    <td onClick={(e) => e.stopPropagation()}>
-                      <input type="checkbox" />
-                    </td>
                     <td>
                       <div className={styles.userCell}>
                         <img src={avatarSrc} alt={user.name} className={styles.avatar} />
@@ -118,10 +152,15 @@ export default function UsersTable({ filters, onSelectUser, onUserStatusChange }
                       </div>
                     </td>
                     <td>
-                      <span className={`${styles.roleBadge} ${user.role === 'admin' ? styles.admin : ''}`}>
+                      <span
+                        className={`${styles.roleBadge} ${
+                          user.role === 'admin' ? styles.admin : ''
+                        }`}
+                      >
                         {user.role === 'admin' ? 'Admin' : 'User'}
                       </span>
                     </td>
+
                     <td>
                       {user.is_suspended ? (
                         <div className={styles.status}>
@@ -142,11 +181,31 @@ export default function UsersTable({ filters, onSelectUser, onUserStatusChange }
                     </td>
                     <td className={styles.muted}>{formatDate(user.created_at)}</td>
                     <td className={styles.muted}>{getLastActiveText(user.last_active_at)}</td>
+
+                    {/* Business column */}
+                    <td onClick={(e) => e.stopPropagation()}>
+                      <button
+                        type="button"
+                        className={styles.businessBtn}
+                        onClick={() =>
+                          onViewBusinessProfile({ id: user.id, name: user.name })
+                        }
+                        title="View business profiles"
+                        aria-label="View business profiles"
+                      >
+                        <Briefcase size={15} />
+                        <span>View</span>
+                      </button>
+                    </td>
+
+                    {/* Actions column */}
                     <td onClick={(e) => e.stopPropagation()}>
                       <div style={{ position: 'relative' }}>
                         <button
                           className={styles.actionBtn}
-                          onClick={() => setOpenMenuId(openMenuId === user.id ? null : user.id)}
+                          onClick={() =>
+                            setOpenMenuId(openMenuId === user.id ? null : user.id)
+                          }
                           disabled={togglingId === user.id}
                         >
                           {togglingId === user.id ? (
@@ -160,30 +219,43 @@ export default function UsersTable({ filters, onSelectUser, onUserStatusChange }
                           <div
                             ref={menuRef}
                             style={{
-                              position: 'absolute', top: '100%', right: 0, zIndex: 50,
+                              position: 'absolute',
+                              top: '100%',
+                              right: 0,
+                              zIndex: 50,
                               background: 'var(--color-bg-primary)',
                               border: '1px solid var(--color-border)',
                               borderRadius: 'var(--radius-md)',
                               boxShadow: 'var(--shadow-lg)',
-                              minWidth: '160px', padding: '4px',
+                              minWidth: '160px',
+                              padding: '4px',
                             }}
                           >
                             <button
                               onClick={() => handleToggle(user.id)}
                               style={{
-                                display: 'flex', alignItems: 'center', gap: '8px',
-                                width: '100%', padding: '8px 12px',
-                                background: 'transparent', border: 'none',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '8px',
+                                width: '100%',
+                                padding: '8px 12px',
+                                background: 'transparent',
+                                border: 'none',
                                 borderRadius: 'var(--radius-sm)',
                                 fontSize: 'var(--text-xs)',
                                 color: user.is_suspended ? '#10b981' : '#ef4444',
-                                cursor: 'pointer', textAlign: 'left',
+                                cursor: 'pointer',
+                                textAlign: 'left',
                               }}
                             >
                               {user.is_suspended ? (
-                                <><CheckCircle2 size={14} /> Activate User</>
+                                <>
+                                  <CheckCircle2 size={14} /> Activate User
+                                </>
                               ) : (
-                                <><Ban size={14} /> Suspend User</>
+                                <>
+                                  <Ban size={14} /> Suspend User
+                                </>
                               )}
                             </button>
                           </div>
@@ -201,16 +273,31 @@ export default function UsersTable({ filters, onSelectUser, onUserStatusChange }
       {users.length > 0 && (
         <div className={styles.pagination}>
           <span className={styles.pageInfo}>
-            Showing {(currentPage - 1) * PAGE_SIZE + 1}–{Math.min(currentPage * PAGE_SIZE, total)} of {total} results
+            Showing {(currentPage - 1) * PAGE_SIZE + 1}–
+            {Math.min(currentPage * PAGE_SIZE, total)} of {total} results
           </span>
           <div className={styles.pageControls}>
-            <span className={styles.rowsPerPage}>Rows per page: <strong>{PAGE_SIZE}</strong></span>
-            <button className={styles.pageArrow} disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>
+            <span className={styles.rowsPerPage}>
+              Rows per page: <strong>{PAGE_SIZE}</strong>
+            </span>
+            <button
+              className={styles.pageArrow}
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(currentPage - 1)}
+            >
               <ChevronLeft size={14} />
             </button>
             <span className={styles.pageNum + ' ' + styles.active}>{currentPage}</span>
-            <span style={{ fontSize: '11px', color: 'var(--color-text-tertiary)' }}>/ {totalPages}</span>
-            <button className={styles.pageArrow} disabled={currentPage === totalPages} onClick={() => setCurrentPage(currentPage + 1)}>
+            <span
+              style={{ fontSize: '11px', color: 'var(--color-text-tertiary)' }}
+            >
+              / {totalPages}
+            </span>
+            <button
+              className={styles.pageArrow}
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(currentPage + 1)}
+            >
               <ChevronRight size={14} />
             </button>
           </div>

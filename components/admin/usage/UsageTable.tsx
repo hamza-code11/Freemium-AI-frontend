@@ -1,16 +1,83 @@
-import React from 'react';
-import { Search, ChevronDown, RotateCcw, Crown, Eye, ChevronLeft, ChevronRight } from 'lucide-react';
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import {
+  Search, ChevronDown, ChevronLeft, ChevronRight, Eye,
+  FileText, Megaphone, TrendingUp,
+} from 'lucide-react';
+import { useAdminUsage } from '@/hooks/useAdminUsage';
+import { UsageDateRange, UsageFeature } from '@/services/admin-usage.service';
+import { getUploadsBaseUrl } from '@/lib/imageUrl';
+import UsageDetailModal from './UsageDetailModal';
+import UsageTableSkeleton from '@/components/admin/skeletons/UsageSkeleton/UsageTableSkeleton';
 import styles from './UsageTable.module.css';
 
-const records = [
-  { name: 'Ahmed Khan', email: 'ahmed@example.com', plan: 'Premium', total: 245, success: 230, failed: 15, status: 'Active', avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&q=80' },
-  { name: 'Sara Ali', email: 'sara@example.com', plan: 'Free', total: 38, success: 36, failed: 2, status: 'Active', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80' },
-  { name: 'Bilal Ahmed', email: 'bilal@example.com', plan: 'Premium', total: 180, success: 172, failed: 8, status: 'Expired', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80' },
-  { name: 'Ayesha Noor', email: 'ayesha@example.com', plan: 'Free', total: 120, success: 115, failed: 5, status: 'Active', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80' },
-  { name: 'Usman Malik', email: 'usman@example.com', plan: 'Premium', total: 310, success: 300, failed: 10, status: 'Active', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80' },
-];
+const PAGE_SIZE = 10;
 
-export default function UsageTable() {
+const FEATURE_META: Record<UsageFeature, { label: string; icon: React.ReactNode; bg: string; color: string }> = {
+  content: { label: 'Content', icon: <FileText size={12} />, bg: '#EFF6FF', color: '#3B82F6' },
+  campaign: { label: 'Campaign', icon: <Megaphone size={12} />, bg: '#F5F3FF', color: '#8B5CF6' },
+  growth: { label: 'Growth', icon: <TrendingUp size={12} />, bg: '#ECFDF5', color: '#10B981' },
+};
+
+interface Props {
+  dateRange: UsageDateRange;
+  feature: UsageFeature | 'all';
+  customFrom?: string;
+  customTo?: string;
+  onSelectUser: (id: number) => void;
+  onRecordsLoaded?: (records: { id: number; feature: UsageFeature }[]) => void;
+}
+
+export default function UsageTable({
+  dateRange,
+  feature,
+  customFrom,
+  customTo,
+  onSelectUser,
+  onRecordsLoaded,
+}: Props) {
+  const [searchInput, setSearchInput] = useState('');
+  const [search, setSearch] = useState('');
+  const [sort, setSort] = useState<'latest' | 'oldest'>('latest');
+  const [localFeature, setLocalFeature] = useState<UsageFeature | 'all'>('all');
+  const [modal, setModal] = useState<{ feature: UsageFeature; id: number } | null>(null);
+
+  useEffect(() => {
+    const t = setTimeout(() => setSearch(searchInput.trim()), 400);
+    return () => clearTimeout(t);
+  }, [searchInput]);
+
+  useEffect(() => {
+    setLocalFeature(feature);
+  }, [feature]);
+
+  const { records, loading, total, totalPages, currentPage, setCurrentPage } =
+    useAdminUsage({
+      search,
+      sort,
+      dateRange,
+      feature: localFeature,
+      pageSize: PAGE_SIZE,
+      customFrom,
+      customTo,
+    });
+
+  useEffect(() => {
+    if (!loading && onRecordsLoaded) {
+      onRecordsLoaded(records.map((r) => ({ id: r.user_id, feature: r.feature })));
+    }
+  }, [loading, records, onRecordsLoaded]);
+
+  const fmtDate = (iso: string) =>
+    new Date(iso).toLocaleString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+    });
+
   return (
     <div className={styles.card}>
       <div className={styles.header}>
@@ -20,81 +87,124 @@ export default function UsageTable() {
       <div className={styles.filters}>
         <div className={styles.searchBox}>
           <Search size={14} />
-          <input type="text" placeholder="Search by user or email..." />
+          <input
+            type="text"
+            placeholder="Search by user or email..."
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+          />
         </div>
+
         <div className={styles.selectWrap}>
-          <select><option>All Plans</option></select>
+          <select
+            value={localFeature}
+            onChange={(e) => setLocalFeature(e.target.value as UsageFeature | 'all')}
+            aria-label="Filter by feature"
+          >
+            <option value="all">All Features</option>
+            <option value="content">Content Generator</option>
+            <option value="campaign">Campaign Planner</option>
+            <option value="growth">Growth Recommendations</option>
+          </select>
           <ChevronDown size={12} />
         </div>
+
         <div className={styles.selectWrap}>
-          <select><option>All Status</option></select>
+          <select
+            value={sort}
+            onChange={(e) => setSort(e.target.value as 'latest' | 'oldest')}
+            aria-label="Sort"
+          >
+            <option value="latest">Latest First</option>
+            <option value="oldest">Oldest First</option>
+          </select>
           <ChevronDown size={12} />
         </div>
-        <div className={styles.selectWrap}>
-          <select><option>Last 30 Days</option></select>
-          <ChevronDown size={12} />
-        </div>
-        <button className={styles.clearBtn}><RotateCcw size={14} /> Clear Filters</button>
       </div>
 
       <div className={styles.tableWrapper}>
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th>User</th>
-              <th>Plan</th>
-              <th>Total</th>
-              <th>Successful</th>
-              <th>Failed</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {records.map((user, i) => (
-              <tr key={i}>
-                <td>
-                  <div className={styles.userCell}>
-                    <img src={user.avatar} alt={user.name} className={styles.avatar} />
-                    <div>
-                      <span className={styles.name}>{user.name}</span>
-                      <span className={styles.email}>{user.email}</span>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <span className={`${styles.planBadge} ${user.plan === 'Premium' ? styles.premium : styles.free}`}>
-                    {user.plan === 'Premium' ? <Crown size={10} /> : null} {user.plan}
-                  </span>
-                </td>
-                <td className={styles.bold}>{user.total}</td>
-                <td className={styles.muted}>{user.success}</td>
-                <td className={styles.muted}>{user.failed}</td>
-                <td>
-                  <div className={styles.status}>
-                    <span className={`${styles.dot} ${user.status === 'Active' ? styles.dotActive : styles.dotExpired}`}></span>
-                    {user.status}
-                  </div>
-                </td>
-                <td>
-                  <button className={styles.viewBtn}><Eye size={14} /> View</button>
-                </td>
+        {loading ? (
+          <UsageTableSkeleton />
+        ) : records.length === 0 ? (
+          <div className={styles.empty}>No usage records found</div>
+        ) : (
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Feature</th>
+                <th>Date / Time</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {records.map((r) => {
+                const meta = FEATURE_META[r.feature];
+                const avatar = r.user_image
+                  ? `${getUploadsBaseUrl()}/users/${r.user_image}`
+                  : `https://ui-avatars.com/api/?name=${encodeURIComponent(r.user_name)}&background=random&color=fff`;
+                return (
+                  <tr key={`${r.feature}-${r.id}`}>
+                    <td>
+                      <button
+                        className={styles.userCell}
+                        onClick={() => onSelectUser(r.user_id)}
+                        title="View user details"
+                      >
+                        <img src={avatar} alt={r.user_name} className={styles.avatar} />
+                        <div>
+                          <span className={styles.name}>{r.user_name}</span>
+                          <span className={styles.email}>{r.user_email}</span>
+                        </div>
+                      </button>
+                    </td>
+                    <td>
+                      <span className={styles.featureBadge} style={{ background: meta.bg, color: meta.color }}>
+                        {meta.icon} {meta.label}
+                      </span>
+                    </td>
+                    <td className={styles.muted}>{fmtDate(r.created_at)}</td>
+                    <td>
+                      <button
+                        className={styles.viewBtn}
+                        onClick={() => setModal({ feature: r.feature, id: r.id })}
+                      >
+                        <Eye size={14} /> View
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        )}
       </div>
 
-      <div className={styles.pagination}>
-        <span className={styles.pageInfo}>Showing 1–5 of 50 results</span>
-        <div className={styles.pageControls}>
-          <button className={styles.pageArrow} disabled><ChevronLeft size={14} /></button>
-          <button className={`${styles.pageNum} ${styles.active}`}>1</button>
-          <button className={styles.pageNum}>2</button>
-          <button className={styles.pageNum}>3</button>
-          <button className={styles.pageArrow}><ChevronRight size={14} /></button>
+      {records.length > 0 && (
+        <div className={styles.pagination}>
+          <span className={styles.pageInfo}>
+            Showing {(currentPage - 1) * PAGE_SIZE + 1}–{Math.min(currentPage * PAGE_SIZE, total)} of {total}
+          </span>
+          <div className={styles.pageControls}>
+            <button className={styles.pageArrow} disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)}>
+              <ChevronLeft size={14} />
+            </button>
+            <span className={`${styles.pageNum} ${styles.active}`}>{currentPage}</span>
+            <span className={styles.pageSep}>/ {totalPages}</span>
+            <button className={styles.pageArrow} disabled={currentPage === totalPages} onClick={() => setCurrentPage(currentPage + 1)}>
+              <ChevronRight size={14} />
+            </button>
+          </div>
         </div>
-      </div>
+      )}
+
+      {modal && (
+        <UsageDetailModal
+          feature={modal.feature}
+          recordId={modal.id}
+          onClose={() => setModal(null)}
+        />
+      )}
     </div>
   );
 }

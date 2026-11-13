@@ -28,6 +28,31 @@ export interface AdminUserListResponse {
   total_pages: number;
 }
 
+export interface AdminBusinessProfile {
+  id: number;
+  business_name: string;
+  business_type?: string | null;
+  business_description?: string | null;
+  services?: string | null;
+  business_goals?: string | null;
+  target_audience?: string[] | null;
+  website?: string | null;
+  phone?: string | null;
+  address?: string | null;
+  created_at?: string | null;
+  updated_at?: string | null;
+}
+
+export interface UserBusinessProfileResponse {
+  user_id: number;
+  user_name: string;
+  user_email: string;
+  has_profile: boolean;
+  total_profiles: number;
+  profiles: AdminBusinessProfile[]; 
+}
+
+
 export const adminUserService = {
   getUsers: async (queryString: string): Promise<AdminUserListResponse> => {
     const res = await axiosInstance.get<AdminUserListResponse>(
@@ -51,4 +76,12 @@ export const adminUserService = {
     );
     return res.data;
   },
+
+  async getBusinessProfile(userId: number): Promise<UserBusinessProfileResponse> {
+    const { data } = await axiosInstance.get<UserBusinessProfileResponse>(
+      `/admin/users/${userId}/business-profile`
+    );
+    return data;
+  },
+
 };

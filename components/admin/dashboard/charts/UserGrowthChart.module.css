@@ -7,39 +7,15 @@
   display: flex;
   flex-direction: column;
 }
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--space-4);
-}
-
-.titleWrap {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-}
-
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-4); flex-wrap: wrap; gap: var(--space-2); }
+.titleWrap { display: flex; align-items: center; gap: var(--space-2); }
 .icon { color: var(--color-accent-primary); }
 .title { font-size: var(--text-base); font-weight: var(--font-semibold); color: var(--color-text-primary); }
-
-.legend {
-  display: flex;
-  gap: var(--space-3);
-}
-
-.legendItem {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  color: var(--color-text-secondary);
-}
-
+.legend { display: flex; align-items: center; gap: var(--space-3); }
+.legendItem { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--color-text-secondary); }
 .dot { width: 8px; height: 8px; border-radius: 50%; }
-
-.chartContainer {
-  width: 100%;
-  height: 220px;
-}
+.totalBadge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: var(--radius-full); background: rgba(59,130,246,0.1); color: #3b82f6; }
+.chartContainer { width: 100%; height: 220px; position: relative; }
+.skeleton { width: 100%; height: 100%; background: var(--color-bg-tertiary); border-radius: var(--radius-md); animation: pulse 1.2s ease-in-out infinite; }
+.empty { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: var(--color-text-tertiary); font-size: var(--text-sm); }
+@keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 0.9; } }
